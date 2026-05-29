@@ -1,1 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مدونة القصر الصغير | Blog Ksar Sghir | Ksar Sghir Blog</title>
+<meta name="description" content="مدونة القصر الصغير — مقالات سياحية، تصوير، وأخبار المنطقة. Blog touristique de Ksar Sghir Maroc.">
+<meta name="keywords" content="مدونة القصر الصغير, ksar sghir blog, tourisme maroc, bilal el hichou, plage ksar sghir">
+<meta name="author" content="Bilal El Hichou">
+<link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap' rel='stylesheet'/>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:#0a0f1a; color:#fff; }
 
+header { background:linear-gradient(135deg,#1a1a2e,#16213e); height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:2px solid #00b4d8; position:sticky; top:0; z-index:100; }
+.logo { text-decoration:none; }
+.logo-ar { font-size:18px; font-weight:900; color:#00b4d8; display:block; }
+.logo-en { font-size:9px; color:#888; letter-spacing:3px; display:block; }
+.hright { display:flex; align-items:center; gap:8px; }
+.back { color:#00b4d8; text-decoration:none; font-size:12px; font-weight:600; padding:5px 12px; border:1px solid rgba(0,180,216,0.3); border-radius:20px; }
+.lang-sw { display:flex; gap:4px; }
+.lb { background:transparent; border:1px solid rgba(0,180,216,0.3); color:#aaa; font-size:11px; font-weight:700; padding:4px 9px; border-radius:10px; cursor:pointer; font-family:'Tajawal',sans-serif; }
+.lb.on { background:#00b4d8; color:#fff; border-color:#00b4d8; }
+
+.hero { background:linear-gradient(160deg,#0d1b2a,#1a3a5c,#0d1b2a); padding:40px 20px 35px; text-align:center; border-bottom:1px solid rgba(0,180,216,0.15); }
+.hero h1 { font-size:clamp(24px,6vw,42px); font-weight:900; margin-bottom:8px; }
+.hero h1 em { color:#00b4d8; font-style:normal; }
+.hero p { color:#90e0ef; font-size:13px; }
+
+.cats { display:flex; gap:8px; padding:12px 20px; overflow-x:auto; background:#0d1b2a; scrollbar-width:none; border-bottom:1px solid rgba(0,180,216,0.1); }
+.cats::-webkit-scrollbar { display:none; }
+.cat { background:transparent; border:1px solid rgba(0,180,216,0.2); color:#aaa; font-size:11px; font-weight:600; padding:6px 14px; border-radius:20px; cursor:pointer; white-space:nowrap; font-family:'Tajawal',sans-serif; transition:all 0.2s; text-decoration:none; display:inline-block; }
+.cat.on, .cat:hover { background:#00b4d8; color:#fff; border-color:#00b4d8; }
+
+.layout { display:grid; grid-template-columns:1fr 280px; gap:25px; max-width:1100px; margin:0 auto; padding:25px 20px; }
+
+.articles { display:flex; flex-direction:column; gap:20px; }
+
+.article-card { background:#16213e; border:1px solid rgba(0,180,216,0.1); border-radius:14px; overflow:hidden; transition:all 0.3s; text-decoration:none; display:block; }
+.article-card:hover { border-color:#00b4d8; transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,180,216,0.1); }
+.article-img { height:200px; display:flex; align-items:center; justify-content:center; font-size:60px; }
+.article-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.article-body { padding:18px; }
+.article-cat { display:inline-block; background:rgba(0,180,216,0.1); border:1px solid rgba(0,180,216,0.2); color:#00b4d8; font-size:10px; padding:3px 10px; border-radius:10px; margin-bottom:8px; font-weight:600; }
+.article-title { font-size:17px; font-weight:700; color:#fff; margin-bottom:8px; line-height:1.4; }
+.article-excerpt { font-size:12px; color:#aaa; line-height:1.7; margin-bottom:12px; }
+.article-meta { display:flex; justify-content:space-between; align-items:center; }
+.article-date { font-size:11px; color:#aaa; }
+.read-more { font-size:12px; color:#00b4d8; font-weight:600; }
+
+.sidebar { display:flex; flex-direction:column; gap:18px; }
+.sw { background:#16213e; border:1px solid rgba(0,180,216,0.1); border-radius:14px; padding:18px; }
+.sw-title { font-size:14px; font-weight:700; color:#00b4d8; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid rgba(0,180,216,0.15); }
+.about-av { width:55px; height:55px; border-radius:50%; background:linear-gradient(135deg,#023e8a,#00b4d8); display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 10px; }
+.about-name { font-size:15px; font-weight:700; color:#fff; text-align:center; margin-bottom:5px; }
+.about-bio { font-size:12px; color:#aaa; text-align:center; line-height:1.6; margin-bottom:12px; }
+.about-links { display:flex; justify-content:center; gap:8px; }
+.about-link { background:rgba(0,180,216,0.1); border:1px solid rgba(0,180,216,0.2); color:#00b4d8; font-size:11px; padding:4px 12px; border-radius:20px; text-decoration:none; }
+.about-link:hover { background:#00b4d8; color:#fff; }
+.sw ul { list-style:none; }
+.sw ul li { padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.sw ul li a { color:#ccc; text-decoration:none; font-size:13px; display:flex; justify-content:space-between; }
+.sw ul li a:hover { color:#00b4d8; }
+.sw ul li span { background:rgba(0,180,216,0.1); color:#00b4d8; font-size:10px; padding:2px 8px; border-radius:10px; }
+.ad-sw { background:linear-gradient(135deg,#023e8a,#00b4d8); border-radius:14px; padding:20px; text-align:center; }
+.ad-sw h4 { font-size:14px; font-weight:700; color:#fff; margin-bottom:8px; }
+.ad-sw p { font-size:11px; color:rgba(255,255,255,0.8); margin-bottom:12px; line-height:1.5; }
+.ad-sw a { background:#fff; color:#023e8a; font-size:12px; font-weight:700; padding:7px 16px; border-radius:20px; text-decoration:none; display:inline-block; }
+
+footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1px solid #16213e; margin-top:20px; }
+.footer-links { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:10px; }
+.footer-links a { color:#555; text-decoration:none; font-size:12px; }
+.footer-links a:hover { color:#00b4d8; }
+.footer-copy { font-size:11px; color:#555; }
+.footer-copy span { color:#00b4d8; }
+.divider { height:1px; background:linear-gradient(90deg,transparent,rgba(0,180,216,0.3),transparent); }
+
+.c1 { background:linear-gradient(135deg,#023e8a,#0096c7); }
+.c2 { background:linear-gradient(135deg,#1b5e20,#4caf50); }
+.c3 { background:linear-gradient(135deg,#c0392b,#f39c12); }
+.c4 { background:linear-gradient(135deg,#4a148c,#880e4f); }
+.c5 { background:linear-gradient(135deg,#006064,#00acc1); }
+.c6 { background:linear-gradient(135deg,#bf360c,#ff6f00); }
+
+@media(max-width:768px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { display:none; }
+  .lang-sw { display:flex; }
+  .lb { font-size:10px; padding:3px 7px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://www.ksarsghir.com" class="logo">
+    <span class="logo-ar" id="lname">مدونة القصر الصغير</span>
+    <span class="logo-en">KSAR SGHIR BLOG</span>
+  </a>
+  <div class="hright">
+    <div class="lang-sw">
+      <button class="lb on" onclick="setL('ar')">AR</button>
+      <button class="lb" onclick="setL('fr')">FR</button>
+      <button class="lb" onclick="setL('en')">EN</button>
+    </div>
+    <a href="https://www.ksarsghir.com" class="back" id="lback">← الرئيسية</a>
+  </div>
+</header>
+
+<div class="hero">
+  <h1 id="htitle">مدونة <em>القصر الصغير</em></h1>
+  <p id="hdesc">مقالات سياحية، تصوير، وأخبار المنطقة — بقلم بلال الهيشو</p>
+</div>
+
+<div class="cats">
+  <a href="#" class="cat on" id="c-all">🌟 الكل</a>
+  <a href="#" class="cat" id="c-tourism">🗺️ سياحة</a>
+  <a href="#" class="cat" id="c-photo">📸 تصوير</a>
+  <a href="#" class="cat" id="c-nature">🌿 طبيعة</a>
+  <a href="#" class="cat" id="c-port">⚓ ميناء</a>
+  <a href="#" class="cat" id="c-news">📰 أخبار</a>
+</div>
+
+<div class="layout">
+  <div class="articles">
+
+    <a href="./plage.html" class="article-card">
+      <div class="article-img c1"><span>🏖️</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art1-cat">سياحة</span>
+        <div class="article-title" id="art1-title">شاطئ القصر الصغير — دليل الزائر الشامل</div>
+        <div class="article-excerpt" id="art1-excerpt">اكتشف كل ما تحتاج معرفته عن شاطئ القصر الصغير — أجمل شاطئ على مضيق جبل طارق. من أفضل الأوقات للزيارة إلى أجمل الأماكن للتصوير.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مايو 2026</span>
+          <span class="read-more" id="art1-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="./belyounech.html" class="article-card">
+      <div class="article-img c2"><span>🌺</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art2-cat">سياحة</span>
+        <div class="article-title" id="art2-title">بليونش — الجوهرة المخفية في أقصى شمال المغرب</div>
+        <div class="article-excerpt" id="art2-excerpt">قرية صغيرة على الحدود الإسبانية المغربية، تتميز بطبيعة خضراء نادرة وشواطئ بكر. دليل كامل لزيارة بليونش.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مايو 2026</span>
+          <span class="read-more" id="art2-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="./sunset.html" class="article-card">
+      <div class="article-img c3"><span>🌅</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art3-cat">تصوير</span>
+        <div class="article-title" id="art3-title">كيف أصور غروب الشمس في القصر الصغير</div>
+        <div class="article-excerpt" id="art3-excerpt">أفضل أماكن وأوقات تصوير غروب الشمس في القصر الصغير — نصائح من مصور محترف لالتقاط أجمل اللحظات.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 أبريل 2026</span>
+          <span class="read-more" id="art3-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="./port.html" class="article-card">
+      <div class="article-img c4"><span>⚓</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art4-cat">ميناء</span>
+        <div class="article-title" id="art4-title">ميناء الصيد التقليدي — تراث بحري أصيل</div>
+        <div class="article-excerpt" id="art4-excerpt">تعرف على ميناء الصيد التقليدي في القصر الصغير — تاريخه، حياة الصيادين، وأجمل لحظات التصوير عند الفجر.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 أبريل 2026</span>
+          <span class="read-more" id="art4-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="./tangermed.html" class="article-card">
+      <div class="article-img c5"><span>🚢</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art5-cat">أخبار</span>
+        <div class="article-title" id="art5-title">ميناء طنجة المتوسط — أكبر ميناء في أفريقيا</div>
+        <div class="article-excerpt" id="art5-excerpt">كل ما تريد معرفته عن ميناء طنجة المتوسط القريب من القصر الصغير — أرقام، تاريخ، وتأثيره على المنطقة.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مارس 2026</span>
+          <span class="read-more" id="art5-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="./spring.html" class="article-card">
+      <div class="article-img c6"><span>🌿</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art6-cat">طبيعة</span>
+        <div class="article-title" id="art6-title">الربيع في القصر الصغير — أجمل فصول السنة</div>
+        <div class="article-excerpt" id="art6-excerpt">يتحول القصر الصغير في الربيع إلى لوحة فنية رائعة — أزهار صفراء، بحر أزرق، وطبيعة خضراء لا مثيل لها.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مارس 2026</span>
+          <span class="read-more" id="art6-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <aside class="sidebar">
+    <div class="sw">
+      <div class="about-av">📷</div>
+      <div class="about-name">بلال الهيشو</div>
+      <div class="about-bio" id="about-bio">مصور محترف من القصر الصغير — أوثق جمال المنطقة منذ 2017</div>
+      <div class="about-links">
+        <a href="https://www.facebook.com/ksarsghircity" class="about-link" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/ksarsghirlens" class="about-link" target="_blank">Instagram</a>
+      </div>
+    </div>
+
+    <div class="sw">
+      <div class="sw-title" id="cats-title">📂 التصنيفات</div>
+      <ul>
+        <li><a href="#"><span id="c1t">سياحة</span> <span>4</span></a></li>
+        <li><a href="#"><span id="c2t">تصوير</span> <span>3</span></a></li>
+        <li><a href="#"><span id="c3t">طبيعة</span> <span>2</span></a></li>
+        <li><a href="#"><span id="c4t">ميناء</span> <span>2</span></a></li>
+        <li><a href="#"><span id="c5t">أخبار</span> <span>1</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ad-sw">
+      <h4 id="ad-title">📢 إعلن معنا</h4>
+      <p id="ad-text">وصول لآلاف الزوار المهتمين بالمنطقة</p>
+      <a href="https://advertise.ksarsghir.com" id="ad-btn">تواصل معنا</a>
+    </div>
+
+    <div class="sw" style="text-align:center;">
+      <div class="sw-title" id="sites-title">🌐 مواقعنا</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="https://gallery.ksarsghir.com" class="about-link" id="s1">📸 المعرض</a>
+        <a href="https://store.ksarsghir.com" class="about-link" id="s2">🛒 المتجر</a>
+        <a href="https://tourism.ksarsghir.com" class="about-link" id="s3">🗺️ السياحة</a>
+        <a href="https://advertise.ksarsghir.com" class="about-link" id="s4">📢 إعلن معنا</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://www.ksarsghir.com">الرئيسية</a>
+    <a href="https://gallery.ksarsghir.com">المعرض</a>
+    <a href="https://store.ksarsghir.com">المتجر</a>
+    <a href="https://tourism.ksarsghir.com">السياحة</a>
+    <a href="https://advertise.ksarsghir.com">إعلن معنا</a>
+  </div>
+  <div class="footer-copy">© 2026 <span>Ksar Sghir Blog</span> • Bilal El Hichou</div>
+</footer>
+
+<script>
+var L = {
+  ar: { dir:'rtl', lname:'مدونة القصر الصغير', lback:'← الرئيسية',
+    htitle:'مدونة <em>القصر الصغير</em>', hdesc:'مقالات سياحية، تصوير، وأخبار المنطقة — بقلم بلال الهيشو',
+    'c-all':'🌟 الكل', 'c-tourism':'🗺️ سياحة', 'c-photo':'📸 تصوير', 'c-nature':'🌿 طبيعة', 'c-port':'⚓ ميناء', 'c-news':'📰 أخبار',
+    'art1-cat':'سياحة', 'art1-title':'شاطئ القصر الصغير — دليل الزائر الشامل', 'art1-excerpt':'اكتشف كل ما تحتاج معرفته عن شاطئ القصر الصغير — أجمل شاطئ على مضيق جبل طارق.', 'art1-read':'اقرأ المزيد ←',
+    'art2-cat':'سياحة', 'art2-title':'بليونش — الجوهرة المخفية في أقصى شمال المغرب', 'art2-excerpt':'قرية صغيرة على الحدود الإسبانية المغربية، تتميز بطبيعة خضراء نادرة وشواطئ بكر.', 'art2-read':'اقرأ المزيد ←',
+    'art3-cat':'تصوير', 'art3-title':'كيف أصور غروب الشمس في القصر الصغير', 'art3-excerpt':'أفضل أماكن وأوقات تصوير غروب الشمس في القصر الصغير — نصائح من مصور محترف.', 'art3-read':'اقرأ المزيد ←',
+    'art4-cat':'ميناء', 'art4-title':'ميناء الصيد التقليدي — تراث بحري أصيل', 'art4-excerpt':'تعرف على ميناء الصيد التقليدي في القصر الصغير — تاريخه وحياة الصيادين.', 'art4-read':'اقرأ المزيد ←',
+    'art5-cat':'أخبار', 'art5-title':'ميناء طنجة المتوسط — أكبر ميناء في أفريقيا', 'art5-excerpt':'كل ما تريد معرفته عن ميناء طنجة المتوسط القريب من القصر الصغير.', 'art5-read':'اقرأ المزيد ←',
+    'art6-cat':'طبيعة', 'art6-title':'الربيع في القصر الصغير — أجمل فصول السنة', 'art6-excerpt':'يتحول القصر الصغير في الربيع إلى لوحة فنية رائعة — أزهار صفراء وطبيعة خضراء.', 'art6-read':'اقرأ المزيد ←',
+    'about-bio':'مصور محترف من القصر الصغير — أوثق جمال المنطقة منذ 2017',
+    'cats-title':'📂 التصنيفات', c1t:'سياحة', c2t:'تصوير', c3t:'طبيعة', c4t:'ميناء', c5t:'أخبار',
+    'ad-title':'📢 إعلن معنا', 'ad-text':'وصول لآلاف الزوار المهتمين بالمنطقة', 'ad-btn':'تواصل معنا',
+    'sites-title':'🌐 مواقعنا', s1:'📸 المعرض', s2:'🛒 المتجر', s3:'🗺️ السياحة', s4:'📢 إعلن معنا'
+  },
+  fr: { dir:'ltr', lname:'Blog Ksar Sghir', lback:'← Accueil',
+    htitle:'Blog <em>Ksar Sghir</em>', hdesc:'Articles touristiques, photographie et actualités de la région — par Bilal El Hichou',
+    'c-all':'🌟 Tout', 'c-tourism':'🗺️ Tourisme', 'c-photo':'📸 Photo', 'c-nature':'🌿 Nature', 'c-port':'⚓ Port', 'c-news':'📰 Actualités',
+    'art1-cat':'Tourisme', 'art1-title':'Plage de Ksar Sghir — Guide complet du visiteur', 'art1-excerpt':'Découvrez tout ce que vous devez savoir sur la plage de Ksar Sghir — la plus belle plage sur le détroit de Gibraltar.', 'art1-read':'Lire la suite →',
+    'art2-cat':'Tourisme', 'art2-title':'Belyounech — Le joyau caché du nord du Maroc', 'art2-excerpt':'Petit village à la frontière hispano-marocaine, avec une nature verdoyante rare et des plages vierges.', 'art2-read':'Lire la suite →',
+    'art3-cat':'Photographie', 'art3-title':'Comment photographier le coucher de soleil à Ksar Sghir', 'art3-excerpt':'Les meilleurs endroits et moments pour photographier le coucher de soleil à Ksar Sghir — conseils d\'un photographe professionnel.', 'art3-read':'Lire la suite →',
+    'art4-cat':'Port', 'art4-title':'Port de pêche traditionnel — Patrimoine maritime authentique', 'art4-excerpt':'Découvrez le port de pêche traditionnel de Ksar Sghir — son histoire et la vie des pêcheurs.', 'art4-read':'Lire la suite →',
+    'art5-cat':'Actualités', 'art5-title':'Port Tanger Med — Le plus grand port d\'Afrique', 'art5-excerpt':'Tout ce que vous voulez savoir sur le port Tanger Med proche de Ksar Sghir.', 'art5-read':'Lire la suite →',
+    'art6-cat':'Nature', 'art6-title':'Le printemps à Ksar Sghir — La plus belle saison', 'art6-excerpt':'Ksar Sghir se transforme au printemps en un tableau artistique — fleurs jaunes et nature verdoyante.', 'art6-read':'Lire la suite →',
+    'about-bio':'Photographe professionnel de Ksar Sghir — je documente la beauté de la région depuis 2017',
+    'cats-title':'📂 Catégories', c1t:'Tourisme', c2t:'Photographie', c3t:'Nature', c4t:'Port', c5t:'Actualités',
+    'ad-title':'📢 Annoncez avec nous', 'ad-text':'Accès à des milliers de visiteurs intéressés par la région', 'ad-btn':'Contactez-nous',
+    'sites-title':'🌐 Nos sites', s1:'📸 Galerie', s2:'🛒 Boutique', s3:'🗺️ Tourisme', s4:'📢 Publicité'
+  },
+  en: { dir:'ltr', lname:'Ksar Sghir Blog', lback:'← Home',
+    htitle:'Ksar Sghir <em>Blog</em>', hdesc:'Tourism articles, photography and regional news — by Bilal El Hichou',
+    'c-all':'🌟 All', 'c-tourism':'🗺️ Tourism', 'c-photo':'📸 Photo', 'c-nature':'🌿 Nature', 'c-port':'⚓ Port', 'c-news':'📰 News',
+    'art1-cat':'Tourism', 'art1-title':'Ksar Sghir Beach — Complete Visitor Guide', 'art1-excerpt':'Discover everything you need to know about Ksar Sghir beach — the most beautiful beach on the Strait of Gibraltar.', 'art1-read':'Read more →',
+    'art2-cat':'Tourism', 'art2-title':'Belyounech — The Hidden Gem of Northern Morocco', 'art2-excerpt':'A small village on the Spanish-Moroccan border with rare green nature and untouched beaches.', 'art2-read':'Read more →',
+    'art3-cat':'Photography', 'art3-title':'How to Photograph Sunset in Ksar Sghir', 'art3-excerpt':'Best places and times to photograph sunset in Ksar Sghir — tips from a professional photographer.', 'art3-read':'Read more →',
+    'art4-cat':'Port', 'art4-title':'Traditional Fishing Port — Authentic Maritime Heritage', 'art4-excerpt':'Discover the traditional fishing port of Ksar Sghir — its history and the life of fishermen.', 'art4-read':'Read more →',
+    'art5-cat':'News', 'art5-title':'Tanger Med Port — The Largest Port in Africa', 'art5-excerpt':'Everything you want to know about Tanger Med port near Ksar Sghir.', 'art5-read':'Read more →',
+    'art6-cat':'Nature', 'art6-title':'Spring in Ksar Sghir — The Most Beautiful Season', 'art6-excerpt':'Ksar Sghir transforms in spring into an artistic masterpiece — yellow flowers and lush green nature.', 'art6-read':'Read more →',
+    'about-bio':'Professional photographer from Ksar Sghir — documenting the beauty of the region since 2017',
+    'cats-title':'📂 Categories', c1t:'Tourism', c2t:'Photography', c3t:'Nature', c4t:'Port', c5t:'News',
+    'ad-title':'📢 Advertise with us', 'ad-text':'Reach thousands of visitors interested in the region', 'ad-btn':'Contact us',
+    'sites-title':'🌐 Our sites', s1:'📸 Gallery', s2:'🛒 Store', s3:'🗺️ Tourism', s4:'📢 Advertise'
+  }
+};
+
+function setL(lang) {
+  var t = L[lang];
+  document.documentElement.setAttribute('dir', t.dir);
+  document.body.setAttribute('dir', t.dir);
+  Object.keys(t).forEach(function(id) {
+    if (id === 'dir') return;
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = t[id];
+  });
+  document.querySelectorAll('.lb').forEach(function(b) {
+    b.classList.remove('on');
+    if (b.getAttribute('onclick') === "setL('" + lang + "')") b.classList.add('on');
+  });
+  try { localStorage.setItem('bl', lang); } catch(e) {}
+}
+
+(function() {
+  var s = 'ar';
+  try { s = localStorage.getItem('bl') || 'ar'; } catch(e) {}
+  setL(s);
+})();
+</script>
+
+</body>
+</html>
