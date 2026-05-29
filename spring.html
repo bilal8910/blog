@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الربيع في القصر الصغير — أجمل فصول السنة | Printemps Ksar Sghir | Spring Ksar Sghir</title>
+<meta name="description" content="اكتشف جمال الربيع في القصر الصغير — أزهار صفراء، بحر أزرق، وطبيعة خضراء لا مثيل لها. Printemps à Ksar Sghir Maroc.">
+<meta name="keywords" content="ربيع القصر الصغير, printemps ksar sghir, spring morocco, أزهار المغرب, طبيعة شمال المغرب">
+<meta name="author" content="Bilal El Hichou">
+<link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap' rel='stylesheet'/>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:#0a0f1a; color:#fff; }
+header { background:linear-gradient(135deg,#1a1a2e,#16213e); height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:2px solid #00b4d8; position:sticky; top:0; z-index:100; }
+.logo { text-decoration:none; }
+.logo-ar { font-size:18px; font-weight:900; color:#00b4d8; display:block; }
+.logo-en { font-size:9px; color:#888; letter-spacing:3px; display:block; }
+.hright { display:flex; align-items:center; gap:8px; }
+.back { color:#00b4d8; text-decoration:none; font-size:12px; font-weight:600; padding:5px 12px; border:1px solid rgba(0,180,216,0.3); border-radius:20px; }
+.lang-sw { display:flex; gap:4px; }
+.lb { background:transparent; border:1px solid rgba(0,180,216,0.3); color:#aaa; font-size:11px; font-weight:700; padding:4px 9px; border-radius:10px; cursor:pointer; font-family:'Tajawal',sans-serif; }
+.lb.on { background:#00b4d8; color:#fff; border-color:#00b4d8; }
+.article-hero { height:350px; background:linear-gradient(135deg,#bf360c,#ff6f00); display:flex; align-items:center; justify-content:center; font-size:100px; position:relative; }
+.hero-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.8),transparent); display:flex; flex-direction:column; justify-content:flex-end; padding:30px 20px; }
+.article-cat { display:inline-block; background:#00b4d8; color:#fff; font-size:11px; font-weight:700; padding:4px 14px; border-radius:20px; margin-bottom:10px; width:fit-content; }
+.article-h1 { font-size:clamp(22px,5vw,36px); font-weight:900; color:#fff; line-height:1.3; }
+.article-wrap { display:grid; grid-template-columns:1fr 280px; gap:30px; max-width:1100px; margin:0 auto; padding:30px 20px; }
+.article-content { background:#16213e; border:1px solid rgba(0,180,216,0.1); border-radius:14px; padding:30px; }
+.article-meta { display:flex; gap:15px; margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.08); flex-wrap:wrap; }
+.article-meta span { font-size:12px; color:#aaa; }
+.article-body { font-size:14px; color:#ccc; line-height:1.9; }
+.article-body h2 { font-size:20px; font-weight:700; color:#fff; margin:25px 0 12px; }
+.article-body h3 { font-size:16px; font-weight:700; color:#00b4d8; margin:20px 0 10px; }
+.article-body p { margin-bottom:15px; }
+.article-body ul { margin:10px 0 15px 20px; }
+.article-body ul li { margin-bottom:8px; color:#ccc; }
+.article-body .highlight { background:rgba(0,180,216,0.08); border-right:3px solid #00b4d8; padding:15px 18px; border-radius:8px; margin:15px 0; color:#90e0ef; font-size:13px; }
+.months-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:15px 0; }
+.month-box { background:rgba(0,180,216,0.06); border:1px solid rgba(0,180,216,0.15); border-radius:10px; padding:15px; text-align:center; }
+.month-icon { font-size:28px; margin-bottom:8px; }
+.month-name { font-size:14px; font-weight:700; color:#fff; margin-bottom:5px; }
+.month-desc { font-size:11px; color:#aaa; line-height:1.5; }
+.article-tags { margin-top:20px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.08); }
+.article-tags span { background:rgba(0,180,216,0.1); border:1px solid rgba(0,180,216,0.2); color:#00b4d8; font-size:10px; padding:4px 12px; border-radius:10px; margin-left:6px; display:inline-block; margin-bottom:6px; }
+.sidebar { display:flex; flex-direction:column; gap:18px; }
+.sw { background:#16213e; border:1px solid rgba(0,180,216,0.1); border-radius:14px; padding:18px; }
+.sw-title { font-size:14px; font-weight:700; color:#00b4d8; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid rgba(0,180,216,0.15); }
+.related-card { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); text-decoration:none; }
+.related-card:last-child { border-bottom:none; }
+.related-img { width:55px; height:45px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+.related-title { font-size:12px; color:#ccc; line-height:1.4; }
+.related-title:hover { color:#00b4d8; }
+.ad-sw { background:linear-gradient(135deg,#023e8a,#00b4d8); border-radius:14px; padding:20px; text-align:center; }
+.ad-sw h4 { font-size:14px; font-weight:700; color:#fff; margin-bottom:8px; }
+.ad-sw p { font-size:11px; color:rgba(255,255,255,0.8); margin-bottom:12px; }
+.ad-sw a { background:#fff; color:#023e8a; font-size:12px; font-weight:700; padding:7px 16px; border-radius:20px; text-decoration:none; display:inline-block; }
+footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1px solid #16213e; margin-top:20px; }
+.footer-links { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:10px; }
+.footer-links a { color:#555; text-decoration:none; font-size:12px; }
+.footer-links a:hover { color:#00b4d8; }
+.footer-copy { font-size:11px; color:#555; }
+.footer-copy span { color:#00b4d8; }
+@media(max-width:768px) {
+  .article-wrap { grid-template-columns:1fr; }
+  .sidebar { display:none; }
+  .article-hero { height:250px; font-size:60px; }
+  .lang-sw { display:flex; }
+  .lb { font-size:10px; padding:3px 7px; }
+  .months-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://blog.ksarsghir.com" class="logo">
+    <span class="logo-ar" id="lname">مدونة القصر الصغير</span>
+    <span class="logo-en">KSAR SGHIR BLOG</span>
+  </a>
+  <div class="hright">
+    <div class="lang-sw">
+      <button class="lb on" onclick="setL('ar')">AR</button>
+      <button class="lb" onclick="setL('fr')">FR</button>
+      <button class="lb" onclick="setL('en')">EN</button>
+    </div>
+    <a href="https://blog.ksarsghir.com" class="back" id="lback">← المدونة</a>
+  </div>
+</header>
+
+<div class="article-hero">
+  <span>🌿</span>
+  <div class="hero-overlay">
+    <span class="article-cat" id="art-cat">طبيعة</span>
+    <h1 class="article-h1" id="art-title">الربيع في القصر الصغير — أجمل فصول السنة</h1>
+  </div>
+</div>
+
+<div class="article-wrap">
+  <div class="article-content">
+    <div class="article-meta">
+      <span id="meta-author">✍️ بلال الهيشو</span>
+      <span id="meta-date">📅 مارس 2026</span>
+      <span id="meta-read">⏱️ 5 دقائق قراءة</span>
+    </div>
+    <div class="article-body" id="art-body">
+      <p>حين يحل الربيع على القصر الصغير، تتحول المنطقة بأكملها إلى لوحة فنية حية — الأزهار الصفراء تغطي التلال، البحر يزداد زرقةً وصفاءً، والهواء يمتلئ بعطر الطبيعة المتجددة. هذا هو الفصل الذي يجعلك تقع في غرام هذه المنطقة للأبد.</p>
+
+      <div class="highlight">🌸 الربيع في القصر الصغير يمتد من مارس إلى مايو — أفضل وقت لزيارة المنطقة على الإطلاق</div>
+
+      <h2>🌻 الأزهار الصفراء — ظاهرة طبيعية فريدة</h2>
+      <p>من أجمل ما يميز ربيع القصر الصغير هو السجادة الصفراء من الأزهار البرية التي تغطي التلال والمروج المحيطة بالمدينة. هذه الأزهار الصفراء مع خلفية البحر الأزرق تعطي تباينات لونية رائعة تجعل كل صورة أشبه باللوحات الفنية.</p>
+
+      <h2>📅 كل شهر له طابعه</h2>
+      <div class="months-grid">
+        <div class="month-box">
+          <div class="month-icon">🌱</div>
+          <div class="month-name" id="m1">مارس</div>
+          <div class="month-desc" id="m1d">بداية الإزهار — الطبيعة تستيقظ والألوان تبدأ تظهر</div>
+        </div>
+        <div class="month-box">
+          <div class="month-icon">🌸</div>
+          <div class="month-name" id="m2">أبريل</div>
+          <div class="month-desc" id="m2d">ذروة الجمال — الأزهار في أوجها والطقس مثالي</div>
+        </div>
+        <div class="month-box">
+          <div class="month-icon">☀️</div>
+          <div class="month-name" id="m3">مايو</div>
+          <div class="month-desc" id="m3d">نهاية الربيع — الدفء يزداد والبحر يدعو للسباحة</div>
+        </div>
+      </div>
+
+      <h2>📸 التصوير في الربيع</h2>
+      <p>الربيع هو موسم التصوير الأمثل في القصر الصغير — الإضاءة الطبيعية معتدلة وجميلة، والألوان متنوعة وغنية. هذه أفضل المواقع للاستفادة من جمال الربيع:</p>
+      <ul>
+        <li><strong>التلال المحيطة بالمدينة</strong> — الأزهار الصفراء بخلفية البحر الأزرق</li>
+        <li><strong>بليونش</strong> — الأجمل في الربيع بطبيعتها الخضراء الكثيفة</li>
+        <li><strong>الشاطئ</strong> — الرمال النظيفة والبحر الهادئ مع سماء ربيعية صافية</li>
+        <li><strong>الطريق الساحلي</strong> — مناظر متغيرة ومتنوعة كل كيلومتر</li>
+      </ul>
+
+      <h2>🦋 الحياة البرية في الربيع</h2>
+      <p>الربيع يجلب معه حياةً برية نشيطة — الطيور المهاجرة تتوقف في المنطقة في طريقها بين أفريقيا وأوروبا، والفراشات تملأ الحقول، والبحر يعود إليه النشاط مع ارتفاع درجة الحرارة.</p>
+
+      <h2>🌡️ الطقس في الربيع</h2>
+      <p>درجات الحرارة تتراوح بين 16 و22 درجة — معتدلة ومثالية للمشي والتنزه والتصوير. الأمطار قليلة وخفيفة، والسماء صافية معظم الأيام.</p>
+
+      <div class="highlight">💡 نصيحة: زيارة بليونش في أبريل هي تجربة لا تُنسى — الطبيعة في أوج جمالها والطريق إليها مليء بالمناظر الخلابة.</div>
+
+      <div class="article-tags">
+        <span>ربيع القصر الصغير</span><span>طبيعة المغرب</span><span>أزهار</span><span>spring ksar sghir</span><span>nature maroc</span>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sw">
+      <div class="sw-title" id="related-title">📖 مقالات ذات صلة</div>
+      <a href="./belyounech.html" class="related-card">
+        <div class="related-img" style="background:linear-gradient(135deg,#1b5e20,#4caf50)">🌺</div>
+        <div class="related-title" id="r1">بليونش — الجوهرة المخفية</div>
+      </a>
+      <a href="./plage.html" class="related-card">
+        <div class="related-img" style="background:linear-gradient(135deg,#023e8a,#0096c7)">🏖️</div>
+        <div class="related-title" id="r2">شاطئ القصر الصغير</div>
+      </a>
+      <a href="./sunset.html" class="related-card">
+        <div class="related-img" style="background:linear-gradient(135deg,#c0392b,#f39c12)">🌅</div>
+        <div class="related-title" id="r3">كيف أصور غروب الشمس</div>
+      </a>
+      <a href="./port.html" class="related-card">
+        <div class="related-img" style="background:linear-gradient(135deg,#4a148c,#880e4f)">⚓</div>
+        <div class="related-title" id="r4">ميناء الصيد التقليدي</div>
+      </a>
+    </div>
+    <div class="ad-sw">
+      <h4 id="ad-title">📢 إعلن معنا</h4>
+      <p id="ad-text">وصول لآلاف الزوار المهتمين</p>
+      <a href="https://advertise.ksarsghir.com" id="ad-btn">تواصل معنا</a>
+    </div>
+    <div class="sw" style="text-align:center;">
+      <div class="sw-title" id="gallery-title">📸 معرض الصور</div>
+      <p style="font-size:12px;color:#aaa;margin-bottom:12px;" id="gallery-text">شاهد صور الربيع الاحترافية</p>
+      <a href="https://gallery.ksarsghir.com" style="background:#00b4d8;color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:20px;text-decoration:none;display:inline-block;" id="gallery-btn">زيارة المعرض</a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://blog.ksarsghir.com" id="f1">المدونة</a>
+    <a href="https://www.ksarsghir.com" id="f2">الرئيسية</a>
+    <a href="https://gallery.ksarsghir.com" id="f3">المعرض</a>
+    <a href="https://store.ksarsghir.com" id="f4">المتجر</a>
+    <a href="https://tourism.ksarsghir.com" id="f5">السياحة</a>
+  </div>
+  <div class="footer-copy">© 2026 <span>Ksar Sghir Blog</span> • Bilal El Hichou</div>
+</footer>
+
+<script>
+var L = {
+  ar: { dir:'rtl', lname:'مدونة القصر الصغير', lback:'← المدونة',
+    'art-cat':'طبيعة', 'art-title':'الربيع في القصر الصغير — أجمل فصول السنة',
+    'meta-author':'✍️ بلال الهيشو', 'meta-date':'📅 مارس 2026', 'meta-read':'⏱️ 5 دقائق قراءة',
+    m1:'مارس', 'm1d':'بداية الإزهار — الطبيعة تستيقظ والألوان تبدأ تظهر',
+    m2:'أبريل', 'm2d':'ذروة الجمال — الأزهار في أوجها والطقس مثالي',
+    m3:'مايو', 'm3d':'نهاية الربيع — الدفء يزداد والبحر يدعو للسباحة',
+    'art-body':'<p>حين يحل الربيع على القصر الصغير، تتحول المنطقة بأكملها إلى لوحة فنية حية — الأزهار الصفراء تغطي التلال، البحر يزداد زرقةً وصفاءً.</p><div class="highlight">🌸 الربيع في القصر الصغير يمتد من مارس إلى مايو — أفضل وقت لزيارة المنطقة</div><h2>🌻 الأزهار الصفراء</h2><p>السجادة الصفراء من الأزهار البرية مع خلفية البحر الأزرق تعطي تباينات لونية رائعة.</p><h2>📸 التصوير في الربيع</h2><ul><li><strong>التلال المحيطة</strong> — الأزهار الصفراء بخلفية البحر الأزرق</li><li><strong>بليونش</strong> — الأجمل في الربيع بطبيعتها الخضراء</li><li><strong>الشاطئ</strong> — رمال نظيفة وسماء ربيعية صافية</li></ul><h2>🌡️ الطقس في الربيع</h2><p>درجات الحرارة بين 16 و22 درجة — معتدلة ومثالية للمشي والتصوير.</p><div class="highlight">💡 نصيحة: زيارة بليونش في أبريل هي تجربة لا تُنسى.</div><div class="article-tags"><span>ربيع القصر الصغير</span><span>طبيعة المغرب</span><span>أزهار</span></div>',
+    'related-title':'📖 مقالات ذات صلة',
+    r1:'بليونش', r2:'شاطئ القصر الصغير', r3:'كيف أصور غروب الشمس', r4:'ميناء الصيد',
+    'ad-title':'📢 إعلن معنا', 'ad-text':'وصول لآلاف الزوار المهتمين', 'ad-btn':'تواصل معنا',
+    'gallery-title':'📸 معرض الصور', 'gallery-text':'شاهد صور الربيع الاحترافية', 'gallery-btn':'زيارة المعرض',
+    f1:'المدونة', f2:'الرئيسية', f3:'المعرض', f4:'المتجر', f5:'السياحة'
+  },
+  fr: { dir:'ltr', lname:'Blog Ksar Sghir', lback:'← Blog',
+    'art-cat':'Nature', 'art-title':'Le printemps à Ksar Sghir — La plus belle saison',
+    'meta-author':'✍️ Bilal El Hichou', 'meta-date':'📅 Mars 2026', 'meta-read':'⏱️ 5 min de lecture',
+    m1:'Mars', 'm1d':'Début de la floraison — la nature se réveille',
+    m2:'Avril', 'm2d':'Apogée de la beauté — les fleurs à leur plus beau',
+    m3:'Mai', 'm3d':'Fin du printemps — la chaleur augmente',
+    'art-body':'<p>Quand le printemps arrive à Ksar Sghir, toute la région se transforme en une toile vivante — les fleurs jaunes couvrent les collines, la mer devient plus bleue.</p><div class="highlight">🌸 Le printemps à Ksar Sghir s\'étend de mars à mai — la meilleure période pour visiter</div><h2>🌻 Les fleurs jaunes</h2><p>Le tapis jaune de fleurs sauvages avec la mer bleue en arrière-plan crée des contrastes de couleurs magnifiques.</p><h2>📸 Photographie au printemps</h2><ul><li><strong>Les collines environnantes</strong> — Fleurs jaunes avec mer bleue en fond</li><li><strong>Belyounech</strong> — Le plus beau au printemps</li><li><strong>La plage</strong> — Sable propre et ciel printanier dégagé</li></ul><h2>🌡️ Météo au printemps</h2><p>Températures entre 16 et 22 degrés — idéal pour la marche et la photographie.</p><div class="highlight">💡 Conseil: Visiter Belyounech en avril est une expérience inoubliable.</div><div class="article-tags"><span>Printemps Ksar Sghir</span><span>Nature Maroc</span><span>Fleurs</span></div>',
+    'related-title':'📖 Articles connexes',
+    r1:'Belyounech', r2:'Plage de Ksar Sghir', r3:'Photographier le coucher', r4:'Port de pêche',
+    'ad-title':'📢 Annoncez avec nous', 'ad-text':'Accès à des milliers de visiteurs', 'ad-btn':'Contactez-nous',
+    'gallery-title':'📸 Galerie photos', 'gallery-text':'Voir les photos du printemps', 'gallery-btn':'Visiter la galerie',
+    f1:'Blog', f2:'Accueil', f3:'Galerie', f4:'Boutique', f5:'Tourisme'
+  },
+  en: { dir:'ltr', lname:'Ksar Sghir Blog', lback:'← Blog',
+    'art-cat':'Nature', 'art-title':'Spring in Ksar Sghir — The Most Beautiful Season',
+    'meta-author':'✍️ Bilal El Hichou', 'meta-date':'📅 March 2026', 'meta-read':'⏱️ 5 min read',
+    m1:'March', 'm1d':'Beginning of blooming — nature wakes up and colors start appearing',
+    m2:'April', 'm2d':'Peak of beauty — flowers at their most beautiful and perfect weather',
+    m3:'May', 'm3d':'End of spring — warmth increases and the sea invites swimming',
+    'art-body':'<p>When spring arrives in Ksar Sghir, the entire region transforms into a living canvas — yellow flowers cover the hills, the sea becomes bluer and clearer.</p><div class="highlight">🌸 Spring in Ksar Sghir spans from March to May — the best time to visit the region</div><h2>🌻 Yellow Flowers</h2><p>The yellow carpet of wildflowers against the blue sea backdrop creates wonderful color contrasts.</p><h2>📸 Photography in Spring</h2><ul><li><strong>Surrounding hills</strong> — Yellow flowers with blue sea background</li><li><strong>Belyounech</strong> — Most beautiful in spring with dense green nature</li><li><strong>The beach</strong> — Clean sand and clear spring sky</li></ul><h2>🌡️ Spring Weather</h2><p>Temperatures between 16 and 22 degrees — moderate and perfect for walking and photography.</p><div class="highlight">💡 Tip: Visiting Belyounech in April is an unforgettable experience.</div><div class="article-tags"><span>Spring Ksar Sghir</span><span>Morocco Nature</span><span>Flowers</span></div>',
+    'related-title':'📖 Related articles',
+    r1:'Belyounech', r2:'Ksar Sghir Beach', r3:'How to photograph sunset', r4:'Fishing Port',
+    'ad-title':'📢 Advertise with us', 'ad-text':'Reach thousands of visitors', 'ad-btn':'Contact us',
+    'gallery-title':'📸 Photo Gallery', 'gallery-text':'See professional spring photos', 'gallery-btn':'Visit gallery',
+    f1:'Blog', f2:'Home', f3:'Gallery', f4:'Store', f5:'Tourism'
+  }
+};
+
+function setL(lang) {
+  var t = L[lang];
+  document.documentElement.setAttribute('dir', t.dir);
+  document.body.setAttribute('dir', t.dir);
+  Object.keys(t).forEach(function(id) {
+    if (id === 'dir') return;
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = t[id];
+  });
+  document.querySelectorAll('.lb').forEach(function(b) {
+    b.classList.remove('on');
+    if (b.getAttribute('onclick') === "setL('" + lang + "')") b.classList.add('on');
+  });
+  try { localStorage.setItem('bl', lang); } catch(e) {}
+}
+
+(function() {
+  var s = 'ar';
+  try { s = localStorage.getItem('bl') || 'ar'; } catch(e) {}
+  setL(s);
+})();
+</script>
+
+</body>
+</html>
