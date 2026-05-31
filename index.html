@@ -19,7 +19,7 @@ header { background:linear-gradient(135deg,#1a1a2e,#16213e); height:60px; displa
 .hright { display:flex; align-items:center; gap:8px; }
 .back { color:#00b4d8; text-decoration:none; font-size:12px; font-weight:600; padding:5px 12px; border:1px solid rgba(0,180,216,0.3); border-radius:20px; }
 .lang-sw { display:flex; gap:4px; }
-.lb { background:transparent; border:1px solid rgba(0,180,216,0.3); color:#aaa; font-size:11px; font-weight:700; padding:4px 9px; border-radius:10px; cursor:pointer; font-family:'Tajawal',sans-serif; }
+.lb { background:transparent; border:1px solid rgba(0,180,216,0.3); color:#aaa; font-size:11px; font-weight:700; padding:4px 9px; border-radius:10px; cursor:pointer; font-family:'Tajawal',sans-serif; transition:all 0.2s; }
 .lb.on { background:#00b4d8; color:#fff; border-color:#00b4d8; }
 
 .hero { background:linear-gradient(160deg,#0d1b2a,#1a3a5c,#0d1b2a); padding:40px 20px 35px; text-align:center; border-bottom:1px solid rgba(0,180,216,0.15); }
@@ -73,7 +73,6 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
 .footer-links a:hover { color:#00b4d8; }
 .footer-copy { font-size:11px; color:#555; }
 .footer-copy span { color:#00b4d8; }
-.divider { height:1px; background:linear-gradient(90deg,transparent,rgba(0,180,216,0.3),transparent); }
 
 .c1 { background:linear-gradient(135deg,#023e8a,#0096c7); }
 .c2 { background:linear-gradient(135deg,#1b5e20,#4caf50); }
@@ -81,6 +80,8 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
 .c4 { background:linear-gradient(135deg,#4a148c,#880e4f); }
 .c5 { background:linear-gradient(135deg,#006064,#00acc1); }
 .c6 { background:linear-gradient(135deg,#bf360c,#ff6f00); }
+.c7 { background:linear-gradient(135deg,#0d47a1,#1565c0); }
+.c8 { background:linear-gradient(135deg,#e65100,#f57c00); }
 
 @media(max-width:768px) {
   .layout { grid-template-columns:1fr; }
@@ -124,6 +125,21 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
 <div class="layout">
   <div class="articles">
 
+    <!-- مقال بلدة القصر الصغير (جديد) -->
+    <a href="./ksarsghir.html" class="article-card">
+      <div class="article-img c7"><span>🏛️</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art7-cat">سياحة</span>
+        <div class="article-title" id="art7-title">بلدة القصر الصغير — تاريخ عريق وحاضر يربط القارات</div>
+        <div class="article-excerpt" id="art7-excerpt">اكتشف تاريخ بلدة القصر الصغير وضواحيها، أهم المعالم الأثرية، وكيف تجمع البلدة بين عبق الماضي الباهر والنمو السياحي الحديث.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مايو 2026</span>
+          <span class="read-more" id="art7-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- شاطئ القصر الصغير -->
     <a href="./plage.html" class="article-card">
       <div class="article-img c1"><span>🏖️</span></div>
       <div class="article-body">
@@ -137,6 +153,21 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       </div>
     </a>
 
+    <!-- مقال واد اليان (جديد) -->
+    <a href="./ouedalian.html" class="article-card">
+      <div class="article-img c8"><span>⛵</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art8-cat">سياحة</span>
+        <div class="article-title" id="art8-title">شاطئ واد اليان — الرمال الذهبية والهدوء الساحر</div>
+        <div class="article-excerpt" id="art8-excerpt">دليلك الكامل لزيارة شاطئ واد اليان، أحد أنظف الشواطئ القريبة من القصر الصغير. تعرف على الأنشطة والخدمات المتوفرة للعائلات والشباب.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مايو 2026</span>
+          <span class="read-more" id="art8-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- بليونش -->
     <a href="./belyounech.html" class="article-card">
       <div class="article-img c2"><span>🌺</span></div>
       <div class="article-body">
@@ -150,6 +181,21 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       </div>
     </a>
 
+    <!-- شاطئ الدالية -->
+    <a href="./dalia.html" class="article-card">
+      <div class="article-img c1"><span>🏖️</span></div>
+      <div class="article-body">
+        <span class="article-cat" id="art9-cat">سياحة</span>
+        <div class="article-title" id="art9-title">شاطئ الدالية — مياه فيروزية ورمال بيضاء ناصعة</div>
+        <div class="article-excerpt" id="art9-excerpt">تعرف على شاطئ الدالية الساحر بطنجة القريب من الميناء المتوسطي. دليلك الكامل لأفضل الأنشطة والمرافق السياحية المتاحة هناك.</div>
+        <div class="article-meta">
+          <span class="article-date">📅 مايو 2026</span>
+          <span class="read-more" id="art9-read">اقرأ المزيد ←</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- غروب الشمس -->
     <a href="./sunset.html" class="article-card">
       <div class="article-img c3"><span>🌅</span></div>
       <div class="article-body">
@@ -163,6 +209,7 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       </div>
     </a>
 
+    <!-- ميناء القصر الصغير -->
     <a href="./port.html" class="article-card">
       <div class="article-img c4"><span>⚓</span></div>
       <div class="article-body">
@@ -176,6 +223,7 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       </div>
     </a>
 
+    <!-- ميناء طنجة المتوسط -->
     <a href="./tangermed.html" class="article-card">
       <div class="article-img c5"><span>🚢</span></div>
       <div class="article-body">
@@ -189,6 +237,7 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       </div>
     </a>
 
+    <!-- فصل الربيع -->
     <a href="./spring.html" class="article-card">
       <div class="article-img c6"><span>🌿</span></div>
       <div class="article-body">
@@ -218,7 +267,7 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
     <div class="sw">
       <div class="sw-title" id="cats-title">📂 التصنيفات</div>
       <ul>
-        <li><a href="#"><span id="c1t">سياحة</span> <span>4</span></a></li>
+        <li><a href="#"><span id="c1t">سياحة</span> <span>5</span></a></li>
         <li><a href="#"><span id="c2t">تصوير</span> <span>3</span></a></li>
         <li><a href="#"><span id="c3t">طبيعة</span> <span>2</span></a></li>
         <li><a href="#"><span id="c4t">ميناء</span> <span>2</span></a></li>
@@ -266,6 +315,9 @@ var L = {
     'art4-cat':'ميناء', 'art4-title':'ميناء الصيد التقليدي — تراث بحري أصيل', 'art4-excerpt':'تعرف على ميناء الصيد التقليدي في القصر الصغير — تاريخه وحياة الصيادين.', 'art4-read':'اقرأ المزيد ←',
     'art5-cat':'أخبار', 'art5-title':'ميناء طنجة المتوسط — أكبر ميناء في أفريقيا', 'art5-excerpt':'كل ما تريد معرفته عن ميناء طنجة المتوسط القريب من القصر الصغير.', 'art5-read':'اقرأ المزيد ←',
     'art6-cat':'طبيعة', 'art6-title':'الربيع في القصر الصغير — أجمل فصول السنة', 'art6-excerpt':'يتحول القصر الصغير في الربيع إلى لوحة فنية رائعة — أزهار صفراء وطبيعة خضراء.', 'art6-read':'اقرأ المزيد ←',
+    'art7-cat':'سياحة', 'art7-title':'بلدة القصر الصغير — تاريخ عريق وحاضر يربط القارات', 'art7-excerpt':'اكتشف تاريخ بلدة القصر الصغير وضواحيها، أهم المعالم الأثرية والنمو السياحي الحديث.', 'art7-read':'اقرأ المزيد ←',
+    'art8-cat':'سياحة', 'art8-title':'شاطئ واد اليان — الرمال الذهبية والهدوء الساحر', 'art8-excerpt':'دليلك الكامل لزيارة شاطئ واد اليان الساحر. تعرف على الأنشطة والخدمات المتوفرة.', 'art8-read':'اقرأ المزيد ←',
+    'art9-cat':'سياحة', 'art9-title':'شاطئ الدالية — مياه فيروزية ورمال بيضاء ناصعة', 'art9-excerpt':'تعرف على شاطئ الدالية الساحر بطنجة القريب من الميناء المتوسطي وأفضل الأنشطة المتاحة.', 'art9-read':'اقرأ المزيد ←',
     'about-bio':'مصور محترف من القصر الصغير — أوثق جمال المنطقة منذ 2017',
     'cats-title':'📂 التصنيفات', c1t:'سياحة', c2t:'تصوير', c3t:'طبيعة', c4t:'ميناء', c5t:'أخبار',
     'ad-title':'📢 إعلن معنا', 'ad-text':'وصول لآلاف الزوار المهتمين بالمنطقة', 'ad-btn':'تواصل معنا',
@@ -280,6 +332,9 @@ var L = {
     'art4-cat':'Port', 'art4-title':'Port de pêche traditionnel — Patrimoine maritime authentique', 'art4-excerpt':'Découvrez le port de pêche traditionnel de Ksar Sghir — son histoire et la vie des pêcheurs.', 'art4-read':'Lire la suite →',
     'art5-cat':'Actualités', 'art5-title':'Port Tanger Med — Le plus grand port d\'Afrique', 'art5-excerpt':'Tout ce que vous voulez savoir sur le port Tanger Med proche de Ksar Sghir.', 'art5-read':'Lire la suite →',
     'art6-cat':'Nature', 'art6-title':'Le printemps à Ksar Sghir — La plus belle saison', 'art6-excerpt':'Ksar Sghir se transforme au printemps en un tableau artistique — fleurs jaunes et nature verdoyante.', 'art6-read':'Lire la suite →',
+    'art7-cat':'Tourisme', 'art7-title':'Ville de Ksar Sghir — Histoire riche et avenir prometteur', 'art7-excerpt':'Découvrez l\'histoire de la ville de Ksar Sghir, ses principaux monuments historiques et sa croissance.', 'art7-read':'Lire la suite →',
+    'art8-cat':'Tourisme', 'art8-title':'Plage Oued Aliane — Sable doré et calme absolu', 'art8-excerpt':'Votre guide complet pour visiter la magnifique plage d\'Oued Aliane près de Ksar Sghir.', 'art8-read':'Lire la suite →',
+    'art9-cat':'Tourisme', 'art9-title':'Plage Dalia — Eau turquoise et sable blanc fin', 'art9-excerpt':'Découvrez la charmante plage de Dalia à Tanger, située à proximité du port Tanger Med.', 'art9-read':'Lire la suite →',
     'about-bio':'Photographe professionnel de Ksar Sghir — je documente la beauté de la région depuis 2017',
     'cats-title':'📂 Catégories', c1t:'Tourisme', c2t:'Photographie', c3t:'Nature', c4t:'Port', c5t:'Actualités',
     'ad-title':'📢 Annoncez avec nous', 'ad-text':'Accès à des milliers de visiteurs intéressés par la région', 'ad-btn':'Contactez-nous',
@@ -294,6 +349,9 @@ var L = {
     'art4-cat':'Port', 'art4-title':'Traditional Fishing Port — Authentic Maritime Heritage', 'art4-excerpt':'Discover the traditional fishing port of Ksar Sghir — its history and the life of fishermen.', 'art4-read':'Read more →',
     'art5-cat':'News', 'art5-title':'Tanger Med Port — The Largest Port in Africa', 'art5-excerpt':'Everything you want to know about Tanger Med port near Ksar Sghir.', 'art5-read':'Read more →',
     'art6-cat':'Nature', 'art6-title':'Spring in Ksar Sghir — The Most Beautiful Season', 'art6-excerpt':'Ksar Sghir transforms in spring into an artistic masterpiece — yellow flowers and lush green nature.', 'art6-read':'Read more →',
+    'art7-cat':'Tourism', 'art7-title':'Ksar Sghir Town — Ancient History & Modern Connectivity', 'art7-excerpt':'Explore the history of Ksar Sghir town, its historical landmarks, and modern tourism development.', 'art7-read':'Read more →',
+    'art8-cat':'Tourism', 'art8-title':'Oued Aliane Beach — Golden Sands & Scenic Serenity', 'art8-excerpt':'Your complete guide to visiting Oued Aliane beach, one of the cleanest beaches near Ksar Sghir.', 'art8-read':'Read more →',
+    'art9-cat':'Tourism', 'art9-title':'Dalia Beach — Turquoise Waters & White Powder Sand', 'art9-excerpt':'Learn about the breathtaking Dalia beach in Tangier close to the Tanger Med port hub.', 'art9-read':'Read more →',
     'about-bio':'Professional photographer from Ksar Sghir — documenting the beauty of the region since 2017',
     'cats-title':'📂 Categories', c1t:'Tourism', c2t:'Photography', c3t:'Nature', c4t:'Port', c5t:'News',
     'ad-title':'📢 Advertise with us', 'ad-text':'Reach thousands of visitors interested in the region', 'ad-btn':'Contact us',
