@@ -113,7 +113,7 @@ footer { background:#060c14; padding:18px 20px; text-align:center; border-top:1p
       <span id="meta-read">⏱️ 6 دقائق قراءة</span>
     </div>
     <div class="article-body" id="art-body">
-      <!-- محتوى المقال النصي واللوحات والجدول والوسوم يتم بناؤها ديناميكياً هنا بحسب اللغة المحددة -->
+      <!-- يتم حقن المحتوى هنا ديناميكياً بواسطة جافاسكربت -->
     </div>
   </div>
 
@@ -221,14 +221,14 @@ var L = {
           <th>تفاصيل الرحلة</th>
         </tr>
         <tr>
-          <td>من مدينة طنجة (40 كلم)</td>
+          <td>من مدينة طنجة (وسط المدينة)</td>
           <td>Public Bus 🚌 حافلات النقل الحضري</td>
           <td>توجد خطوط حافلات مباشرة تربط طنجة بالمنطقة، وهي خيار اقتصادي ومميز.</td>
         </tr>
         <tr>
-          <td>من محطة القطار طنجة</td>
+          <td>من محطات طنجة (كاستيا / سيدي ادريس)</td>
           <td>Taxi 🚕 سيارة الأجرة (التاكسي الكبير)</td>
-          <td>يمكنك استقلال سيارة أجرة مشتركة لتوصلك مباشرة إلى محيط الشاطئ.</td>
+          <td>تتوفر سيارات أجرة كبيرة مشتركة تنطلق بانتظام وتوصلك مباشرة إلى محيط الشاطئ.</td>
         </tr>
         <tr>
           <td>من مدينة الفنيدق</td>
@@ -237,7 +237,7 @@ var L = {
         </tr>
       </table>
 
-      <div class="highlight">📌 ملاحظة هامة للمسافرين من طنجة: لا تتوفر سيارات أجرة مباشرة من وسط طنجة إلى الشاطئ، والاعتماد الأساسي يكون على حافلات النقل الحضري التي توفر رحلات منتظمة.</div>
+      <div class="highlight">📌 ملاحظة هامة للمسافرين: تتوفر سيارات الأجرة الكبيرة (التاكسي) بشكل منتظم، وينصح بالتوجه إلى المحطات المخصصة لخطوط (طنجة - القصر الصغير/الدالية) لضمان رحلة مباشرة وسريعة.</div>
 
       <h2>💡 نصائح لزيارة مثالية</h2>
       <ul class="tips-list">
@@ -302,23 +302,23 @@ var L = {
           <th>Détails du trajet</th>
         </tr>
         <tr>
-          <td>Depuis Tanger (40 km)</td>
+          <td>Depuis Tanger (Centre-ville)</td>
           <td>Bus public 🚌</td>
           <td>Des lignes de bus directes relient Tanger à la région, option économique.</td>
         </tr>
         <tr>
-          <td>Gare de Tanger</td>
+          <td>Stations de Tanger (Plaza Toro/Castilla)</td>
           <td>Grand Taxi 🚕</td>
-          <td>Vous pouvez prendre un taxi collectif direct vers la plage.</td>
+          <td>Des grands taxis collectifs sont disponibles régulièrement pour vous amener directement à la plage.</td>
         </tr>
         <tr>
           <td>Depuis Fnideq</td>
           <td>Grand Taxi 🚕</td>
-          <td>Taxis collectifs disponibles — pas de bus direct depuis Fnideq.</td>
+          <td>Taxis collectifs disponibles directement vers la plage.</td>
         </tr>
       </table>
 
-      <div class="highlight">📌 Note importante pour Tanger : Il n'y a pas de grands taxis directs depuis le centre-ville de Tanger ; le bus public est l'option principale.</div>
+      <div class="highlight">📌 Note importante : Les grands taxis sont bien disponibles de manière régulière depuis leurs stations dédiées à Tanger pour un trajet direct et rapide.</div>
 
       <h2>💡 Conseils pour une visite idéale</h2>
       <ul class="tips-list">
@@ -379,23 +379,23 @@ var L = {
           <th>Trip Details</th>
         </tr>
         <tr>
-          <td>Tangier City (40 km)</td>
+          <td>Tangier City (Downtown)</td>
           <td>Public Bus 🚌</td>
           <td>Direct bus routes connect Tangier to the area, a budget-friendly option.</td>
         </tr>
         <tr>
-          <td>Tangier Train Station</td>
+          <td>Tangier Stations (Castilla/Plaza Toro)</td>
           <td>Grand Taxi 🚕</td>
-          <td>Shared grand taxis drop you off directly near the beach area.</td>
+          <td>Shared grand taxis are fully available and run regularly straight to the beach.</td>
         </tr>
         <tr>
           <td>Fnideq City</td>
           <td>Grand Taxi 🚕</td>
-          <td>Shared grand taxis available — no direct bus from Fnideq.</td>
+          <td>Shared grand taxis available directly to the beach area.</td>
         </tr>
       </table>
 
-      <div class="highlight">📌 Important note for Tangier travelers: There are no direct grand taxis from downtown Tangier center; public buses are the primary transit option.</div>
+      <div class="highlight">📌 Important note: Grand taxis are available regularly. It is recommended to head to their designated stations in Tangier for a fast and direct ride.</div>
 
       <h2>💡 Tips for an Ideal Visit</h2>
       <ul class="tips-list">
