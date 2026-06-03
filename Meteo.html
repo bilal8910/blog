@@ -61,15 +61,19 @@ header { background:linear-gradient(135deg,#1a1a2e,#16213e); height:60px; displa
 
 /* 7 DAY FORECAST */
 .forecast-card { background:#16213e; border:1px solid rgba(0,180,216,0.15); border-radius:14px; padding:20px; margin-bottom:25px; }
-.forecast-days { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
-.forecast-day { background:rgba(0,0,0,0.3); border-radius:10px; padding:10px 5px; text-align:center; border:1px solid rgba(255,255,255,0.05); transition:all 0.2s; }
-.forecast-day:hover { border-color:#00b4d8; background:rgba(0,180,216,0.06); }
-.forecast-day.today { border-color:#00b4d8; background:rgba(0,180,216,0.1); }
-.day-name { font-size:11px; color:#aaa; margin-bottom:5px; }
-.day-icon { font-size:24px; margin:5px 0; }
-.day-max { font-size:14px; font-weight:700; color:#fff; }
-.day-min { font-size:11px; color:#888; }
+.forecast-days { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; overflow-x:auto; }
+@media(max-width:600px){ .forecast-days { grid-template-columns:repeat(7,minmax(80px,1fr)); overflow-x:scroll; padding-bottom:5px; } }
+.forecast-day { background:rgba(0,0,0,0.3); border-radius:12px; padding:12px 6px; text-align:center; border:1px solid rgba(255,255,255,0.05); transition:all 0.2s; min-width:75px; }
+.forecast-day:hover { border-color:#00b4d8; background:rgba(0,180,216,0.06); transform:translateY(-2px); }
+.forecast-day.today { border-color:#00b4d8; background:linear-gradient(135deg,rgba(0,180,216,0.15),rgba(0,180,216,0.05)); box-shadow:0 0 15px rgba(0,180,216,0.1); }
+.day-name { font-size:11px; color:#aaa; margin-bottom:6px; font-weight:600; }
+.day-icon { font-size:28px; margin:6px 0; }
+.day-max { font-size:16px; font-weight:900; color:#fff; }
+.day-min { font-size:12px; color:#888; margin-top:2px; }
+.day-desc { font-size:9px; color:#aaa; margin-top:4px; line-height:1.3; }
 .day-rain { font-size:10px; color:#90e0ef; margin-top:3px; }
+.day-bar { height:3px; background:rgba(255,255,255,0.05); border-radius:2px; margin-top:6px; overflow:hidden; }
+.day-bar-fill { height:100%; background:linear-gradient(90deg,#0096c7,#00b4d8); border-radius:2px; }
 
 /* LOADING */
 .loading { text-align:center; padding:40px; color:#aaa; font-size:14px; }
@@ -92,7 +96,7 @@ footer { background:#060c14; padding:15px 20px; text-align:center; border-top:1p
   .current-card { grid-template-columns:1fr; }
   .sea-hours { grid-template-columns:repeat(3,1fr); }
   .forecast-days { grid-template-columns:repeat(4,1fr); }
-  .forecast-day:nth-child(n+5) { display:none; }
+  
   .port-banner { flex-direction:column; text-align:center; }
 }
 </style>
@@ -250,7 +254,7 @@ function loadWeather() {
 }
 
 function loadForecast() {
-  var url = 'https://api.openweathermap.org/data/2.5/forecast?lat='+LAT+'&lon='+LON+'&appid='+API_KEY+'&units=metric&lang=ar&cnt=40';
+  var url = 'https://api.openweathermap.org/data/2.5/forecast?lat='+LAT+'&lon='+LON+'&appid='+API_KEY+'&units=metric&lang=ar&cnt=56';
   fetch(url).then(function(r){ return r.json(); }).then(function(d) {
     var days = {};
     d.list.forEach(function(item) {
@@ -272,13 +276,15 @@ function loadForecast() {
       var dayName = date === today ? 'اليوم' : DAYS_AR[d.getDay()];
       var isToday = date === today;
       var icon = getWeatherIcon(day.icons[Math.floor(day.icons.length/2)], true);
+      var barW = Math.round((day.max - 10) / 25 * 100);
       html +=
         '<div class="forecast-day'+(isToday?' today':'')+'">' +
           '<div class="day-name">'+dayName+'</div>' +
           '<div class="day-icon">'+icon+'</div>' +
           '<div class="day-max">'+Math.round(day.max)+'°</div>' +
           '<div class="day-min">'+Math.round(day.min)+'°</div>' +
-          (day.rain > 0 ? '<div class="day-rain">💧'+day.rain.toFixed(1)+'مم</div>' : '') +
+          (day.rain > 0 ? '<div class="day-rain">💧'+day.rain.toFixed(1)+'</div>' : '<div class="day-rain"> </div>') +
+          '<div class="day-bar"><div class="day-bar-fill" style="width:'+Math.max(10,Math.min(100,barW))+'%"></div></div>' +
         '</div>';
       count++;
     });
