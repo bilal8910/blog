@@ -1,434 +1,98 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أحوال الطقس وحالة البحر — القصر الصغير | Météo Ksar Sghir</title>
-<meta name="description" content="الدليل المرجعي لأحوال الطقس وحالة البحر في القصر الصغير ومضيق جبل طارق. تحديث مباشر للشروق والغروب، المد والجزر، سرعة الرياح، وصلاحية السباحة والصيد.">
-<link href='https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap' rel='stylesheet'/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>الخدمات والطباعة — القصر الصغير | Impression & Services | Printing</title>
+<meta name="description" content="خدمات الطباعة المخصصة: تيشرتات، تقويم، ولوحات جدارية بصور القصر الصغير. Services d'impression personnalisés Ksar Sghir."/>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Tajawal',sans-serif; background:#0a0f1a; color:#fff; min-height:100vh; }
+:root { --bg:#0a0f1a; --bg2:#16213e; --text:#e0e0e0; --text2:#aaa; --accent:#00b4d8; --border:rgba(0,180,216,0.15); }
+body { font-family:"Tajawal",sans-serif; background:var(--bg); color:var(--text); margin:0; }
+* { box-sizing:border-box; }
 
-header { background:linear-gradient(135deg,#1a1a2e,#16213e); height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:2px solid #00b4d8; position:sticky; top:0; z-index:100; }
-.logo { text-decoration:none; }
-.logo-ar { font-size:18px; font-weight:900; color:#00b4d8; display:block; }
-.logo-en { font-size:9px; color:#888; letter-spacing:3px; display:block; }
-.back { color:#00b4d8; text-decoration:none; font-size:12px; font-weight:600; padding:5px 12px; border:1px solid rgba(0,180,216,0.3); border-radius:20px; }
+header { background:var(--bg2); height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:100; }
+.logo { text-decoration:none; color:var(--accent); font-weight:900; }
+.nav-scroll { background:var(--bg2); padding:10px 20px; display:flex; gap:15px; overflow-x:auto; border-bottom:1px solid var(--border); }
+.nav-link { color:var(--text2); text-decoration:none; font-size:12px; font-weight:600; white-space:nowrap; }
+.nav-link.active { color:var(--accent); border-bottom:2px solid var(--accent); }
 
-.hero { background:linear-gradient(135deg,#0d1b2a,#16213e); padding:40px 20px 30px; text-align:center; border-bottom:1px solid rgba(0,180,216,0.1); }
-.hero h1 { font-size:clamp(22px,4vw,32px); font-weight:900; margin-bottom:8px; }
-.hero p { color:#aaa; font-size:13px; }
-.update-time { color:#00b4d8; font-size:11px; margin-top:8px; }
+.container { max-width:900px; margin:20px auto; padding:0 20px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px; margin-top:20px; }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:20px; transition:0.3s; }
+.card:hover { border-color:var(--accent); transform:translateY(-5px); }
+.icon { font-size:40px; margin-bottom:15px; }
+.title { font-size:18px; font-weight:700; margin-bottom:10px; }
+.desc { font-size:13px; color:var(--text2); margin-bottom:20px; line-height:1.6; }
+.btn { display:block; background:var(--accent); color:#fff; text-decoration:none; text-align:center; padding:10px; border-radius:10px; font-weight:700; font-size:13px; }
 
-.container { max-width:900px; margin:0 auto; padding:25px 20px; }
-
-/* CURRENT WEATHER */
-.current-card { background:linear-gradient(135deg,#16213e,#1a2a40); border:1px solid rgba(0,180,216,0.2); border-radius:18px; padding:25px; margin-bottom:25px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.current-main { display:flex; align-items:center; gap:20px; }
-.current-icon { font-size:70px; line-height:1; }
-.current-temp { font-size:60px; font-weight:900; color:#fff; line-height:1; }
-.current-temp span { font-size:20px; color:#aaa; }
-.current-desc { font-size:16px; color:#90e0ef; margin-top:5px; }
-.current-location { font-size:13px; color:#aaa; }
-.current-details { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.detail-item { background:rgba(0,180,216,0.06); border-radius:10px; padding:12px; text-align:center; }
-.detail-val { font-size:18px; font-weight:700; color:#00b4d8; }
-.detail-label { font-size:11px; color:#aaa; margin-top:3px; }
-
-/* SUN & TIDE INFO (NEW) */
-.astro-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:25px; }
-.astro-card { background:#16213e; border:1px solid rgba(0,180,216,0.15); border-radius:14px; padding:15px; }
-.astro-flex { display:flex; justify-content:space-around; align-items:center; margin-top:10px; }
-.astro-sub-item { text-align:center; }
-.astro-sub-item .val { font-size:16px; font-weight:700; color:#90e0ef; }
-.astro-sub-item .lbl { font-size:11px; color:#aaa; margin-top:2px; }
-
-/* SEA CONDITIONS */
-.section-title { font-size:16px; font-weight:700; color:#fff; margin-bottom:15px; display:flex; align-items:center; gap:8px; padding-bottom:10px; border-bottom:1px solid rgba(0,180,216,0.15); }
-.section-title::before { content:''; width:3px; height:18px; background:#00b4d8; border-radius:2px; }
-
-.sea-card { background:#16213e; border:1px solid rgba(0,180,216,0.15); border-radius:14px; padding:20px; margin-bottom:25px; }
-.sea-status { display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:20px; padding:15px; border-radius:12px; }
-.sea-status.calm { background:rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.3); }
-.sea-status.moderate { background:rgba(243,156,18,0.1); border:1px solid rgba(243,156,18,0.3); }
-.sea-status.rough { background:rgba(231,76,60,0.1); border:1px solid rgba(231,76,60,0.3); }
-.sea-icon { font-size:36px; }
-.sea-text h3 { font-size:20px; font-weight:700; }
-.sea-text p { font-size:13px; color:#aaa; margin-top:2px; }
-.calm .sea-text h3 { color:#2ecc71; }
-.moderate .sea-text h3 { color:#f39c12; }
-.rough .sea-text h3 { color:#e74c3c; }
-
-/* ACTIVITIES PACK (NEW) */
-.activities-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
-.activity-box { background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:12px; display:flex; align-items:center; gap:12px; }
-.activity-icon { font-size:24px; }
-.activity-info h4 { font-size:14px; font-weight:700; }
-.activity-info p { font-size:11px; margin-top:2px; }
-
-.sea-hours { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
-.sea-hour { background:rgba(0,0,0,0.3); border-radius:10px; padding:10px 5px; text-align:center; border:1px solid rgba(255,255,255,0.05); }
-.sea-hour .time { font-size:11px; color:#aaa; }
-.sea-hour .wave { font-size:18px; margin:3px 0; }
-.sea-hour .height { font-size:12px; font-weight:700; color:#00b4d8; }
-.sea-hour .wind { font-size:10px; color:#888; }
-
-/* 7 DAY FORECAST */
-.forecast-card { background:#16213e; border:1px solid rgba(0,180,216,0.15); border-radius:14px; padding:20px; margin-bottom:25px; }
-.forecast-days { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; overflow-x:auto; }
-@media(max-width:600px){ .forecast-days { grid-template-columns:repeat(7,minmax(85px,1fr)); overflow-x:scroll; padding-bottom:5px; } }
-.forecast-day { background:rgba(0,0,0,0.3); border-radius:12px; padding:12px 6px; text-align:center; border:1px solid rgba(255,255,255,0.05); transition:all 0.2s; min-width:75px; }
-.forecast-day:hover { border-color:#00b4d8; background:rgba(0,180,216,0.06); transform:translateY(-2px); }
-.forecast-day.today { border-color:#00b4d8; background:linear-gradient(135deg,rgba(0,180,216,0.15),rgba(0,180,216,0.05)); box-shadow:0 0 15px rgba(0,180,216,0.1); }
-.day-name { font-size:11px; color:#aaa; margin-bottom:6px; font-weight:600; }
-.day-icon { font-size:28px; margin:6px 0; }
-.day-max { font-size:16px; font-weight:900; color:#fff; }
-.day-min { font-size:12px; color:#888; margin-top:2px; }
-.day-desc { font-size:9px; color:#aaa; margin-top:4px; line-height:1.3; height:24px; overflow:hidden; }
-.day-rain { font-size:10px; color:#90e0ef; margin-top:3px; }
-.day-bar { height:3px; background:rgba(255,255,255,0.05); border-radius:2px; margin-top:6px; overflow:hidden; }
-.day-bar-fill { height:100%; background:linear-gradient(90deg,#0096c7,#00b4d8); border-radius:2px; }
-
-/* LOADING */
-.loading { text-align:center; padding:40px; color:#aaa; font-size:14px; }
-.loading span { color:#00b4d8; }
-
-/* PORT LINK */
-.port-banner { background:linear-gradient(135deg,#023e8a,#0096c7); border-radius:14px; padding:20px 25px; margin-bottom:25px; display:flex; align-items:center; justify-content:space-between; gap:15px; }
-.port-banner div h3 { font-size:16px; font-weight:700; }
-.port-banner div p { font-size:12px; color:rgba(255,255,255,0.8); margin-top:4px; }
-.port-btn { background:#fff; color:#023e8a; font-size:12px; font-weight:700; padding:8px 18px; border-radius:20px; text-decoration:none; white-space:nowrap; }
-
-footer { background:#060c14; padding:15px 20px; text-align:center; border-top:1px solid #16213e; margin-top:20px; }
-.footer-links { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:8px; }
-.footer-links a { color:#555; text-decoration:none; font-size:12px; }
-.footer-links a:hover { color:#00b4d8; }
-.footer-copy { font-size:11px; color:#555; }
-.footer-copy span { color:#00b4d8; }
-
-@media(max-width:600px) {
-  .current-card { grid-template-columns:1fr; }
-  .astro-grid { grid-template-columns:1fr; gap:12px; }
-  .activities-grid { grid-template-columns:1fr; }
-  .sea-hours { grid-template-columns:repeat(3,1fr); gap:6px; }
-}
+footer { background:var(--bg2); padding:30px 20px; margin-top:40px; border-top:1px solid var(--border); text-align:center; }
+.footer-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:800px; margin:0 auto 20px; text-align:right; }
+.footer-col h4 { color:var(--accent); margin-bottom:10px; font-size:13px; }
+.footer-col a { display:block; color:var(--text2); text-decoration:none; font-size:12px; margin-bottom:5px; }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="https://www.ksarsghir.com" class="logo">
-    <span class="logo-ar">القصر الصغير</span>
-    <span class="logo-en">KSAR SGHIR</span>
-  </a>
-  <a href="https://www.ksarsghir.com" class="back">← الرئيسية</a>
+  <a href="/" class="logo">القصر الصغير • PRINT</a>
+  <a href="https://www.ksarsghir.com" style="color:var(--text2); font-size:12px; text-decoration:none;">← الرئيسية</a>
 </header>
 
-<div class="hero">
-  <h1>🌤️ مرجع الطقس والحالة البحرية</h1>
-  <p>بوابة القصر الصغير الرقمية — إقليم الفحص أنجرة، مضيق جبل طارق</p>
-  <div class="update-time" id="update-time">⏳ جاري رصد الإشارات المناخية...</div>
-</div>
+<nav class="nav-scroll">
+  <a href="https://www.ksarsghir.com" class="nav-link">🏠 الرئيسية</a>
+  <a href="https://tourism.ksarsghir.com" class="nav-link">🗺️ السياحة</a>
+  <a href="https://meteo.ksarsghir.com" class="nav-link">🌤️ الطقس</a>
+  <a href="https://store.ksarsghir.com" class="nav-link active">👕 الطباعة</a>
+</nav>
 
 <div class="container">
-
-  <!-- Current Weather -->
-  <div id="current-weather" class="loading">
-    <span>⏳ جاري جلب بيانات الطقس الحية...</span>
-  </div>
-
-  <!-- Sun & Tides Section -->
-  <div class="astro-grid">
-    <div class="astro-card">
-      <div class="section-title" style="margin-bottom:8px; border:0; padding:0;">🌅 الشروق والغروب</div>
-      <div class="astro-flex">
-        <div class="astro-sub-item">
-          <div class="val" id="sun-rise">--:--</div>
-          <div class="lbl">شروق الشمس</div>
-        </div>
-        <div class="astro-sub-item">
-          <div class="val" id="sun-set">--:--</div>
-          <div class="lbl">غروب الشمس</div>
-        </div>
-      </div>
+  <h1 style="text-align:center; margin-top:30px;">خدمات الطباعة المخصصة</h1>
+  
+  <div class="grid">
+    <div class="card">
+      <div class="icon">👕</div>
+      <div class="title">تيشرتات مخصصة</div>
+      <div class="desc">طباعة صور احترافية من القصر الصغير مع شعار "Ksar Sghir Lens" بجودة عالية.</div>
+      <a href="https://wa.me/212708053745" class="btn">طلب عبر واتساب</a>
     </div>
-    <div class="astro-card">
-      <div class="section-title" style="margin-bottom:8px; border:0; padding:0;">📈 حركة المد والجزر (التوجيهي)</div>
-      <div class="astro-flex">
-        <div class="astro-sub-item">
-          <div class="val" id="tide-high">--:--</div>
-          <div class="lbl">أوج المد (الفيض)</div>
-        </div>
-        <div class="astro-sub-item">
-          <div class="val" id="tide-low">--:--</div>
-          <div class="lbl">أدنى جزر (الثبر)</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sea Conditions & Activities -->
-  <div class="sea-card">
-    <div class="section-title">🌊 حالة البحر والملاحة المحلية — 24 ساعة</div>
-    <div id="sea-status-box" class="loading"><span>⏳ جاري تحليل ارتفاع الموج والرياح...</span></div>
     
-    <!-- Activities Suitability -->
-    <div class="activities-grid" id="activities-panel" style="display:none;">
-      <div class="activity-box" id="act-swim">
-        <div class="activity-icon" id="act-swim-icon">🏊‍♂️</div>
-        <div class="activity-info">
-          <h4 id="act-swim-title">صلاحية السباحة الاستجمامية</h4>
-          <p id="act-swim-desc" style="color:#aaa;">جاري الفحص...</p>
-        </div>
-      </div>
-      <div class="activity-box" id="act-fish">
-        <div class="activity-icon" id="act-fish-icon">🎣</div>
-        <div class="activity-info">
-          <h4 id="act-fish-title">صلاحية الصيد التقليدي والقوارب</h4>
-          <p id="act-fish-desc" style="color:#aaa;">جاري الفحص...</p>
-        </div>
-      </div>
+    <div class="card">
+      <div class="icon">📅</div>
+      <div class="title">تقويم 2026</div>
+      <div class="desc">12 صورة مختارة بعناية للمعالم السياحية، مثالي للمكتب أو كهدية تذكارية.</div>
+      <a href="https://wa.me/212708053745" class="btn">طلب عبر واتساب</a>
     </div>
-
-    <div id="sea-hours-grid"></div>
-  </div>
-
-  <!-- 7 Day Forecast -->
-  <div class="forecast-card">
-    <div class="section-title">📅 النشرة الجوية والأمطار — 7 أيام قادمة</div>
-    <div id="forecast-grid" class="loading"><span>⏳ جاري بناء المخطط البياني للنشرة...</span></div>
-  </div>
-
-  <!-- Port Banner -->
-  <div class="port-banner">
-    <div>
-      <h3> Ferry طنجة المتوسط ⛴️</h3>
-      <p>بوابة عبور المسافرين الرسمية — تتبع مواعيد البواخر الحية</p>
+    
+    <div class="card">
+      <div class="icon">🖼️</div>
+      <div class="title">لوحات جدارية</div>
+      <div class="desc">لوحات كانفاس (Canvas) بقياسات مختلفة لتزيين منزلك بأجمل مناظر القصر الصغير.</div>
+      <a href="https://wa.me/212708053745" class="btn">طلب عبر واتساب</a>
     </div>
-    <a href="https://www.tangermed-passagers.com/fr/horaires-bateau/departs-de-tanger-med" target="_blank" class="port-btn">جدول الرحلات الحية ←</a>
   </div>
-
 </div>
 
 <footer>
-  <div class="footer-links">
-    <a href="https://www.ksarsghir.com">الرئيسية</a>
-    <a href="https://tourism.ksarsghir.com">دليل السياحة</a>
-    <a href="https://gallery.ksarsghir.com">المعرض الفني</a>
-    <a href="https://blog.ksarsghir.com">المدونة الأخبارية</a>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>🔗 روابط سريعة</h4>
+      <a href="https://www.ksarsghir.com">الرئيسية</a>
+      <a href="https://gallery.ksarsghir.com">المعرض</a>
+    </div>
+    <div class="footer-col">
+      <h4>🗺️ السياحة</h4>
+      <a href="https://tourism.ksarsghir.com">شاطئ القصر الصغير</a>
+      <a href="https://tourism.ksarsghir.com/port.html">ميناء الصيد</a>
+    </div>
+    <div class="footer-col">
+      <h4>📄 معلومات</h4>
+      <a href="https://www.ksarsghir.com/privacy.html">سياسة الخصوصية</a>
+      <a href="https://wa.me/212708053745">تواصل معنا</a>
+    </div>
   </div>
-  <div class="footer-copy">© 2026 <span>Ksar Sghir Portal</span> • التوثيق الرقمي بلمسة احترافية محليّة</div>
+  <div style="font-size:11px; color:var(--text2);">© 2026 Ksar Sghir Store • Bilal El Hichou</div>
 </footer>
 
-<script>
-// إحداثيات القصر الصغير المركزية والمضيق
-var LAT = 35.6897, LON = -5.5597;
-var API_KEY = 'bd5e378503939ddaee76f12ad7a97608';
-
-var DAYS_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-
-function getWeatherIcon(id, isDay) {
-  if (id >= 200 && id < 300) return '⛈️';
-  if (id >= 300 && id < 400) return '🌦️';
-  if (id >= 500 && id < 600) return '🌧️';
-  if (id >= 600 && id < 700) return '❄️';
-  if (id >= 700 && id < 800) return '🌫️';
-  if (id === 800) return isDay ? '☀️' : '🌙';
-  if (id === 801) return '🌤️';
-  if (id === 802) return '⛅';
-  if (id >= 803) return '☁️';
-  return '🌡️';
-}
-
-// دالة متطورة لتقييم البحر والملاءمة للسباحة والصيد بناءً على سرعة الرياح بمقياس عقدة ومتر
-function getSeaStatus(windMs) {
-  var windKmh = windMs * 3.6;
-  var waveHeight = (windMs * 0.12 + 0.2).toFixed(1); // معادلة تقريبية دقيقة لمضيق جبل طارق العاتي
-  
-  if (windKmh < 12) {
-    return {
-      cls: 'calm',
-      ar: 'هادئ ومستقر البنية المائية ✅',
-      icon: '🌊',
-      wave: waveHeight,
-      desc: 'ارتفاع الموج خفيف جداً ('+waveHeight+'م). حركة التيارات طبيعية ومناسبة.',
-      swim: { ok: true, text: 'آمنة وممتازة 🟢', desc: 'المياه هادئة والتيارات السطحية غائبة تماماً لشواطئ الدالية وبليونش.' },
-      fish: { ok: true, text: 'مثالي للصيد والقوارب 🟢', desc: 'ظروف مثالية للقوارب التقليدية ومصايد القصبة الساحلية.' }
-    };
-  } else if (windKmh < 24) {
-    return {
-      cls: 'moderate',
-      ar: 'قليل الهياج إلى متوسط ⚠️',
-      icon: '💨',
-      wave: waveHeight,
-      desc: 'ارتفاع الموج متوسط من ('+waveHeight+'م). ريح "الشرقي" أو "الغربي" نشطة نسبياً.',
-      swim: { ok: true, text: 'مسموحة مع الحذر 🟡', desc: 'يرجى تجنب العمق، وتوخي الحذر من تيارات السحب عند شاطئ واد اليان.' },
-      fish: { ok: false, text: 'مستقر بحذر للقوارب الكبيرة 🟡', desc: 'أصحاب القوارب الصغيرة والشغوفين بالصيد التقليدي يجب عليهم اليقظة.' }
-    };
-  } else {
-    return {
-      cls: 'rough',
-      ar: 'هائج ومتلاطم الأمواج ❌',
-      icon: '⚠️',
-      wave: waveHeight,
-      desc: 'موج عاتٍ يعلو عن ('+waveHeight+'م). رياح قوية تعصف بمضيق جبل طارق وجرف بليونش.',
-      swim: { ok: false, text: 'ممنوعة كلياً 🔴', desc: 'خطر التيارات الارتدادية والأمواج العالية تجعل السباحة خطراً حقيقياً.' },
-      fish: { ok: false, text: 'خطر وممنوع للإبحار 🔴', desc: 'البحر غير صالح تماماً للصيد التقليدي أو خروج الزوارق المفتوحة.' }
-    };
-  }
-}
-
-function formatTime(timestamp) {
-  var date = new Date(timestamp * 1000);
-  return date.toLocaleTimeString('ar-MA', { hour: '2-digit', minute: '2-digit', hour12: false });
-}
-
-// دالة ديناميكية لحساب تقريبي لحركة المد والجزر المتناغمة مع توقيت النواحي الساحلية لشمال المغرب
-function calculateTides() {
-  var now = new Date();
-  var highTide = new Date(now);
-  highTide.setHours(now.getHours() + (4 + Math.random()*2));
-  var lowTide = new Date(now);
-  lowTide.setHours(now.getHours() + (10 + Math.random()*2));
-  
-  var opt = { hour: '2-digit', minute: '2-digit', hour12: false };
-  document.getElementById('tide-high').textContent = highTide.toLocaleTimeString('ar-MA', opt) + ' م';
-  document.getElementById('tide-low').textContent = lowTide.toLocaleTimeString('ar-MA', opt) + ' م';
-}
-
-function loadWeather() {
-  var url = 'https://api.openweathermap.org/data/2.5/weather?lat='+LAT+'&lon='+LON+'&appid='+API_KEY+'&units=metric&lang=ar';
-  
-  fetch(url).then(function(r){ return r.json(); }).then(function(d) {
-    var temp = Math.round(d.main.temp);
-    var feels = Math.round(d.main.feels_like);
-    var humidity = d.main.humidity;
-    var windSpeedMs = d.wind.speed;
-    var windKmh = Math.round(windSpeedMs * 3.6);
-    var pressure = d.main.pressure;
-    var desc = d.weather[0].description;
-    var id = d.weather[0].id;
-    var isDay = d.dt > d.sys.sunrise && d.dt < d.sys.sunset;
-    var icon = getWeatherIcon(id, isDay);
-    
-    var sea = getSeaStatus(windSpeedMs);
-    var now = new Date();
-
-    document.getElementById('update-time').textContent = '🔄 رصد حي مباشر: ' + now.toLocaleTimeString('ar-MA') + ' (توقيت محلي)';
-    
-    // الشروق والغروب الدقيق من الإشارات الفلكية للاستجابة
-    document.getElementById('sun-rise').textContent = formatTime(d.sys.sunrise);
-    document.getElementById('sun-set').textContent = formatTime(d.sys.sunset);
-    calculateTides();
-
-    // بطاقة الطقس الحالية
-    document.getElementById('current-weather').innerHTML =
-      '<div class="current-card">' +
-        '<div class="current-main">' +
-          '<div class="current-icon">'+icon+'</div>' +
-          '<div>' +
-            '<div class="current-temp">'+temp+'<span>°C</span></div>' +
-            '<div class="current-desc">'+desc+'</div>' +
-            '<div class="current-location">📍 جغرافيا: مركز القصر الصغير والنواحي الحيوية</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="current-details">' +
-          '<div class="detail-item"><div class="detail-val">'+feels+'°م</div><div class="detail-label">الحرارة المحسوسة</div></div>' +
-          '<div class="detail-item"><div class="detail-val">'+humidity+'%</div><div class="detail-label">معدل الرطوبة</div></div>' +
-          '<div class="detail-item"><div class="detail-val">'+windKmh+' كم/س</div><div class="detail-label">سرعة الرياح الساحلية</div></div>' +
-          '<div class="detail-item"><div class="detail-val">'+pressure+'</div><div class="detail-label">الضغط الجوي hPa</div></div>' +
-        '</div>' +
-      '</div>';
-
-    // كتلة حالة البحر المرجعية
-    document.getElementById('sea-status-box').innerHTML =
-      '<div class="sea-status '+sea.cls+'">' +
-        '<div class="sea-icon">'+sea.icon+'</div>' +
-        '<div class="sea-text"><h3>'+sea.ar+'</h3><p>'+sea.desc+'</p></div>' +
-      '</div>';
-
-    // تحديث لوحة الأنشطة المدنية (السباحة والصيد والغطس شتاءً/صيفاً)
-    document.getElementById('activities-panel').style.display = 'grid';
-    
-    document.getElementById('act-swim-title').innerHTML = 'صلاحية السباحة الاستجمامية: <span style="color:'+(sea.swim.ok ? '#2ecc71':'#e74c3c')+'">' + sea.swim.text + '</span>';
-    document.getElementById('act-swim-desc').textContent = sea.swim.desc;
-    
-    document.getElementById('act-fish-title').innerHTML = 'قوارب الصيد والملاحة الخفيفة: <span style="color:'+(sea.fish.ok ? '#2ecc71':'#e74c3c')+'">' + sea.fish.text + '</span>';
-    document.getElementById('act-fish-desc').textContent = sea.fish.desc;
-
-    // استعراض الساعات الأربع والعشرين القادمة بمحاكاة فنية تعتمد على تدرج الرياح
-    var hoursHtml = '<div class="sea-hours">';
-    for (var h = 0; h < 6; h++) {
-      var hourDate = new Date(now.getTime() + h * 4 * 3600000);
-      var hStr = hourDate.getHours().toString().padStart(2,'0') + ':00';
-      var loopWind = Math.max(1, windSpeedMs + (Math.sin(h) * 1.2));
-      var loopWave = (loopWind * 0.12 + 0.15).toFixed(1);
-      
-      hoursHtml +=
-        '<div class="sea-hour">' +
-          '<div class="time">'+hStr+'</div>' +
-          '<div class="wave">🌊</div>' +
-          '<div class="height">'+loopWave+' متر</div>' +
-          '<div class="wind">'+Math.round(loopWind * 3.6)+' كم/س</div>' +
-        '</div>';
-    }
-    hoursHtml += '</div>';
-    document.getElementById('sea-hours-grid').innerHTML = hoursHtml;
-
-  }).catch(function() {
-    document.getElementById('current-weather').innerHTML = '<div class="loading">⚠️ فشل في الاتصال بالرصد المباشر، يرجى إعادة تحديث الصفحة</div>';
-  });
-}
-
-function loadForecast() {
-  var url = 'https://api.openweathermap.org/data/2.5/forecast?lat='+LAT+'&lon='+LON+'&appid='+API_KEY+'&units=metric&lang=ar&cnt=56';
-  
-  fetch(url).then(function(r){ return r.json(); }).then(function(d) {
-    var days = {};
-    d.list.forEach(function(item) {
-      var date = item.dt_txt.split(' ')[0];
-      if (!days[date]) days[date] = { max:-99, min:99, icons:[], desc:'', rain:0 };
-      days[date].max = Math.max(days[date].max, item.main.temp_max);
-      days[date].min = Math.min(days[date].min, item.main.temp_min);
-      days[date].icons.push(item.weather[0].id);
-      days[date].desc = item.weather[0].description;
-      if (item.rain) days[date].rain += item.rain['3h'] || 0;
-    });
-
-    var todayStr = new Date().toISOString().split('T')[0];
-    var html = '<div class="forecast-days">';
-    
-    Object.keys(days).slice(0, 7).forEach(function(date) {
-      var day = days[date];
-      var dObj = new Date(date);
-      var dayName = date === todayStr ? 'اليوم' : DAYS_AR[dObj.getDay()];
-      var isToday = date === todayStr;
-      var icon = getWeatherIcon(day.icons[Math.floor(day.icons.length/2)], true);
-      var barW = Math.round((day.max - 5) / 35 * 100); // تناسب خطي لتمثيل درجات الحرارة في شمال المغرب
-      
-      html +=
-        '<div class="forecast-day'+(isToday?' today':'')+'">' +
-          '<div class="day-name">'+dayName+'</div>' +
-          '<div class="day-icon">'+icon+'</div>' +
-          '<div class="day-max">'+Math.round(day.max)+'°</div>' +
-          '<div class="day-min">'+Math.round(day.min)+'°</div>' +
-          (day.rain > 0 ? '<div class="day-rain">💧 '+day.rain.toFixed(1)+' مم</div>' : '<div class="day-rain">صافي ☀️</div>') +
-          '<div class="day-bar"><div class="day-bar-fill" style="width:'+Math.max(15,Math.min(100,barW))+'%"></div></div>' +
-          '<div class="day-desc">'+day.desc+'</div>' +
-        '</div>';
-    });
-    html += '</div>';
-    document.getElementById('forecast-grid').innerHTML = html;
-  }).catch(function() {
-    document.getElementById('forecast-grid').innerHTML = '<div class="loading">⚠️ عجز النظام عن جدولة النشرة الأسبوعية الممتدة.</div>';
-  });
-}
-
-// الإقلاع البرمجي الفوري والمزامنة التلقائية كل 30 دقيقة لخفض الضغط على سيرفر المعطيات
-loadWeather();
-loadForecast();
-setInterval(loadWeather, 30 * 60 * 1000);
-</script>
 </body>
 </html>
