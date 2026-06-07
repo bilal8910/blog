@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم في المواضيع — Ksar Sghir City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0f1a;
+            --bg2: #16213e;
+            --bg3: #1a2a40;
+            --text: #e0e0e0;
+            --text2: #aaa;
+            --accent: #00b4d8;
+            --border: rgba(0,180,216,0.15);
+            --success: #2bc48a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: var(--bg2);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .header-dash {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header-dash h1 {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0,180,216,0.2);
+        }
+
+        .btn-generate {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-generate:hover {
+            background: #0096c7;
+            transform: translateY(-2px);
+        }
+
+        .output-zone {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .btn-copy {
+            background: var(--success);
+            color: #fff;
+            border: none;
+            padding: 6px 15px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-copy:hover { opacity: 0.9; }
+
+        #code-output {
+            flex-grow: 1;
+            min-height: 450px;
+            background: #050811;
+            color: #2bc48a;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            direction: ltr;
+            text-align: left;
+            white-space: pre;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="header-dash">
+        <h1>📝 لوحة إنشاء ونشر المواضيع السياحية</h1>
+        <span style="color: var(--text3); font-size: 12px;">توليد آلي آمن عبر المتصفح</span>
+    </div>
+
+    <div class="grid-layout">
+        <div class="input-zone">
+            <div class="form-group">
+                <label>رابط الصورة البارزة (Hero Image URL)</label>
+                <input type="url" id="post-image" placeholder="https://blogger.googleusercontent.com/.../image.jpg" value="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCkqUCKpOBemhVIbmIZluQkSPkYzqEOWjdNSaUS-UbDZQe4gr4kdCJIhljzkxXYjGiqGNRHlhgJZKFK0JAdH8_bV8guWVjI9DKj5IdM4oJhzJWpTademtNST97CrfNVdegmdIzxBsEVpF0yMkFGFheNH2xKyEmM890Ugi4j21msm1HsI283YC_Kdis9qs/s2252/8589.jpg">
+            </div>
+
+            <div class="form-group">
+                <label>عنوان الموضوع (Title)</label>
+                <input type="text" id="post-title" placeholder="اكتب عنواناً جذاباً ومثيراً للاهتمام..." value="ميناء الصيد التقليدي بالقصر الصغير: حارس الحكايات ونبض المضيق الأزرق">
+            </div>
+
+            <div class="form-group">
+                <label>الوصف المصغر للسيو (Meta Description)</label>
+                <input type="text" id="post-desc" placeholder="وصف قصير يظهر في محركات البحث ومواقع التواصل..." value="دليل سياحي شامل لميناء الصيد التقليدي بالقصر الصغير: اكتشف عراقة الصيد البحري، وتذوق أشهى الأسماك الطازجة مباشرة من المضيق.">
+            </div>
+
+            <div class="form-group">
+                <label>عنوان الفقرة الأولى</label>
+                <input type="text" id="sec1-title" value="ملتقى البحر والتاريخ">
+            </div>
+
+            <div class="form-group">
+                <label>محتوى الفقرة الأولى</label>
+                <textarea id="sec1-text" rows="4" placeholder="اكتب تفاصيل الفقرة الأولى هنا...">في أحضان مضيق جبل طارق، يتربع ميناء الصيد التقليدي بالقصر الصغير كلوحة فنية تنبض بالحياة، وشريان ثقافي يربط الحاضر بأمجاد الماضي البشري. بفضل قواربه الخشبية ذات اللون الأزرق الأسطوري المعانقة للأمواج، يقدم الميناء لزواره تجربة بصرية وروحية ساحرة، تجسد أصالة الهوية البحرية المغربية في أبهى تجلياتها العفوية.</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>توجيهات ونصائح للزائر (نص الصندوق الأصفر)</label>
+                <textarea id="post-note" rows="2">⚠️ لمسة احترام: الميناء فضاء لجهد وعرق الصيادين، يرجى الابتسام وطلب الإذن بلطف قبل توثيق وجوه البحارة.</textarea>
+            </div>
+
+            <button class="btn-generate" onclick="generateCode()">⚡ توليد كود المقال الجاهز</button>
+        </div>
+
+        <div class="output-zone">
+            <div class="output-header">
+                <label style="font-size: 13px; font-weight: 700; color: var(--success);">💻 كود HTML الناتج بالكامل:</label>
+                <button class="btn-copy" onclick="copyCode()" id="copy-btn">📋 نسخ الكود</button>
+            </div>
+            <textarea id="code-output" readonly placeholder="اضغط على زر التوليد ليظهر الكود البرمجي المنسق هنا..."></textarea>
+        </div>
+    </div>
+</div>
+
+<script>
+function generateCode() {
+    var img = document.getElementById('post-image').value;
+    var title = document.getElementById('post-title').value;
+    var desc = document.getElementById('post-desc').value;
+    var s1Title = document.getElementById('sec1-title').value;
+    var s1Text = document.getElementById('sec1-text').value;
+    var note = document.getElementById('post-note').value;
+
+    // تم توليد كود مقال احترافي نظيف ومتوافق ومتجاوب 100% بالوضع الفاتح الافتراضي
+    var template = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>${title} — دليل الزائر</title>
+<meta name="description" content="${desc}"/>
+<meta name="author" content="Bilal El Hichou"/>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#f0f4f8; --bg2:#fff; --text:#1a1a2e; --text2:#555; --accent:#00b4d8; --border:rgba(0,180,216,0.2); }
+body { font-family:"Tajawal",sans-serif; background:var(--bg); color:var(--text); line-height:1.8; margin:0; padding:0; }
+header { background:var(--bg2); height:60px; display:flex; align-items:center; padding:0 20px; border-bottom:2px solid var(--accent); font-weight:700; }
+.article-hero {
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('${img}') center/cover no-repeat;
+  padding: 80px 20px; text-align: center; color: #fff;
+}
+.article-hero h1 { font-size: 32px; margin: 0; font-weight: 900; }
+.container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+.content-section { background: var(--bg2); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+.content-section h2 { font-size: 20px; color: var(--text); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.content-section h2::before { content: ""; width: 4px; height: 20px; background: var(--accent); display: inline-block; }
+.content-section p { color: var(--text2); font-size: 15.5px; margin: 0; text-align: justify; }
+.note-box { background: rgba(255,183,3,0.1); border-right: 4px solid #ffb703; padding: 15px; border-radius: 6px; margin: 20px 0; color: #b58000; font-size: 14.5px; font-weight: 500; }
+footer { background: var(--bg2); text-align: center; padding: 20px; font-size: 12px; color: #777; border-top: 1px solid var(--border); margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<header>🗺️ بوابة كسر الصغير السياحية</header>
+
+<div class="article-hero">
+  <h1>${title}</h1>
+</div>
+
+<div class="container">
+  <div class="content-section">
+    <h2>${s1Title}</h2>
+    <p>${s1Text}</p>
+  </div>
+
+  <div class="note-box">
+    ${note}
+  </div>
+</div>
+
+<footer>© 2026 Ksar Sghir Tourism • Bilal El Hichou</footer>
+
+</body>
+</html>`;
+
+    document.getElementById('code-output').value = template;
+}
+
+function copyCode() {
+    var copyText = document.getElementById("code-output");
+    if(!copyText.value) return;
+    
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+
+    var btn = document.getElementById("copy-btn");
+    btn.textContent = "✔️ تم النسخ!";
+    btn.style.background = "#00b4d8";
+    
+    setTimeout(function() {
+        btn.textContent = "📋 نسخ الكود";
+        btn.style.background = "var(--success)";
+    }, 2000);
+}
+</script>
+</body>
+</html>
