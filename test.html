@@ -3,24 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeMaster App V2 - لوحة التحكم وحاسبة الوقود</title>
+    <title>حاسبة استهلاك المازوت - Gazole Calculator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --bg-color: #090d16;
-            --card-bg: #121824;
-            --accent-color: #deff9a;
-            --accent-hover: #c4f075;
-            --text-main: #ffffff;
-            --text-muted: #8a99ad;
-            --border-color: rgba(222, 255, 154, 0.1);
-            --danger: #ff5c5c;
-            --success: #00e676;
-            --fuel-color: #38bdf8;
+            --bg-dark: #0b0f19;
+            --card-dark: #131926;
+            --gazole-color: #f59e0b; /* لون برتقالي/ذهبي يرمز للوقود */
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: rgba(245, 158, 11, 0.15);
         }
 
         * {
@@ -31,344 +27,240 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             padding: 20px;
-            padding-bottom: 80px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-
-        header h1 { font-size: 28px; font-weight: 700; }
-        header h1 span { color: var(--accent-color); }
-
-        .date-badge {
-            background: var(--card-bg);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            font-size: 14px;
-            color: var(--accent-color);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-title { color: var(--text-muted); font-size: 14px; font-weight: 600; }
-        
-        .card-icon {
-            width: 38px;
-            height: 38px;
-            background: rgba(222, 255, 154, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            color: var(--accent-color);
-            font-size: 16px;
-        }
-
-        .card-value { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
-        .card-status { font-size: 13px; color: var(--text-muted); }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 992px) {
-            .main-content { grid-template-columns: 1fr; }
-        }
-
-        .section-box {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 25px;
-        }
-
-        .section-box h2 {
-            font-size: 19px;
-            margin-bottom: 20px;
-            display: flex;
             align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator-box {
+            background-color: var(--card-dark);
+            max-width: 500px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .header h1 span {
+            color: var(--gazole-color);
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            background-color: #1a2234;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--gazole-color);
+        }
+
+        .input-helper {
+            display: flex;
             gap: 10px;
         }
 
-        .section-box h2 i { color: var(--accent-color); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            background: #182030;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .form-control:focus { border-color: var(--accent-color); }
-        
-        .btn {
-            background-color: var(--accent-color);
+        .btn-calc {
+            background-color: var(--gazole-color);
             color: #000;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
             width: 100%;
-            font-size: 15px;
             transition: background 0.3s;
+            margin-top: 10px;
         }
 
-        .btn:hover { background-color: var(--accent-hover); }
-        
-        .btn-fuel {
-            background-color: var(--fuel-color);
-            color: #000;
+        .btn-calc:hover {
+            background-color: #d97706;
         }
-        .btn-fuel:hover { background-color: #7dd3fc; }
 
-        .result-box {
-            background: #182030;
+        /* صندوق استعراض نتائج النسب */
+        .results-section {
+            margin-top: 25px;
+            display: none; /* يظهر فقط عند الحساب */
+        }
+
+        .result-card {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid var(--fuel-color);
-            display: none;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .data-list { margin-top: 20px; max-height: 180px; overflow-y: auto; }
-        .data-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; background: #182030; border-radius: 8px; margin-bottom: 10px; font-size: 14px;
+        .result-icon {
+            font-size: 24px;
+            color: var(--gazole-color);
+            width: 45px;
+            height: 45px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .item-danger { border-right: 4px solid var(--danger); }
-        .item-success { border-right: 4px solid var(--success); }
+
+        .result-info h3 {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .result-info p {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>Life<span>Master</span> <small style="font-size:14px; color:var(--text-muted);">V2.0</small></h1>
-        <div class="date-badge" id="currentDate">اليوم</div>
-    </header>
+<div class="calculator-box">
+    <div class="header">
+        <h1>حاسبة استهلاك <span>المازوت</span></h1>
+        <p>حساب نسب الاستهلاك لكل 100 كم وتكلفة الرحلة بالمغرب</p>
+    </div>
 
-    <div class="dashboard-grid">
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">الميزانية المتوفرة</span>
-                <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
-            </div>
-            <div class="card-value" id="balanceVal">0.00 د.م</div>
-            <div class="card-status" id="financialStatus">التوفير: 0 د.م | الاستثمار: 0 د.م</div>
-        </div>
+    <div class="form-group">
+        <label><i class="fa-solid fa-route"></i> المسافة التي قطعتها السيّارة (كيلومتر)</label>
+        <input type="number" id="distance" class="form-control" placeholder="مثال: 120">
+    </div>
 
-        <div class="card" style="border-color: rgba(56, 189, 248, 0.2);">
-            <div class="card-header">
-                <span class="card-title">معدل استهلاك الوقود</span>
-                <div class="card-icon" style="color:var(--fuel-color); background:rgba(56,189,248,0.1);"><i class="fa-solid fa-gas-pump"></i></div>
-            </div>
-            <div class="card-value" id="dashFuelRatio">0.0 لتر/100كم</div>
-            <div class="card-status" id="dashFuelCost">التكلفة: 0.00 د.م/كم</div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">تتبع الوزن الحالي</span>
-                <div class="card-icon"><i class="fa-solid fa-weight-scale"></i></div>
-            </div>
-            <div class="card-value" id="weightVal">75.0 كجم</div>
-            <div class="card-status" id="weightStatus">جاهز للمراقبة</div>
+    <div class="form-group">
+        <label><i class="fa-solid fa-gas-pump"></i> كمية المازوت المستهلكة</label>
+        <div class="input-helper">
+            <input type="number" id="fuelInput" class="form-control" placeholder="مثال: 100 درهم أو 8 لتر">
+            <select id="inputType" class="form-control" style="width: 130px;">
+                <option value="dirhams">بالدرهم (د.م)</option>
+                <option value="liters">باللتر (L)</option>
+            </select>
         </div>
     </div>
 
-    <div class="main-content">
+    <div class="form-group">
+        <label><i class="fa-solid fa-tag"></i> ثمن لتر المازوت الحالي (درهم/لتر)</label>
+        <input type="number" id="pricePerLiter" class="form-control" value="12.50" step="0.01">
+    </div>
+
+    <button class="btn-calc" onclick="calculateGazole()">احسب نسبة الاستهلاك الآن</button>
+
+    <div class="results-section" id="results">
         
-        <div class="section-box" style="border-color: rgba(56, 189, 248, 0.2);">
-            <h2><i class="fa-solid fa-calculator" style="color:var(--fuel-color);"></i> حاسبة استهلاك الوقود (السيارة)</h2>
-            
-            <div class="form-group">
-                <label>المسافة المقطوعة (كيلومتر - كم)</label>
-                <input type="number" class="form-control" id="fuelKm" placeholder="مثال: 500">
-            </div>
-            
-            <div class="form-group">
-                <label>كمية الوقود المستهلكة (لتر) أو المبلغ الإجمالي المدفوع</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="number" class="form-control" id="fuelInputAmount" placeholder="مثال: 35">
-                    <select class="form-control" id="fuelInputType" style="width: 120px;">
-                        <option value="liters">لتر</option>
-                        <option value="dirhams">درهم</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>ثمن اللتر الحالي بالمغرب (درهم/لتر) *اختياري لحساب التكلفة بدقة</label>
-                <input type="number" class="form-control" id="pricePerLiter" value="13.50" step="0.01">
-            </div>
-
-            <button class="btn btn-fuel" onclick="calculateFuel()">احسب واخصم من الميزانية</button>
-
-            <div class="result-box" id="fuelResult">
-                <p id="resLitersPer100" style="font-weight: 600; color: #fff;"></p>
-                <p id="resCostPerKm" style="font-size: 14px; color: var(--text-muted); margin-top: 5px;"></p>
+        <div class="result-card">
+            <div class="result-icon"><i class="fa-solid fa-percent"></i></div>
+            <div class="result-info">
+                <h3>نسبة الاستهلاك (لكل 100 كم)</h3>
+                <p id="consumptionRate">0.0 لتر / 100 كم</p>
             </div>
         </div>
 
-        <div class="section-box">
-            <h2><i class="fa-solid fa-cash-register"></i> إدارة الأموال والاستثمار</h2>
-            <div class="form-group">
-                <label>نوع العملية</label>
-                <select class="form-control" id="finType">
-                    <option value="income">دخل شهري (+)</option>
-                    <option value="expense">مصروف يومي (-)</option>
-                    <option value="saving">توفير (+)</option>
-                    <option value="investment">استثمار ومحفظة (+)</option>
-                </select>
+        <div class="result-card">
+            <div class="result-icon"><i class="fa-solid fa-coins"></i></div>
+            <div class="result-info">
+                <h3>تكلفة المسافة (للقطعة الواحدة)</h3>
+                <p id="costPerKm">0.00 درهم / كم</p>
             </div>
-            <div class="form-group">
-                <label>المبلغ (بالدرهم المغربي)</label>
-                <input type="number" class="form-control" id="finAmount" placeholder="0.00">
-            </div>
-            <div class="form-group">
-                <label>البيان / الوصف</label>
-                <input type="text" class="form-control" id="finDesc" placeholder="مثال: راتب، بقالة، فطور...">
-            </div>
-            <button class="btn" onclick="addFinancial()">تسجيل العملية</button>
+        </div>
 
-            <div class="data-list" id="financialLogs"></div>
+        <div class="result-card" style="border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.02);">
+            <div class="result-icon" style="color: #22c55e; background: rgba(34, 197, 94, 0.1);"><i class="fa-solid fa-road"></i></div>
+            <div class="result-info">
+                <h3>ماذا تعطيك 100 درهم مازوت؟</h3>
+                <p id="kmPer100Dh" style="color: #22c55e;">0 كم تقريباً</p>
+            </div>
         </div>
 
     </div>
 </div>
 
 <script>
-    // وضع ترويسة تاريخ اليوم بالمغرب تلقائياً
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ar-MA', options);
+    function calculateGazole() {
+        const km = parseFloat(document.getElementById('distance').value);
+        const inputVal = parseFloat(document.getElementById('fuelInput').value);
+        const inputType = document.getElementById('inputType').value;
+        const price = parseFloat(document.getElementById('pricePerLiter').value);
 
-    let appData = {
-        balance: 0,
-        saving: 0,
-        investment: 0,
-        weight: 75
-    };
-
-    function updateFinancialUI() {
-        document.getElementById('balanceVal').innerText = appData.balance.toFixed(2) + ' د.م';
-        document.getElementById('financialStatus').innerText = `التوفير: ${appData.saving} د.م | الاستثمار: ${appData.investment} د.م`;
-    }
-
-    function addFinancial() {
-        const type = document.getElementById('finType').value;
-        const amount = parseFloat(document.getElementById('finAmount').value);
-        const desc = document.getElementById('finDesc').value || 'عملية غير مصنفة';
-
-        if(isNaN(amount) || amount <= 0) { alert('الرجاء إدخال مبلغ صحيح'); return; }
-
-        executeTransaction(type, amount, desc);
-        
-        document.getElementById('finAmount').value = '';
-        document.getElementById('finDesc').value = '';
-    }
-
-    // دالة مرنة لمعالجة المعاملات المالية داخل السجل وخصمها
-    function executeTransaction(type, amount, desc) {
-        let logClass = '';
-        let prefix = '';
-
-        if(type === 'income') { appData.balance += amount; logClass = 'item-success'; prefix = '+ '; }
-        else if(type === 'expense') { appData.balance -= amount; logClass = 'item-danger'; prefix = '- '; }
-        else if(type === 'saving') { appData.saving += amount; appData.balance -= amount; logClass = 'item-success'; prefix = 'توفير + '; }
-        else if(type === 'investment') { appData.investment += amount; appData.balance -= amount; logClass = 'item-success'; prefix = 'استثمار + '; }
-
-        updateFinancialUI();
-
-        const logBox = document.getElementById('financialLogs');
-        const item = document.createElement('div');
-        item.className = `data-item ${logClass}`;
-        item.innerHTML = `<span>${desc}</span> <strong>${prefix}${amount.toFixed(2)} د.م</strong>`;
-        logBox.insertBefore(item, logBox.firstChild);
-    }
-
-    // حاسبة الوقود الذكية المربوطة بالميزانية
-    function calculateFuel() {
-        const km = parseFloat(document.getElementById('fuelKm').value);
-        const inputVal = parseFloat(document.getElementById('fuelInputAmount').value);
-        const inputType = document.getElementById('fuelInputType').value;
-        const pricePerLiter = parseFloat(document.getElementById('pricePerLiter').value) || 13.50;
-
-        if(isNaN(km) || km <= 0 || !inputVal || inputVal <= 0) {
-            alert('الرجاء إدخال بيانات المسافة والوقود بشكل صحيح لكي تتم الحسبة.');
+        if (isNaN(km) || km <= 0 || isNaN(inputVal) || inputVal <= 0 || isNaN(price) || price <= 0) {
+            alert('الرجاء ملء جميع الخانات بأرقام صحيحة أكبر من الصفر.');
             return;
         }
 
         let liters = 0;
-        let totalCostDirhams = 0;
+        let totalCost = 0;
 
+        // تحويل المدخلات بناءً على الاختيار (لتر أو درهم)
         if (inputType === 'liters') {
             liters = inputVal;
-            totalCostDirhams = liters * pricePerLiter;
+            totalCost = liters * price;
         } else {
-            totalCostDirhams = inputVal;
-            liters = totalCostDirhams / pricePerLiter;
+            totalCost = inputVal;
+            liters = totalCost / price;
         }
 
-        // 1. حساب معدل الاستهلاك الفعلي لكل 100 كم
-        const litersPer100Km = (liters / km) * 100;
-        // 2. حساب تكلفة الكيلومتر الواحد بالدرهم
-        const costPerKm = totalCostDirhams / km;
+        // 1. النسبة المئوية للاستهلاك: كم لتر لكل 100 كيلومتر
+        const consumption = (liters / km) * 100;
 
-        // تحديث البطاقة العلوية الرئيسية في لوحة التحكم
-        document.getElementById('dashFuelRatio').innerText = litersPer100Km.toFixed(1) + ' لتر/100كم';
-        document.getElementById('dashFuelCost').innerText = `التكلفة: ${costPerKm.toFixed(2)} د.م/كم`;
+        // 2. تكلفة الكيلومتر الواحد بالدرهم
+        const costKm = totalCost / km;
 
-        // إظهار النتائج التفصيلية في صندوق التحليل
-        document.getElementById('resLitersPer100').innerText = `معدل استهلاك سيارتك: ${litersPer100Km.toFixed(2)} لتر لكل 100 كيلومتر.`;
-        document.getElementById('resCostPerKm').innerText = `تكلفة التنقل الفردية: كل 1 كيلومتر يكلفك حوالي ${costPerKm.toFixed(2)} درهم مغربي.`;
-        document.getElementById('fuelResult').style.display = 'block';
+        // 3. حسبة الـ 100 درهم مازوت كم كيلومتر تمشي بها السيارة
+        const litersFor100Dh = 100 / price;
+        const distanceFor100Dh = (litersFor100Dh / consumption) * 100;
 
-        // 3. الربط التلقائي والخصم من ميزانية التطبيق المالية كـ (مصروف يومي للوقود)
-        executeTransaction('expense', totalCostDirhams, `مصاريف وقود سيارة (${km} كم)`);
+        // عرض النتائج في الواجهة
+        document.getElementById('consumptionRate').innerText = consumption.toFixed(2) + ' لتر / 100 كم';
+        document.getElementById('costPerKm').innerText = costKm.toFixed(2) + ' درهم لكل 1 كم';
+        document.getElementById('kmPer100Dh').innerText = 'تمشيك حوالي ' + distanceFor100Dh.toFixed(0) + ' كيلومتر';
+
+        // إظهار القسم المخفي للنتائج بسلاسة
+        document.getElementById('results').style.display = 'block';
     }
 </script>
 
