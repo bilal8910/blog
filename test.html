@@ -1,268 +1,42 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة استهلاك المازوت - Gazole Calculator</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-dark: #0b0f19;
-            --card-dark: #131926;
-            --gazole-color: #f59e0b; /* لون برتقالي/ذهبي يرمز للوقود */
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: rgba(245, 158, 11, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .calculator-box {
-            background-color: var(--card-dark);
-            max-width: 500px;
-            width: 100%;
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            color: #fff;
-        }
-
-        .header h1 span {
-            color: var(--gazole-color);
-        }
-
-        .header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background-color: #1a2234;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--gazole-color);
-        }
-
-        .input-helper {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-calc {
-            background-color: var(--gazole-color);
-            color: #000;
-            border: none;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-calc:hover {
-            background-color: #d97706;
-        }
-
-        /* صندوق استعراض نتائج النسب */
-        .results-section {
-            margin-top: 25px;
-            display: none; /* يظهر فقط عند الحساب */
-        }
-
-        .result-card {
-            background: rgba(245, 158, 11, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .result-icon {
-            font-size: 24px;
-            color: var(--gazole-color);
-            width: 45px;
-            height: 45px;
-            background: rgba(245, 158, 11, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .result-info h3 {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .result-info p {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
-
-<div class="calculator-box">
-    <div class="header">
-        <h1>حاسبة استهلاك <span>المازوت</span></h1>
-        <p>حساب نسب الاستهلاك لكل 100 كم وتكلفة الرحلة بالمغرب</p>
-    </div>
-
-    <div class="form-group">
-        <label><i class="fa-solid fa-route"></i> المسافة التي قطعتها السيّارة (كيلومتر)</label>
-        <input type="number" id="distance" class="form-control" placeholder="مثال: 120">
-    </div>
-
-    <div class="form-group">
-        <label><i class="fa-solid fa-gas-pump"></i> كمية المازوت المستهلكة</label>
-        <div class="input-helper">
-            <input type="number" id="fuelInput" class="form-control" placeholder="مثال: 100 درهم أو 8 لتر">
-            <select id="inputType" class="form-control" style="width: 130px;">
-                <option value="dirhams">بالدرهم (د.م)</option>
-                <option value="liters">باللتر (L)</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label><i class="fa-solid fa-tag"></i> ثمن لتر المازوت الحالي (درهم/لتر)</label>
-        <input type="number" id="pricePerLiter" class="form-control" value="12.50" step="0.01">
-    </div>
-
-    <button class="btn-calc" onclick="calculateGazole()">احسب نسبة الاستهلاك الآن</button>
-
-    <div class="results-section" id="results">
-        
-        <div class="result-card">
-            <div class="result-icon"><i class="fa-solid fa-percent"></i></div>
-            <div class="result-info">
-                <h3>نسبة الاستهلاك (لكل 100 كم)</h3>
-                <p id="consumptionRate">0.0 لتر / 100 كم</p>
-            </div>
-        </div>
-
-        <div class="result-card">
-            <div class="result-icon"><i class="fa-solid fa-coins"></i></div>
-            <div class="result-info">
-                <h3>تكلفة المسافة (للقطعة الواحدة)</h3>
-                <p id="costPerKm">0.00 درهم / كم</p>
-            </div>
-        </div>
-
-        <div class="result-card" style="border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.02);">
-            <div class="result-icon" style="color: #22c55e; background: rgba(34, 197, 94, 0.1);"><i class="fa-solid fa-road"></i></div>
-            <div class="result-info">
-                <h3>ماذا تعطيك 100 درهم مازوت؟</h3>
-                <p id="kmPer100Dh" style="color: #22c55e;">0 كم تقريباً</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CarnetPro</title>
+<meta name="theme-color" content="#1746c4">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CarnetPro">
 <script>
-    function calculateGazole() {
-        const km = parseFloat(document.getElementById('distance').value);
-        const inputVal = parseFloat(document.getElementById('fuelInput').value);
-        const inputType = document.getElementById('inputType').value;
-        const price = parseFloat(document.getElementById('pricePerLiter').value);
-
-        if (isNaN(km) || km <= 0 || isNaN(inputVal) || inputVal <= 0 || isNaN(price) || price <= 0) {
-            alert('الرجاء ملء جميع الخانات بأرقام صحيحة أكبر من الصفر.');
-            return;
-        }
-
-        let liters = 0;
-        let totalCost = 0;
-
-        // تحويل المدخلات بناءً على الاختيار (لتر أو درهم)
-        if (inputType === 'liters') {
-            liters = inputVal;
-            totalCost = liters * price;
-        } else {
-            totalCost = inputVal;
-            liters = totalCost / price;
-        }
-
-        // 1. النسبة المئوية للاستهلاك: كم لتر لكل 100 كيلومتر
-        const consumption = (liters / km) * 100;
-
-        // 2. تكلفة الكيلومتر الواحد بالدرهم
-        const costKm = totalCost / km;
-
-        // 3. حسبة الـ 100 درهم مازوت كم كيلومتر تمشي بها السيارة
-        const litersFor100Dh = 100 / price;
-        const distanceFor100Dh = (litersFor100Dh / consumption) * 100;
-
-        // عرض النتائج في الواجهة
-        document.getElementById('consumptionRate').innerText = consumption.toFixed(2) + ' لتر / 100 كم';
-        document.getElementById('costPerKm').innerText = costKm.toFixed(2) + ' درهم لكل 1 كم';
-        document.getElementById('kmPer100Dh').innerText = 'تمشيك حوالي ' + distanceFor100Dh.toFixed(0) + ' كيلومتر';
-
-        // إظهار القسم المخفي للنتائج بسلاسة
-        document.getElementById('results').style.display = 'block';
-    }
+// PWA Manifest inline
+(function(){
+  var manifest = {
+    name: "CarnetPro — TaminAuto",
+    short_name: "CarnetPro",
+    description: "Carnet de bord pour agents d'assurance",
+    start_url: "./",
+    display: "standalone",
+    orientation: "portrait",
+    background_color: "#1746c4",
+    theme_color: "#1746c4",
+    icons: [
+      { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%231746c4'/><text y='130' x='96' text-anchor='middle' font-size='110'>📒</text></svg>", sizes: "192x192", type: "image/svg+xml" },
+      { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231746c4'/><text y='360' x='256' text-anchor='middle' font-size='300'>📒</text></svg>", sizes: "512x512", type: "image/svg+xml" }
+    ]
+  };
+  var blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  var url  = URL.createObjectURL(blob);
+  var link = document.createElement('link');
+  link.rel = 'manifest'; link.href = url;
+  document.head.appendChild(link);
+})();
 </script>
-
-</body>
-</html>
+<script>
+(function(){
+  var PASS = 'TaminAuto2026';
+  var KEY  = 'cp_auth_v1';
+  if(localStorage.getItem(KEY) === PASS) return;
+  document.addEventListener('DOMContentLoaded', function(){
+    document.body.style.display = 'none';
