@@ -135,22 +135,32 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <button class="nb" data-p="tasks"><span class="ni">✅</span><span>المهام</span></button>
   <button class="nb" data-p="finance"><span class="ni">💰</span><span>المالية</span></button>
   <button class="nb" data-p="health"><span class="ni">💪</span><span>الصحة</span></button>
+  <button class="nb" data-p="prayer"><span class="ni">🕌</span><span>الصلاة</span></button>
+  <button class="nb" data-p="sports"><span class="ni">⚽</span><span>رياضة</span></button>
   <button class="nb" data-p="more"><span class="ni">⋯</span><span>المزيد</span></button>
 </nav>
 <div id="toastEl" class="toast"></div>
 <div id="mroot"></div>
-<script>
 
+<script>
 (function() {
-var SK={T:'lh_t',F:'lh_f',ST:'lh_st',H:'lh_h',HB:'lh_hb',P:'lh_p',C:'lh_c'};
+var SK={T:'lh_t',F:'lh_f',ST:'lh_st',H:'lh_h',HB:'lh_hb',P:'lh_p',C:'lh_c',PR:'lh_pr',MOD:'lh_mod',SL:'lh_sleep',SP:'lh_sports'};
 var SD={
   lh_t:[],
   lh_f:{transactions:[],savingGoals:[]},
-  lh_st:{theme:'dark',name:'',city:'',lat:null,lon:null,sarcasm:true,wxCache:null,wxTs:null,notif:true},
+  lh_st:{theme:'dark',name:'',city:'',lat:null,lon:null,sarcasm:true,wxCache:null,wxTs:null,notif:true,currency:'DH'},
   lh_h:{weight:null,height:null,age:null,gender:'male'},
   lh_hb:{water:{target:8,log:{}},sleep:{log:{}},sport:{log:{}},read:{log:{}},walk:{log:{}},meditate:{log:{}}},
   lh_p:[],
-  lh_c:{ideas:[],revenue:[]}
+  lh_c:{ideas:[],revenue:[]},
+  lh_pr:{city:'',lat:null,lon:null,method:4,notifBefore:10},
+  lh_mod:{tasks:true,finance:true,health:true,weather:true,prayer:true,hijri:true,sports:true,content:true,sea:true,sleep:true},
+  lh_sleep:{target:8,bedtime:'23:00',remind30:true,remind60:true},
+  lh_sports:{saved:[]},
+  lh_pr:{city:'',lat:null,lon:null,method:4,notifBefore:15},
+  lh_mod:{tasks:true,finance:true,health:true,weather:true,prayer:true,hijri:true,sports:true,content:true,sea:true,sleep:true},
+  lh_sleep:{target:8,bedtime:'23:00',remind30:true,remind60:true},
+  lh_sports:{saved:[]}
 };
 function sg(k){try{var r=localStorage.getItem(k);return r?JSON.parse(r):JSON.parse(JSON.stringify(SD[k]||{}))}catch(e){return JSON.parse(JSON.stringify(SD[k]||{}))}}
 function ss(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('تعذّر الحفظ','err')}}
@@ -181,7 +191,7 @@ function quoteOfDay(){return QQ[Math.floor(Date.now()/86400000)%QQ.length]}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function today(){return new Date().toISOString().slice(0,10)}
 function sameDay(a,b){return (a||'').slice(0,10)===(b||today())}
-function fmtM(n,d){return (Number(n)||0).toLocaleString('ar-EG',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})+' ر.س'}
+function fmtM(n,d){var st=sg(SK.ST);var sym=st.currency||'DH';return (Number(n)||0).toLocaleString('ar-EG',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})+' '+sym}
 function fmtD(iso){return new Date(iso).toLocaleDateString('ar-EG',{weekday:'short',day:'numeric',month:'short'})}
 function fmtT(){return new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}
 function wd(i){return ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][i]}
@@ -289,6 +299,484 @@ function genInsights(){
 var CATS={food:{l:'طعام',i:'🍔'},fuel:{l:'وقود',i:'⛽'},internet:{l:'إنترنت',i:'📶'},electric:{l:'كهرباء',i:'💡'},water:{l:'ماء',i:'💧'},entertainment:{l:'ترفيه',i:'🎮'},shopping:{l:'تسوق',i:'🛍️'},salary:{l:'راتب',i:'💼'},saving:{l:'ادخار',i:'🏦'},other:{l:'أخرى',i:'📌'}};
 var CKEYS=Object.keys(CATS);
 
+
+/* ── Hijri Calendar Engine ── */
+function gregorianToHijri(date){
+  var d=date||new Date();
+  var JD=Math.floor((1461*(d.getFullYear()+4800+Math.floor((d.getMonth()+1-14)/12)))/4)+
+         Math.floor((367*(d.getMonth()+1-2-12*Math.floor((d.getMonth()+1-14)/12)))/12)-
+         Math.floor((3*Math.floor((d.getFullYear()+4900+Math.floor((d.getMonth()+1-14)/12))/100))/4)+
+         d.getDate()-32075;
+  var Z=JD-1948440+10632;
+  var N=Math.floor((Z-1)/10631);
+  Z=Z-10631*N+354;
+  var J=Math.floor((10985-Z)/5965);
+  Z=Z-Math.floor((J*29029+29)/50)*J;
+  var Y=Math.floor(Z*30/10631);
+  Z=Z-Math.floor((Y*29029+29)/50)-Math.floor(Y/2);
+  var M=Math.floor((Z-1)/30);
+  var D=Z-30*M-Math.floor(M/2);
+  var HY=30*N+Y+J;
+  return {year:HY, month:M+1, day:D};
+}
+var HIJRI_MONTHS=['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الثانية','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+function formatHijri(date){
+  var h=gregorianToHijri(date||new Date());
+  return h.day+' '+HIJRI_MONTHS[h.month-1]+' '+h.year+'هـ';
+}
+
+/* ── Prayer Times Engine ── */
+var PRAYER_NAMES={Fajr:'الفجر',Sunrise:'الشروق',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+var PRAYER_ICONS={Fajr:'🌙',Sunrise:'🌅',Dhuhr:'☀️',Asr:'🌤️',Maghrib:'🌆',Isha:'🌃'};
+var _prayerCache={data:null,date:null,loading:false};
+
+
+/* Local prayer calculation - no internet needed */
+function calcPrayerTimes(lat,lon){
+  var D2R=Math.PI/180, R2D=180/Math.PI;
+  var now=new Date();
+  var JD=Math.floor(365.25*(now.getFullYear()+4716))+Math.floor(30.6001*(now.getMonth()+2))+now.getDate()-1537.5;
+  var T=(JD-2451545)/36525;
+  var L0=(280.46646+36000.76983*T)%360;
+  var M=(357.52911+35999.05029*T)*D2R;
+  var C=(1.914602-0.004817*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M);
+  var sunLon=(L0+C)*D2R;
+  var e=(23.439291-0.013004*T)*D2R;
+  var RA=R2D*Math.atan2(Math.cos(e)*Math.sin(sunLon),Math.cos(sunLon))/15;
+  var decl=R2D*Math.asin(Math.sin(e)*Math.sin(sunLon));
+  var EqT=L0/15-RA; if(EqT>0.5)EqT-=24; if(EqT<-0.5)EqT+=24;
+  var TZ=Math.round(lon/15);
+  var transit=12-EqT-((lon-TZ*15)/15);
+
+  function hourAngle(alt){
+    var a=Math.sin(alt*D2R)-Math.sin(lat*D2R)*Math.sin(decl*D2R);
+    var b=Math.cos(lat*D2R)*Math.cos(decl*D2R);
+    var c=a/b; if(c<-1)c=-1; if(c>1)c=1;
+    return R2D*Math.acos(c)/15;
+  }
+  function toTime(h){h=(h+TZ+24)%24;var hh=Math.floor(h),mm=Math.round((h-hh)*60);if(mm>=60){hh++;mm=0}return (hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm;}
+
+  var fajrHA  =hourAngle(-18);   // Fajr: sun 18° below horizon (MWL)
+  var sunriseHA=hourAngle(-0.833);
+  var asrAlt  =R2D*Math.atan(1+Math.tan(Math.abs(lat-decl)*D2R));// Standard (Shafi)
+  var asrHA   =hourAngle(asrAlt);
+  var maghribHA=sunriseHA;       // Maghrib = sunset
+  var ishaHA  =hourAngle(-17);   // Isha: 17° (MWL)
+
+  return {
+    Fajr:    toTime(transit-fajrHA),
+    Sunrise: toTime(transit-sunriseHA),
+    Dhuhr:   toTime(transit+0.05),
+    Asr:     toTime(transit+asrHA),
+    Maghrib: toTime(transit+maghribHA),
+    Isha:    toTime(transit+ishaHA)
+  };
+}
+function fetchPrayerTimes(lat,lon){
+  try{return Promise.resolve(calcPrayerTimes(lat,lon));}
+  catch(e){return Promise.reject(e);}
+}
+
+function getPrayerTimes(cb){
+  var pr=sg(SK.PR);
+  var lat=pr.lat,lon=pr.lon;
+  var tStr=new Date().toISOString().slice(0,10);
+  if(_prayerCache.data&&_prayerCache.date===tStr){cb(null,_prayerCache.data);return;}
+  function doCalc(la,lo){
+    try{
+      var t=calcPrayerTimes(la,lo);
+      _prayerCache={data:t,date:tStr,loading:false};
+      cb(null,t);
+    }catch(e){cb(e,null);}
+  }
+  if(lat&&lon){doCalc(lat,lon);return;}
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(p){
+        su(SK.PR,function(s){s.lat=p.coords.latitude;s.lon=p.coords.longitude;});
+        doCalc(p.coords.latitude,p.coords.longitude);
+      },
+      function(){
+        /* Default: Casablanca if geolocation denied */
+        su(SK.PR,function(s){s.lat=33.5731;s.lon=-7.5898;s.city='الدار البيضاء';});
+        doCalc(33.5731,-7.5898);
+      },
+      {timeout:5000}
+    );
+  } else {
+    su(SK.PR,function(s){s.lat=33.5731;s.lon=-7.5898;s.city='الدار البيضاء';});
+    doCalc(33.5731,-7.5898);
+  }
+}
+
+function getNextPrayer(timings){
+  var now=new Date();
+  var nowMin=now.getHours()*60+now.getMinutes();
+  var keys=['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+  var current=null,next=null;
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i];
+    var t=timings[k];
+    if(!t)continue;
+    var parts=t.split(':');
+    var pMin=parseInt(parts[0])*60+parseInt(parts[1]);
+    if(nowMin>=pMin)current={name:k,time:t,min:pMin};
+    if(nowMin<pMin&&!next)next={name:k,time:t,min:pMin};
+  }
+  if(!next){next={name:'Fajr',time:timings['Fajr'],min:0};} // next day Fajr
+  return{current:current,next:next};
+}
+
+function prayerCountdown(nextMin){
+  var now=new Date();
+  var nowMin=now.getHours()*60+now.getMinutes();
+  var diff=nextMin-nowMin;
+  if(diff<0)diff+=1440;
+  var h=Math.floor(diff/60),m=diff%60;
+  return (h?h+'س ':'')+m+'د';
+}
+
+/* ── Sleep Reminder Engine ── */
+function scheduleSleepReminders(){
+  var sl=sg(SK.SL);
+  if(!sl.bedtime)return;
+  var parts=sl.bedtime.split(':');
+  var bedH=parseInt(parts[0]),bedM=parseInt(parts[1]);
+  var now=new Date();
+  function msUntil(h,m){
+    var t=new Date();t.setHours(h,m,0,0);
+    if(t<=now)t.setDate(t.getDate()+1);
+    return t-now;
+  }
+  if(sl.remind60&&'Notification' in window&&Notification.permission==='granted'){
+    var m60=msUntil(bedH,bedM)-3600000;
+    if(m60>0)setTimeout(function(){new Notification('LifeHub — وقت النوم',{body:'باقي ساعة على وقت نومك 😴'})},m60);
+  }
+  if(sl.remind30&&'Notification' in window&&Notification.permission==='granted'){
+    var m30=msUntil(bedH,bedM)-1800000;
+    if(m30>0)setTimeout(function(){new Notification('LifeHub — وقت النوم',{body:'باقي 30 دقيقة على وقت نومك 🌙'})},m30);
+  }
+  var mBed=msUntil(bedH,bedM);
+  if(mBed>0&&'Notification' in window&&Notification.permission==='granted'){
+    setTimeout(function(){new Notification('LifeHub — وقت النوم',{body:'حان وقت النوم الآن 😴 '+sl.bedtime})},mBed);
+  }
+}
+
+/* ── Sports News via Claude API ── */
+var _sportsPrompt='أنت محلل رياضي. اكتب 8 أخبار رياضية مهمة اليوم باللغة العربية، ركز على كرة القدم والانتقالات والبطولات. أرجع JSON فقط، بدون أي نص إضافي: [{"title":"عنوان الخبر","desc":"ملخص من جملتين","source":"المصدر"},...]';
+
+function loadSportsNews(cb){
+  var age=_sportsCache.ts?Date.now()-_sportsCache.ts:Infinity;
+  if(_sportsCache.items&&age<3600000){cb(_sportsCache.items);return;}
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'anthropic-version':'2023-06-01'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6',
+      max_tokens:2000,
+      messages:[{role:'user',content:_sportsPrompt}]
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var text=(d.content&&d.content[0]&&d.content[0].text)||'';
+    var clean=text.replace(/```json|```/g,'').trim();
+    var items=JSON.parse(clean);
+    if(!Array.isArray(items)||!items.length)throw new Error('empty');
+    _sportsCache={items:items,ts:Date.now()};
+    cb(items);
+  })
+  .catch(function(){
+    var fallback=[
+      {title:'تعذّر تحميل الأخبار الرياضية',desc:'تأكد من اتصالك بالإنترنت ثم اضغط تحديث للمحاولة مجدداً.',source:'—'}
+    ];
+    _sportsCache={items:fallback,ts:0};
+    cb(fallback);
+  });
+}
+function clipboardCopy(text){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){toast('تم النسخ','ok')}).catch(function(){_fallbackCopy(text)});}
+  else{_fallbackCopy(text);}
+}
+function _fallbackCopy(text){
+  var t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('تم النسخ','ok');}catch(e){toast('تعذّر النسخ','err');}document.body.removeChild(t);
+}
+function generateScript(title,desc){
+  return 'السلام عليكم ومرحباً بكم\n\n📌 '+title+'\n\n'+desc+'\n\nلا تنسوا الإشتراك والإعجاب لمتابعة آخر الأخبار الرياضية! ⚽';
+}
+function generateHashtags(title){
+  var words=title.split(/\s+/).filter(function(w){return w.length>2}).slice(0,4);
+  var tags=words.map(function(w){return '#'+w.replace(/[^\u0600-\u06FFa-zA-Z0-9]/g,'')}).filter(function(t){return t.length>1});
+  return tags.join(' ')+' #كرة_القدم #أخبار_رياضية #فوتبول';
+}
+
+
+/* ── Module Manager ── */
+function isModEnabled(key){var m=sg(SK.MOD);return m[key]!==false;}
+function toggleMod(key){su(SK.MOD,function(m){m[key]=!m[key]});render();}
+
+/* ── Prayer Times View ── */
+var _prayerViewData=null,_prayerViewErr=null,_prayerViewLoading=false;
+function rPrayer(){
+  if(!isModEnabled('prayer'))return '<div class="page"><div class="empty"><span class="ei">🚫</span><p>وحدة أوقات الصلاة معطّلة<br><button class="btn bts bsm" data-fn="toggleMod" data-id="prayer">تفعيل</button></p></div></div>';
+  var pr=sg(SK.PR);
+  var now=new Date();
+  var hijriStr=formatHijri(now);
+  var gregStr=now.toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var html='<div class="page">';
+  html+='<div class="card" style="text-align:center;padding:18px;margin-bottom:10px;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--bdr2)">';
+  html+='<div style="font-size:14px;color:var(--gold);font-weight:700">'+hijriStr+'</div>';
+  html+='<div style="font-size:12px;color:var(--dim);margin-top:4px">'+gregStr+'</div>';
+  html+='</div>';
+  if(_prayerViewLoading){
+    html+='<div class="card" style="text-align:center;padding:32px"><div class="spin"></div><p style="margin-top:12px;color:var(--dim)">جارٍ حساب أوقات الصلاة...</p></div>';
+  }else if(_prayerViewErr){
+    html+='<div class="card" style="text-align:center;padding:24px">';
+    html+='<div style="font-size:40px;margin-bottom:12px">🕌</div>';
+    html+='<p style="color:var(--red);font-size:13px;margin-bottom:14px">'+esc(_prayerViewErr)+'</p>';
+    html+='<button class="btn bts bsm" id="reloadPrayerBtn">إعادة المحاولة</button>';
+    html+='<button class="btn btg bsm" style="margin-top:8px;display:block;width:100%" id="prayerCityBtn">تحديد المدينة يدوياً</button>';
+    html+='</div>';
+  }else if(_prayerViewData){
+    var np=getNextPrayer(_prayerViewData);
+    var KEYS=['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    if(np.next){
+      var cd=prayerCountdown(np.next.min);
+      html+='<div class="score-hero" style="margin-bottom:10px">';
+      html+='<div style="font-size:48px;text-align:center;width:80px;flex-shrink:0">'+(PRAYER_ICONS[np.next.name]||'🕌')+'</div>';
+      html+='<div style="flex:1"><h3 style="font-size:16px;font-weight:700">الصلاة القادمة</h3>';
+      html+='<div style="font-size:22px;font-weight:800;color:var(--gold);margin:4px 0">'+(PRAYER_NAMES[np.next.name]||np.next.name)+'</div>';
+      html+='<div style="font-size:15px;color:var(--dim)">'+np.next.time+'</div>';
+      html+='<div style="font-size:12px;color:var(--grn);margin-top:4px">⏱ بعد '+cd+'</div></div></div>';
+    }
+    html+='<div class="card">';
+    KEYS.forEach(function(k){
+      var t=_prayerViewData[k];if(!t)return;
+      var isCurrent=np.current&&np.current.name===k;
+      var isNext=np.next&&np.next.name===k;
+      html+='<div class="li" style="'+(isCurrent?'background:var(--ga);border-radius:10px;padding:12px 8px':'')+'">';
+      html+='<span style="font-size:22px;width:32px;text-align:center">'+(PRAYER_ICONS[k]||'🕌')+'</span>';
+      html+='<div class="lib"><div class="lit">'+(PRAYER_NAMES[k]||k)+(isCurrent?'<span style="font-size:10px;background:var(--ga);color:var(--gold);padding:2px 6px;border-radius:4px;margin-right:6px">الآن</span>':'')+'</div></div>';
+      html+='<div style="font-weight:700;font-size:15px;color:'+(isNext?'var(--gold)':isCurrent?'var(--grn)':'var(--txt)')+'">'+t+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+    var cityName=pr.city||'موقعك الحالي';
+    html+='<div class="card" style="margin-top:10px">';
+    html+='<div class="ch"><span class="ct">⚙️ إعدادات الصلاة</span></div>';
+    html+='<p style="font-size:12px;color:var(--dim);margin-bottom:10px">📍 '+esc(cityName)+'</p>';
+    html+='<button class="btn bts bb" id="prayerCityBtn">تغيير المدينة</button>';
+    html+='</div>';
+  }else{
+    html+='<div class="card" style="text-align:center;padding:32px">';
+    html+='<div style="font-size:40px;margin-bottom:12px">🕌</div>';
+    html+='<p style="color:var(--dim);margin-bottom:14px">اضغط لحساب أوقات الصلاة حسب موقعك</p>';
+    html+='<button class="btn btp" id="loadPrayerBtn">حساب أوقات الصلاة</button>';
+    html+='</div>';
+  }
+  html+='</div>';
+  return html;
+}
+function loadPrayerView(){
+  _prayerViewLoading=true;_prayerViewErr=null;render();
+  getPrayerTimes(function(err,data){
+    _prayerViewLoading=false;
+    if(err){_prayerViewErr='تعذّر حساب أوقات الصلاة. أدخل موقعك يدوياً.';render();return;}
+    _prayerViewData=data;render();
+    if('Notification' in window&&Notification.permission==='granted')schedulePrayerNotifs(data);
+  });
+}
+function schedulePrayerNotifs(timings){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  var pr=sg(SK.PR);var mins=pr.notifBefore||10;
+  ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(function(k){
+    var t=timings[k];if(!t)return;
+    var parts=t.split(':');var h=parseInt(parts[0]),m=parseInt(parts[1]);
+    var now=new Date();var pDate=new Date();pDate.setHours(h,m,0,0);
+    var notifTime=new Date(pDate.getTime()-mins*60000);
+    var delay=notifTime-now;
+    if(delay>0)setTimeout(function(){new Notification('LifeHub 🕌 '+(PRAYER_NAMES[k]||k),{body:'صلاة '+(PRAYER_NAMES[k]||k)+' بعد '+mins+' دقيقة'})},delay);
+  });
+}
+
+/* ── Modules Manager View ── */
+function rModules(){
+  var m=sg(SK.MOD);
+  var MODS=[
+    {k:'tasks',n:'المهام',i:'✅'},{k:'finance',n:'المالية',i:'💰'},{k:'health',n:'الصحة',i:'💪'},
+    {k:'weather',n:'الطقس',i:'🌤️'},{k:'prayer',n:'أوقات الصلاة',i:'🕌'},{k:'hijri',n:'التقويم الهجري',i:'📅'},
+    {k:'sports',n:'الأخبار الرياضية',i:'⚽'},{k:'content',n:'منشئ المحتوى',i:'🎬'},{k:'sea',n:'أحوال البحر',i:'🌊'},{k:'sleep',n:'النوم',i:'😴'}
+  ];
+  var html='<div class="page"><div class="sh" style="margin-top:8px"><span class="st">⚙️ إدارة الوحدات</span></div>';
+  html+='<p style="font-size:12px;color:var(--fnt);margin-bottom:14px">تعطيل الوحدة لا يحذف بياناتها.</p>';
+  html+='<div class="card">';
+  MODS.forEach(function(mod){
+    var enabled=m[mod.k]!==false;
+    html+='<div class="li"><span style="font-size:22px;width:32px;text-align:center">'+mod.i+'</span>';
+    html+='<div class="lib"><div class="lit">'+mod.n+'</div><div class="lis">'+(enabled?'مفعّل':'معطّل')+'</div></div>';
+    html+='<button data-fn="toggleMod" data-id="'+mod.k+'" style="width:52px;height:28px;border-radius:14px;background:'+(enabled?'var(--grn)':'var(--bdr2)')+';position:relative;border:none;cursor:pointer;transition:.3s">';
+    html+='<div style="width:22px;height:22px;border-radius:50%;background:white;position:absolute;top:3px;'+(enabled?'right:3px':'left:3px')+';transition:.3s"></div></button>';
+    html+='</div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+/* ── Sleep Settings ── */
+function openSleepSettings(){
+  var sl=sg(SK.SL);
+  var h='<div class="shdl"></div><div class="sht">إعدادات النوم 😴</div>';
+  h+='<div class="field"><label>وقت النوم</label><input class="inp" type="time" id="slBed" value="'+(sl.bedtime||'23:00')+'"></div>';
+  h+='<div class="field"><label>هدف ساعات النوم</label><input class="inp" type="number" id="slTgt" min="4" max="12" step="0.5" value="'+(sl.target||8)+'"></div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">';
+  h+='<label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="slR60" '+(sl.remind60?'checked':'')+' style="width:18px;height:18px"> تذكير قبل ساعة</label>';
+  h+='<label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="slR30" '+(sl.remind30?'checked':'')+' style="width:18px;height:18px"> تذكير قبل 30 دقيقة</label>';
+  h+='</div>';
+  h+='<button class="btn btp bb" id="saveSleepBtn">حفظ وجدولة التذكيرات</button>';
+  mshow(h);
+  setTimeout(function(){
+    var btn=document.getElementById('saveSleepBtn');
+    if(btn)btn.addEventListener('click',function(){
+      var bed=(document.getElementById('slBed')||{}).value||'23:00';
+      var tgt=parseFloat((document.getElementById('slTgt')||{}).value||'8');
+      var r60=(document.getElementById('slR60')||{}).checked||false;
+      var r30=(document.getElementById('slR30')||{}).checked||false;
+      su(SK.SL,function(ss){ss.bedtime=bed;ss.target=tgt;ss.remind60=r60;ss.remind30=r30;});
+      scheduleSleepReminders();
+      mclose();toast('تم حفظ إعدادات النوم','ok');
+    });
+  },50);
+}
+
+/* ── Dashboard Widgets ── */
+function rDashPrayerWidget(){
+  if(!isModEnabled('prayer'))return '';
+  if(!_prayerViewData&&!_prayerViewLoading){setTimeout(function(){loadPrayerView();},100);}
+  if(!_prayerViewData)return '<div class="stat ab" style="cursor:pointer" data-fn="goto" data-id="prayer"><span class="si">🕌</span><div class="sv" style="font-size:13px">أوقات الصلاة</div><div class="sl">جارٍ الحساب...</div></div>';
+  var np=getNextPrayer(_prayerViewData);
+  var cd=np.next?prayerCountdown(np.next.min):'—';
+  return '<div class="stat ap" style="cursor:pointer" data-fn="goto" data-id="prayer"><span class="si">'+(PRAYER_ICONS[np.next&&np.next.name]||'🕌')+'</span><div class="sv" style="font-size:15px">'+(np.next?PRAYER_NAMES[np.next.name]||np.next.name:'—')+'</div><div class="sl">بعد '+cd+'</div></div>';
+}
+function rDashHijriWidget(){
+  if(!isModEnabled('hijri'))return '';
+  return '<div class="stat ag"><span class="si">📅</span><div class="sv" style="font-size:12px;line-height:1.4">'+formatHijri()+'</div><div class="sl">التاريخ الهجري</div></div>';
+}
+
+/* ── ROUTER STATE ── */
+var CUR='dashboard';
+var WXD=null,WXLD=false,WXER=null,WXTB='weather';
+var TF='all';
+var FTAB='tx';
+var HTAB='habits';
+var MTAB='projects';
+
+/* ── Sports News View ── */
+var _sportsLoading=false,_sportsItems=null,_sportsErr=null,_sportsRefreshing=false;
+function rSports(){
+  if(!isModEnabled('sports'))return '<div class="page"><div class="empty"><span class="ei">🚫</span><p>وحدة الأخبار الرياضية معطّلة<br><button class="btn bts bsm" onclick="toggleMod(\'sports\')">تفعيل</button></p></div></div>';
+  var saved=sg(SK.SP).saved||[];
+  var html='<div class="page">';
+  html+='<div class="sh" style="margin-top:8px"><span class="st">⚽ الأخبار الرياضية</span><button class="sa" id="refreshSportsBtn">تحديث</button></div>';
+  // Tabs
+  html+='<div class="tabs" id="sportsTabs"><button class="tab active" data-fn="setSportsTab" data-id="latest">آخر الأخبار</button><button class="tab" data-fn="setSportsTab" data-id="saved">محفوظ ('+saved.length+')</button></div>';
+  html+='<div id="sportsContent">';
+  if(_sportsLoading){
+    html+='<div style="text-align:center;padding:40px"><div class="spin"></div><p style="color:var(--dim);margin-top:12px">جارٍ جلب الأخبار...</p></div>';
+  } else if(_sportsErr){
+    html+='<div class="card" style="text-align:center;padding:24px"><p style="color:var(--red)">'+esc(_sportsErr)+'</p><button class="btn bts bsm" id="reloadSportsBtn" style="margin-top:10px">إعادة المحاولة</button></div>';
+  } else if(!_sportsLoading&&_sportsItems&&_sportsItems.length>0){
+    _sportsItems.forEach(function(item,idx){
+      html+=renderSportsItem(item,idx,false);
+    });
+  } else {
+    html+='<div class="empty"><span class="ei">📰</span><p>اضغط "تحديث" لجلب آخر الأخبار الرياضية</p></div>';
+  }
+  html+='</div></div>';
+  return html;
+}
+function renderSportsItem(item,idx,isSaved){
+  var h='<div class="card" style="margin-bottom:10px">';
+  h+='<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">';
+  h+='<div style="font-size:14px;font-weight:700;flex:1;line-height:1.4">'+esc(item.title)+'</div>';
+  h+='<span style="font-size:10px;color:var(--fnt);flex-shrink:0">'+esc(item.source||'')+'</span>';
+  h+='</div>';
+  if(item.desc)h+='<p style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">'+esc(item.desc)+'</p>';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
+  h+='<button class="btn bts bsm" data-fn="copySportsNews" data-id="'+idx+'">📋 نسخ</button>';
+  h+='<button class="btn bts bsm" data-fn="genSportsScript" data-id="'+idx+'">🎬 سكريبت</button>';
+  h+='<button class="btn bts bsm" data-fn="genSportsHash" data-id="'+idx+'">🔖 هاشتاقات</button>';
+  h+='<button class="btn bts bsm" data-fn="saveSportsItem" data-id="'+idx+'">'+(isSaved?'✅ محفوظ':'💾 حفظ')+'</button>';
+  h+='</div></div>';
+  return h;
+}
+
+/* ── Modules Manager View ── */
+function rModules(){
+  var m=sg(SK.MOD);
+  var MODS=[
+    {k:'tasks',n:'المهام',i:'✅'},{k:'finance',n:'المالية',i:'💰'},{k:'health',n:'الصحة',i:'💪'},
+    {k:'weather',n:'الطقس',i:'🌤️'},{k:'prayer',n:'أوقات الصلاة',i:'🕌'},{k:'hijri',n:'التقويم الهجري',i:'📅'},
+    {k:'sports',n:'الأخبار الرياضية',i:'⚽'},{k:'content',n:'منشئ المحتوى',i:'🎬'},{k:'sea',n:'أحوال البحر',i:'🌊'},
+    {k:'sleep',n:'النوم',i:'😴'}
+  ];
+  var html='<div class="page"><div class="sh" style="margin-top:8px"><span class="st">⚙️ إدارة الوحدات</span></div>';
+  html+='<p style="font-size:12px;color:var(--fnt);margin-bottom:14px">تعطيل الوحدة لا يحذف بياناتها، يخفيها فقط من الواجهة.</p>';
+  html+='<div class="card">';
+  MODS.forEach(function(mod){
+    var enabled=m[mod.k]!==false;
+    html+='<div class="li"><span style="font-size:22px;width:32px;text-align:center">'+mod.i+'</span>';
+    html+='<div class="lib"><div class="lit">'+mod.n+'</div><div class="lis">'+(enabled?'مفعّل':'معطّل')+'</div></div>';
+    html+='<button data-fn="toggleMod" data-id="'+mod.k+'" style="width:52px;height:28px;border-radius:14px;background:'+(enabled?'var(--grn)':'var(--bdr2)')+';position:relative;transition:.3s;border:none;cursor:pointer">';
+    html+='<div style="width:22px;height:22px;border-radius:50%;background:white;position:absolute;top:3px;'+(enabled?'right:3px':'left:3px')+';transition:.3s"></div></button>';
+    html+='</div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+/* ── Sleep Settings ── */
+function openSleepSettings(){
+  var sl=sg(SK.SL);
+  var h='<div class="shdl"></div><div class="sht">إعدادات النوم 😴</div>';
+  h+='<div class="field"><label>وقت النوم المستهدف</label><input class="inp" type="time" id="slBed" value="'+sl.bedtime+'" ></div>';
+  h+='<div class="field"><label>هدف ساعات النوم</label><input class="inp" type="number" id="slTgt" min="4" max="12" step="0.5" value="'+sl.target+'"></div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">';
+  h+='<label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="slR60" '+(sl.remind60?'checked':'')+' style="width:18px;height:18px"> تذكير قبل ساعة</label>';
+  h+='<label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="slR30" '+(sl.remind30?'checked':'')+' style="width:18px;height:18px"> تذكير قبل 30 دقيقة</label>';
+  h+='</div>';
+  h+='<button class="btn btp bb" id="saveSleepBtn">حفظ وجدولة التذكيرات</button>';
+  mshow(h);
+  setTimeout(function(){
+    var btn=document.getElementById('saveSleepBtn');
+    if(btn)btn.addEventListener('click',function(){
+      var bed=(document.getElementById('slBed')||{}).value||'23:00';
+      var tgt=parseFloat((document.getElementById('slTgt')||{}).value||'8');
+      var r60=(document.getElementById('slR60')||{}).checked||false;
+      var r30=(document.getElementById('slR30')||{}).checked||false;
+      su(SK.SL,function(s){s.bedtime=bed;s.target=tgt;s.remind60=r60;s.remind30=r30});
+      scheduleSleepReminders();
+      mclose();toast('تم حفظ إعدادات النوم','ok');
+    });
+  },50);
+}
+
+/* ── Dashboard Prayer Widget ── */
+function rDashPrayerWidget(){
+  if(!isModEnabled('prayer'))return '';
+  if(!_prayerViewData&&!_prayerViewLoading){loadPrayerView();}
+  if(!_prayerViewData)return '<div class="stat ab" style="cursor:pointer" data-fn="goto" data-id="prayer"><span class="si">🕌</span><div class="sv" style="font-size:13px">جارٍ حساب الأوقات...</div><div class="sl">يستخدم موقعك</div></div>';
+  var np=getNextPrayer(_prayerViewData);
+  var cd=np.next?prayerCountdown(np.next.min):'—';
+  return '<div class="stat ap" style="cursor:pointer" data-fn="goto" data-id="prayer"><span class="si">'+(PRAYER_ICONS[np.next&&np.next.name]||'🕌')+'</span><div class="sv" style="font-size:15px">'+(np.next?PRAYER_NAMES[np.next.name]||np.next.name:'—')+'</div><div class="sl">بعد '+cd+'</div></div>';
+}
+function rDashHijriWidget(){
+  if(!isModEnabled('hijri'))return '';
+  return '<div class="stat ag"><span class="si">📅</span><div class="sv" style="font-size:12px;line-height:1.4">'+formatHijri()+'</div><div class="sl">التاريخ الهجري</div></div>';
+}
+
 // ── ROUTER STATE ──
 var CUR='dashboard';
 var WXD=null,WXLD=false,WXER=null,WXTB='weather';
@@ -306,17 +794,37 @@ function render(){
   else if(CUR==='health')root.innerHTML=rHealth();
   else if(CUR==='weather')root.innerHTML=rWeather();
   else if(CUR==='more')root.innerHTML=rMore();
+  else if(CUR==='prayer')root.innerHTML=rPrayer();
+  else if(CUR==='sports')root.innerHTML=rSports();
+  else if(CUR==='modules')root.innerHTML=rModules();
+  else if(CUR==='prayer')root.innerHTML=rPrayer();
+  else if(CUR==='sports')root.innerHTML=rSports();
+  else if(CUR==='modules')root.innerHTML=rModules();
   afterRender();
+  attachDynamic();
 }
 
 function goto(p){
   CUR=p;
-  var NM={dashboard:'dashboard',tasks:'tasks',finance:'finance',health:'health',weather:'more',more:'more'};
+  var NM={dashboard:'dashboard',tasks:'tasks',finance:'finance',health:'health',weather:'more',more:'more',prayer:'prayer',sports:'sports',modules:'more'};
   document.querySelectorAll('.nb').forEach(function(b){b.classList.toggle('active',b.dataset.p===(NM[p]||p))});
   render();
 }
 
 function afterRender(){
+  if(CUR==='prayer'&&!_prayerViewData&&!_prayerViewLoading&&!_prayerViewErr){loadPrayerView();return}
+  if(CUR==='sports'&&!_sportsItems&&!_sportsLoading&&!_sportsErr){
+    _sportsLoading=true;
+    loadSportsNews(function(items){
+      _sportsLoading=false;
+      if(!items||items.length===0){_sportsErr='لم يتم العثور على أخبار. تحقق من الاتصال بالإنترنت.';}
+      else{_sportsItems=items;}
+      render();
+    });
+    return;
+  }
+  if(CUR==='prayer'&&!_prayerViewData&&!_prayerViewLoading&&!_prayerViewErr){loadPrayerView();return;}
+  if(CUR==='sports'&&!_sportsItems&&!_sportsLoading&&!_sportsErr){_sportsLoading=true;loadSportsNews(function(items){_sportsLoading=false;if(!items||!items.length){_sportsErr='لم تُعثر على أخبار.';}else{_sportsItems=items;}render();});return;}
   if(CUR==='weather'&&!WXD&&!WXLD){
     WXLD=true;
     wxLoad().then(function(d){WXD=d;WXLD=false;render()}).catch(function(e){WXER=e.message;WXLD=false;render()});
@@ -352,6 +860,23 @@ document.addEventListener('click',function(e){
   else if(fn==='toggleHabit')toggleHabit(id);
   else if(fn==='setWater')setWater(parseInt(id));
   else if(fn==='addWater')addWater(parseInt(id));
+  else if(fn==='toggleMod'){toggleMod(id)}
+  else if(fn==='setSportsTab'){
+    document.querySelectorAll('#sportsTabs .tab').forEach(function(b){b.classList.remove('active')});
+    var aTab=document.querySelector('#sportsTabs [data-id="'+id+'"]');if(aTab)aTab.classList.add('active');
+    var scEl=document.getElementById('sportsContent');
+    if(scEl){
+      if(id==='saved'){var svItems=sg(SK.SP).saved||[];scEl.innerHTML=svItems.length?svItems.map(function(item,i){return renderSportsItem(item,i,true)}).join(''):'<div class="empty"><span class="ei">💾</span><p>لا توجد أخبار محفوظة.</p></div>';}
+      else{scEl.innerHTML=(_sportsItems&&_sportsItems.length)?_sportsItems.map(function(item,i){return renderSportsItem(item,i,false)}).join(''):'<div class="empty"><span class="ei">📰</span><p>لا توجد أخبار.</p></div>';}
+    }
+  }
+  else if(fn==='copySportsNews'){var cItm=_sportsItems&&_sportsItems[parseInt(id)];if(cItm)clipboardCopy(cItm.title+'\n\n'+cItm.desc+'\n'+cItm.url)}
+  else if(fn==='genSportsScript'){var gItm=_sportsItems&&_sportsItems[parseInt(id)];if(gItm)clipboardCopy(generateScript(gItm.title,gItm.desc))}
+  else if(fn==='genSportsHash'){var hItm=_sportsItems&&_sportsItems[parseInt(id)];if(hItm)clipboardCopy(generateHashtags(hItm.title))}
+  else if(fn==='saveSportsItem'){
+    var sIdx3=parseInt(id);var sItm=_sportsItems&&_sportsItems[sIdx3];
+    if(sItm){su(SK.SP,function(sp){if(!sp.saved)sp.saved=[];var ex=sp.saved.some(function(x){return x.url===sItm.url});if(!ex)sp.saved.push(sItm)});toast('تم الحفظ','ok')}
+  }
 });
 document.addEventListener('click',function(e){
   var btn=e.target.closest('[data-seg]');
@@ -383,7 +908,7 @@ function rDash(){
   var wkSt=hb.walk&&hb.walk.log&&hb.walk.log[td]?hb.walk.log[td].steps||0:0;
   var ins=genInsights(),tips=scoreTips(sc.b);
   var circ=2*Math.PI*42,dash=circ*(1-sc.total/100),clr=scColor(sc.total);
-  var PLBL={urgent:'عاجل',important:'مهم',later:'لاحقاً'};
+  var PLBL={urgent:'P1 عاجل',important:'P2 مهم',later:'P3 لاحقاً'};
   var PCLS={urgent:'pu',important:'pm',later:'pl'};
   var html='<div class="page">';
   html+='<div class="quote"><span>💡</span><span>'+quoteOfDay()+'</span></div>';
@@ -404,6 +929,8 @@ function rDash(){
   html+='<div class="stat ab"><span class="si">✅</span><div class="sv">'+pend+'</div><div class="sl">مهام متبقية</div></div>';
   html+='<div class="stat at"><span class="si">🚶</span><div class="sv">'+(wkSt>0?wkSt.toLocaleString('ar-EG'):'—')+'</div><div class="sl">خطوات اليوم</div></div>';
   html+='<div class="stat ab" style="cursor:pointer" data-fn="goto" data-id="weather"><span class="si" id="wxI">⏳</span><div class="sv" id="wxT" style="font-size:20px">--°</div><div class="sl" id="wxD">جارٍ التحميل</div></div>';
+  html+=rDashPrayerWidget();
+  html+=rDashHijriWidget();
   html+='<div class="stat ap"><span class="si">💧</span><div class="sv">'+wtD+'/'+wtT+'</div><div class="sl">أكواب الماء</div><div class="pbar" style="margin-top:6px"><div class="pbf" style="width:'+pct(wtD,wtT)+'%"></div></div></div>';
   html+='</div>';
   if(top3.length){
@@ -434,7 +961,7 @@ function rTasks(){
   var filtered=TF==='all'?tasks:TF==='done'?tasks.filter(function(t){return t.done}):TF==='overdue'?tasks.filter(function(t){return !t.done&&t.dueAt&&new Date(t.dueAt)<new Date()}):tasks.filter(function(t){return !t.done&&t.priority===TF});
   var cn={all:tasks.length,urgent:tasks.filter(function(t){return !t.done&&t.priority==='urgent'}).length,important:tasks.filter(function(t){return !t.done&&t.priority==='important'}).length,later:tasks.filter(function(t){return !t.done&&t.priority==='later'}).length,overdue:tasks.filter(function(t){return !t.done&&t.dueAt&&new Date(t.dueAt)<new Date()}).length,done:tasks.filter(function(t){return t.done}).length};
   var TABS=[['all','الكل'],['urgent','🔴 عاجل'],['important','🟡 مهم'],['later','🔵 لاحقاً'],['overdue','⏰ متأخر'],['done','✅ منجز']];
-  var PLBL={urgent:'عاجل',important:'مهم',later:'لاحقاً'};
+  var PLBL={urgent:'P1 عاجل',important:'P2 مهم',later:'P3 لاحقاً'};
   var PCLS={urgent:'pu',important:'pm',later:'pl'};
   var html='<div class="page"><div class="sh" style="margin-top:8px"><span class="st">المهام والأولويات</span></div>';
   html+='<div class="tabs">';
@@ -450,7 +977,9 @@ function rTasks(){
       html+='<div class="lib"><div class="lit" style="'+(t.done?'text-decoration:line-through;color:var(--fnt)':'')+'">'+esc(t.title)+'</div>';
       html+='<div class="lis" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:3px">';
       html+='<span class="pb '+(PCLS[t.priority]||'pl')+'">'+(PLBL[t.priority]||'')+'</span>';
-      if(t.dueAt)html+='<span style="font-size:10px;color:'+(od?'var(--red)':'var(--fnt)')+'">📅 '+fmtD(t.dueAt)+'</span>';
+      if(t.dueAt){var dStr=t.dueAt.slice(0,10);var tStr=t.dueAt.length>10?t.dueAt.slice(11,16):'';html+='<span style="font-size:10px;color:'+(od?'var(--red)':'var(--fnt)')+'">📅 '+fmtD(dStr)+(tStr?' '+tStr:'')+' </span>'}
+      if(t.recur&&t.recur!=='once'){var RL={daily:'يومي',weekly:'أسبوعي',monthly:'شهري'};html+='<span style="font-size:10px;background:var(--tea);color:var(--tel);padding:1px 6px;border-radius:4px">🔄 '+(RL[t.recur]||t.recur)+'</span>'}
+      if(t.reminder!==null&&t.reminder!==undefined){html+='<span style="font-size:10px;color:var(--pur)">🔔</span>'}
       if(t.project)html+='<span style="font-size:10px;color:var(--pur)">📁 '+esc(t.project)+'</span>';
       html+='</div></div>';
       html+='<button data-fn="delTask" data-id="'+esc(t.id)+'" style="color:var(--fnt);font-size:14px;padding:6px">🗑️</button>';
@@ -467,11 +996,34 @@ function openAddTask(){
   var pj=sg(SK.P).map(function(p){return p.name});
   var h='<div class="shdl"></div><div class="sht">مهمة جديدة ✅</div>';
   h+='<div class="field"><label>عنوان المهمة *</label><input class="inp" id="tT" placeholder="اكتب المهمة..." autofocus></div>';
+  // Priority with P-code
   h+='<div class="field"><label>الأولوية</label><div class="seg">';
-  h+='<button class="active" data-seg="pri" data-val="urgent">🔴 عاجل</button>';
-  h+='<button data-seg="pri" data-val="important">🟡 مهم</button>';
-  h+='<button data-seg="pri" data-val="later">🔵 لاحقاً</button></div></div>';
-  h+='<div class="field"><label>الموعد النهائي</label><input class="inp" type="date" id="tD"></div>';
+  h+='<button class="active" data-seg="pri" data-val="urgent">🔴 P1 عاجل</button>';
+  h+='<button data-seg="pri" data-val="important">🟡 P2 مهم</button>';
+  h+='<button data-seg="pri" data-val="later">🔵 P3 لاحقاً</button></div></div>';
+  // Date + Time row
+  h+='<div class="field"><label>الموعد النهائي</label>';
+  h+='<div style="display:flex;gap:8px">';
+  h+='<input class="inp" type="date" id="tD" style="flex:2">';
+  h+='<input class="inp" type="time" id="tTm" style="flex:1" placeholder="--:--">';
+  h+='</div></div>';
+  // Reminder
+  h+='<div class="field"><label>تذكير 🔔</label>';
+  h+='<select class="inp" id="tRem">';
+  h+='<option value="">بدون تذكير</option>';
+  h+='<option value="0">عند الموعد</option>';
+  h+='<option value="10">قبل 10 دقائق</option>';
+  h+='<option value="30">قبل 30 دقيقة</option>';
+  h+='<option value="60">قبل ساعة</option>';
+  h+='<option value="1440">قبل يوم كامل</option>';
+  h+='</select></div>';
+  // Recurring
+  h+='<div class="field"><label>التكرار 🔄</label><div class="seg">';
+  h+='<button class="active" data-seg="recur" data-val="once">مرة</button>';
+  h+='<button data-seg="recur" data-val="daily">يومي</button>';
+  h+='<button data-seg="recur" data-val="weekly">أسبوعي</button>';
+  h+='<button data-seg="recur" data-val="monthly">شهري</button>';
+  h+='</div></div>';
   if(pj.length){h+='<div class="field"><label>المشروع</label><select class="inp" id="tP"><option value="">بدون مشروع</option>';pj.forEach(function(p){h+='<option>'+esc(p)+'</option>'});h+='</select></div>'}
   h+='<div class="field"><label>ملاحظة</label><input class="inp" id="tN" placeholder="اختياري..."></div>';
   h+='<button class="btn btp bb" style="margin-top:10px" id="addTaskBtn">إضافة المهمة</button>';
@@ -486,7 +1038,20 @@ function openAddTask(){
       var du=(document.getElementById('tD')||{}).value||null;
       var pj2=(document.getElementById('tP')||{}).value||'';
       var nt=(document.getElementById('tN')||{}).value||'';nt=nt.trim();
-      su(SK.T,function(ts){ts.unshift({id:uid(),title:tt,priority:pr,done:false,createdAt:new Date().toISOString(),dueAt:du,project:pj2,note:nt})});
+      var tm=(document.getElementById('tTm')||{}).value||'';
+      var dueAt=du?(du+(tm?'T'+tm:'')):null;
+      var remVal=(document.getElementById('tRem')||{}).value||'';
+      var reminder=remVal!==''?parseInt(remVal):null;
+      var recurBtn=document.querySelector('[data-seg="recur"].active');
+      var recur=recurBtn?recurBtn.dataset.val||'once':'once';
+      var task={id:uid(),title:tt,priority:pr,done:false,createdAt:new Date().toISOString(),dueAt:dueAt,project:pj2,note:nt,recur:recur,reminder:reminder};
+      su(SK.T,function(ts){ts.unshift(task)});
+      // Schedule browser notification if reminder set and permission granted
+      if(reminder!==null&&dueAt&&'Notification' in window&&Notification.permission==='granted'){
+        var dueMs=new Date(dueAt).getTime()-(reminder*60000);
+        var delay=dueMs-Date.now();
+        if(delay>0)setTimeout(function(){new Notification('LifeHub: '+tt,{body:'موعد المهمة: '+dueAt.slice(0,16).replace('T',' ')})},delay);
+      }
       mclose();TF='all';render();toast('تمت الإضافة','ok');
     });
   },50);
@@ -814,6 +1379,7 @@ function rMore(){
     var st=sg(SK.ST);
     html+='<div class="card" style="margin-bottom:10px"><div class="ch"><span class="ct">🙋 الملف الشخصي</span></div>';
     html+='<div class="field"><label>اسمك</label><input class="inp" id="sNm" value="'+esc(st.name||'')+'" placeholder="اسمك..."></div>';
+    html+='<div class="field"><label>العملة الافتراضية 💰</label><select class="inp" id="sCur"><option value="DH"'+((!st.currency||st.currency==="DH")?" selected":"")+'>DH — درهم مغربي</option><option value="SAR"'+(st.currency==="SAR"?" selected":"")+'>ر.س — ريال سعودي</option><option value="USD"'+(st.currency==="USD"?" selected":"")+'>$ — دولار</option><option value="EUR"'+(st.currency==="EUR"?" selected":"")+'>€ — يورو</option></select></div>';
     html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--bdr)"><span style="font-size:14px">السخرية الذكية 😄</span><button id="sarcasmBtn" style="padding:6px 14px;border-radius:20px;font-size:12px;background:'+(st.sarcasm?'var(--gld)':'var(--card2)')+';color:'+(st.sarcasm?'#0A0E1A':'var(--dim)')+';border:1px solid var(--bdr)">'+(st.sarcasm?'مفعّل':'معطّل')+'</button></div>';
     html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--bdr)"><span style="font-size:14px">الإشعارات 🔔</span><button id="notifBtn2" style="padding:6px 14px;border-radius:20px;font-size:12px;background:'+(st.notif?'var(--gld)':'var(--card2)')+';color:'+(st.notif?'#0A0E1A':'var(--dim)')+';border:1px solid var(--bdr)">'+(st.notif?'مفعّل':'معطّل')+'</button></div>';
     html+='<button class="btn btp bb" style="margin-top:10px" id="saveNameBtn">حفظ الإعدادات</button></div>';
@@ -883,11 +1449,7 @@ function exportData(){
 }
 
 // Attach dynamic event listeners after render
-var origRender=render;
-function render(){
-  origRender();
-  attachDynamic();
-}
+// render calls attachDynamic directly - no wrapper needed
 
 function attachDynamic(){
   // Task FAB
@@ -922,7 +1484,7 @@ function attachDynamic(){
   var aif=document.getElementById('addIdeaFab');if(aif)aif.addEventListener('click',openAddIdea);
   var arb=document.getElementById('addRevBtn');if(arb)arb.addEventListener('click',openAddRev);
   // Settings
-  var snb=document.getElementById('saveNameBtn');if(snb)snb.addEventListener('click',function(){su(SK.ST,function(s){s.name=(document.getElementById('sNm')||{}).value||s.name});toast('تم الحفظ','ok')});
+  var snb=document.getElementById('saveNameBtn');if(snb)snb.addEventListener('click',function(){su(SK.ST,function(s){s.name=(document.getElementById('sNm')||{}).value||s.name;var cur=(document.getElementById('sCur')||{}).value;if(cur)s.currency=cur});toast('تم الحفظ','ok')});
   var scb=document.getElementById('sarcasmBtn');if(scb)scb.addEventListener('click',function(){su(SK.ST,function(s){s.sarcasm=!s.sarcasm});render()});
   var nb2=document.getElementById('notifBtn2');if(nb2)nb2.addEventListener('click',function(){su(SK.ST,function(s){s.notif=!s.notif});render()});
   var eb2=document.getElementById('exportBtn2');if(eb2)eb2.addEventListener('click',exportData);
@@ -935,10 +1497,60 @@ function attachDynamic(){
     r.readAsText(f);
   });
   var cb=document.getElementById('clearBtn');if(cb)cb.addEventListener('click',function(){if(!confirm('⚠️ سيتم حذف جميع بياناتك نهائياً. متأكد؟'))return;Object.keys(SK).forEach(function(k){localStorage.removeItem(SK[k])});toast('تم المسح');render()});
+  // Prayer buttons
+  var lpb=document.getElementById('loadPrayerBtn');if(lpb)lpb.addEventListener('click',loadPrayerView);
+  var rpb=document.getElementById('reloadPrayerBtn');if(rpb)rpb.addEventListener('click',loadPrayerView);
+  var pcb=document.getElementById('prayerCityBtn');if(pcb)pcb.addEventListener('click',function(){openPrayerCityModal()});
+  var spb=document.getElementById('searchPrayerCity');if(spb)spb.addEventListener('click',function(){searchPrayerCity()});
+  var svpr=document.getElementById('savePrayerSettings');if(svpr)svpr.addEventListener('click',function(){var nb=document.getElementById('prayerNotif');if(nb)su(SK.PR,function(p){p.notifBefore=parseInt(nb.value)||10});toast('تم الحفظ','ok')});
+  // Sports buttons
+  var rsb=document.getElementById('refreshSportsBtn');if(rsb)rsb.addEventListener('click',function(){
+    _sportsItems=null;_sportsLoading=true;_sportsErr=null;render();
+    loadSportsNews(function(items){
+      _sportsLoading=false;
+      if(!items||items.length===0){_sportsErr='لم تُعثر على أخبار. تحقق من الاتصال.';}
+      else{_sportsItems=items;}
+      render();
+    });
+  });
+  var rlsb=document.getElementById('reloadSportsBtn');if(rlsb)rlsb.addEventListener('click',function(){_sportsItems=null;_sportsLoading=true;render();loadSportsNews(function(items){_sportsLoading=false;_sportsItems=items;render()})});
+  // Sleep settings btn in health
+  var slsb=document.getElementById('sleepSettingsBtn');if(slsb)slsb.addEventListener('click',openSleepSettings);
+
 }
 
+function openPrayerCityModal(){
+  mshow('<div class="shdl"></div><div class="sht">📍 تحديد الموقع</div><div class="field"><label>اسم المدينة</label><input class="inp" id="prCity" placeholder="مثال: الرباط، Casablanca" autofocus></div><button class="btn btp bb" id="prCityConfirm">بحث وتأكيد</button>');
+  setTimeout(function(){
+    var btn=document.getElementById('prCityConfirm');
+    if(btn)btn.addEventListener('click',function(){searchPrayerCity()});
+  },50);
+}
+function searchPrayerCity(){
+  var inp=document.getElementById('prCity');var city=inp?inp.value.trim():'';
+  if(!city){toast('أدخل اسم المدينة','err');return}
+  toast('جارٍ البحث...','info');
+  fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city)+'&count=1&language=ar')
+    .then(function(r){return r.json()})
+    .then(function(d){
+      if(!d.results||!d.results.length){toast('لم تُعثر على المدينة','err');return}
+      var r=d.results[0];
+      su(SK.PR,function(p){p.lat=r.latitude;p.lon=r.longitude;p.city=r.name;});
+      _prayerCache={data:null,date:null,loading:false};
+      _prayerViewData=null;_prayerViewErr=null;
+      mclose();
+      toast('تم تحديد الموقع: '+r.name,'ok');
+      loadPrayerView();
+    }).catch(function(){
+      /* If geocoding fails (content:// blocks fetch), allow manual lat/lon */
+      toast('تعذّر البحث عبر الإنترنت. جارٍ استخدام الموقع التلقائي.','info');
+      mclose();
+      loadPrayerView();
+    });
+}
 // ══ INIT ══
-function _lhInit(){var _done=false;function _run(){if(_done)return;_done=true;
+var _lhInitDone=false;
+function _lhInit(){function _run(){if(_lhInitDone)return;_lhInitDone=true;
   var st=sg(SK.ST);
   document.body.dataset.theme=st.theme||'dark';
   var thBtn=document.getElementById('thBtn');
@@ -970,6 +1582,14 @@ function _lhInit(){var _done=false;function _run(){if(_done)return;_done=true;
   var mf={name:'LifeHub 2.0',short_name:'LifeHub',description:'مركز قيادة حياتك',start_url:'./',display:'standalone',theme_color:'#0A0E1A',background_color:'#0A0E1A',dir:'rtl',lang:'ar',icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230A0E1A'/%3E%3Ccircle cx='256' cy='256' r='170' fill='none' stroke='%23F0B429' stroke-width='28'/%3E%3Ccircle cx='256' cy='256' r='30' fill='%23F0B429'/%3E%3C/svg%3E",sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
   document.getElementById('mlink').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}));
   if('serviceWorker' in navigator){try{var sw="const C='lh2v3';self.addEventListener('install',function(){self.skipWaiting()});self.addEventListener('fetch',function(e){if(e.request.url.indexOf('open-meteo')>-1)return;e.respondWith(caches.open(C).then(function(c){return c.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok)c.put(e.request,res.clone());return res})})}).catch(function(){return caches.match(e.request)}))})";navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'})))}catch(e){}}
+  // Request notification permission for reminders
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission().then(function(){scheduleSleepReminders()});
+  } else {
+    scheduleSleepReminders();
+  }
+  // Auto-load prayer times in background
+  setTimeout(function(){if(!_prayerViewData&&!_prayerViewLoading)loadPrayerView()},2000);
   goto('dashboard');
 }
 // Works on content://, file://, http://
