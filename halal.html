@@ -1,368 +1,464 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>القصر الصغير | Ksar Sghir - البوابة الرسمية ودليل السياحة والشواطئ</title>
-  <meta name="description" content="البوابة الرسمية لمدينة القصر الصغير: دليل شواطئ الدالية وبليونش، حالة الطقس والرياح المباشرة، كراء الشقق، والمواقع التاريخية بمضيق جبل طارق." />
+  <title>Ksar Sghir | Porte du Détroit de Gibraltar - Guide Officiel</title>
+  <meta name="description" content="Votre portail numérique pour découvrir le nord du Maroc: plages de Dalia et Belyounech, Tanger Med, histoire, météo et services." />
   
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ksarsghir.com/" />
-  <meta property="og:title" content="القصر الصغير | Ksar Sghir - البوابة الرسمية" />
-  <meta property="og:description" content="دليل السياحة، شاطئ الدالية، بليونش، حالة البحر، وكراء الشقق في القصر الصغير." />
-
-  <!-- Tailwind CSS CDN & Lucide Icons -->
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- خط Tajawal للعربية و Inter للغات اللاتينية -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Tajawal', sans-serif;
-    }
-    body[dir="ltr"] {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+    body[dir="rtl"] { font-family: 'Tajawal', sans-serif; }
+    .badge-pill { @apply text-[11px] px-2.5 py-0.5 rounded-full flex items-center gap-1 border border-slate-200 bg-white/90 text-slate-700 shadow-sm; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
+<body class="bg-[#f8fafc] text-slate-800 flex flex-col min-h-screen">
 
-  <!-- 1. الشريط العلوي الذكي: الطقس، الصلاة، وتبديل اللغات -->
-  <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-      <!-- حالة الطقس والرياح -->
-      <div class="flex items-center gap-4">
-        <span class="flex items-center gap-1">
-          <i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>
-          <span id="temp-display">25°C - القصر الصغير</span>
-        </span>
-        <span class="flex items-center gap-1 text-emerald-400 font-medium">
-          <i data-lucide="wind" class="w-4 h-4"></i>
-          <span data-i18n="sea-status">رياح شرقية هادئة (البحر ملائم للسباحة بالدالية)</span>
-        </span>
-      </div>
-
-      <!-- مواقيت الصلاة واللغات -->
-      <div class="flex items-center gap-4">
-        <span class="hidden md:flex items-center gap-1 text-slate-300">
-          <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-          <span data-i18n="next-prayer">الصلاة القادمة: الظهر 13:25</span>
-        </span>
-        
-        <!-- محول اللغات -->
-        <div class="flex items-center bg-slate-800 rounded p-1 gap-1 border border-slate-700">
-          <button onclick="setLanguage('ar')" id="btn-ar" class="px-2 py-0.5 rounded font-bold bg-blue-600 text-white">AR</button>
-          <button onclick="setLanguage('fr')" id="btn-fr" class="px-2 py-0.5 rounded text-slate-300 hover:text-white">FR</button>
-          <button onclick="setLanguage('en')" id="btn-en" class="px-2 py-0.5 rounded text-slate-300 hover:text-white">EN</button>
+  <!-- 1. Top Brand Header & Language Switcher -->
+  <header class="bg-white border-b border-slate-100 py-2.5 px-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-500 via-teal-400 to-amber-300 p-0.5 shadow-sm flex items-center justify-center">
+          <div class="w-full h-full bg-white rounded-full flex items-center justify-center text-sky-600 font-black text-xs">KS</div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. القائمة الرئيسية (Navbar) -->
-  <nav class="bg-white/95 backdrop-blur shadow-sm sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
-      <a href="/" class="flex items-center gap-2 text-xl font-extrabold text-blue-700">
-        <i data-lucide="compass" class="w-7 h-7"></i>
-        <span>Ksar Sghir <span class="text-slate-800 font-bold text-base">| القصر الصغير</span></span>
+        <div>
+          <div class="text-base font-extrabold text-sky-600 leading-tight">Ksar Sghir</div>
+          <div class="text-[10px] tracking-wider text-slate-400 font-semibold uppercase">KSAR SGHIR - MAROC</div>
+        </div>
       </a>
 
-      <div class="hidden md:flex items-center gap-6 font-medium text-slate-700">
-        <a href="/" class="text-blue-600 font-bold" data-i18n="nav-home">الرئيسية</a>
-        <a href="/plages/dalia" class="hover:text-blue-600 transition" data-i18n="nav-dalia">شاطئ الدالية</a>
-        <a href="/tourisme" class="hover:text-blue-600 transition" data-i18n="nav-beaches">الشواطئ والسياحة</a>
-        <a href="/meteo" class="hover:text-blue-600 transition" data-i18n="nav-meteo">الطقس والبحر</a>
-        <a href="/priere" class="hover:text-blue-600 transition" data-i18n="nav-prayer">مواقيت الصلاة</a>
-        <a href="/galerie" class="hover:text-blue-600 transition" data-i18n="nav-gallery">معرض الصور</a>
+      <!-- Language Switcher & Dark Toggle -->
+      <div class="flex items-center gap-2">
+        <div class="flex items-center bg-slate-100 rounded-full p-0.5 text-[11px] font-bold">
+          <button onclick="setLanguage('ar')" id="btn-ar" class="px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-900 transition">AR</button>
+          <button onclick="setLanguage('fr')" id="btn-fr" class="px-2.5 py-1 rounded-full bg-sky-500 text-white shadow-sm transition">FR</button>
+          <button onclick="setLanguage('en')" id="btn-en" class="px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-900 transition">EN</button>
+        </div>
+        <button class="p-1.5 rounded-full text-amber-500 hover:bg-slate-100 transition"><i data-lucide="moon" class="w-4 h-4"></i></button>
       </div>
 
-      <a href="https://wa.me/212600000000" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow">
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
-        <span data-i18n="cta-whatsapp">تواصل معنا</span>
-      </a>
     </div>
-  </nav>
 
-  <!-- 3. واجهة البانر الرئيسية (Hero Section) -->
-  <header class="relative bg-slate-900 text-white py-20 px-4 overflow-hidden">
-    <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-    
-    <div class="relative max-w-4xl mx-auto text-center space-y-6">
-      <span class="inline-block bg-blue-600/90 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider" data-i18n="hero-tag">
-        بوابة مضيق جبل طارق
-      </span>
-      <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight" data-i18n="hero-title">
-        اكتشف سحر القصر الصغير وأروع شواطئ الشمال
-      </h1>
-      <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto leading-relaxed" data-i18n="hero-desc">
-        دليلك الكامل للإقامة، كراء الشقق، مطاعم السمك، وأنشطة السباحة والغوص في شواطئ الدالية، بليونش، وواد أليان.
-      </p>
-      <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <a href="/plages/dalia" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg flex items-center gap-2">
-          <i data-lucide="waves" class="w-5 h-5"></i>
-          <span data-i18n="btn-dalia">دليل شاطئ الدالية</span>
-        </a>
-        <a href="/tourisme" class="bg-white/10 backdrop-blur hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl transition border border-white/20">
-          <span data-i18n="btn-all-beaches">استكشف جميع الوجهات</span>
-        </a>
-      </div>
-    </div>
+    <!-- Navigation Bar with Icons -->
+    <nav class="max-w-6xl mx-auto mt-2 pt-2 border-t border-slate-50 flex items-center justify-between overflow-x-auto text-[13px] font-semibold text-slate-600 gap-4 no-scrollbar">
+      <a href="/" class="flex items-center gap-1.5 text-sky-600 hover:text-sky-700 whitespace-nowrap"><i data-lucide="home" class="w-3.5 h-3.5 text-rose-500"></i> <span data-i18n="nav-home">Accueil</span></a>
+      <a href="/tourisme" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-500"></i> <span data-i18n="nav-tour">Tourisme</span></a>
+      <a href="/galerie" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="image" class="w-3.5 h-3.5 text-indigo-500"></i> <span data-i18n="nav-gal">Galerie</span></a>
+      <a href="/blog" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-500"></i> <span data-i18n="nav-blog">Blog</span></a>
+      <a href="/boutique" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-emerald-500"></i> <span data-i18n="nav-shop">Boutique</span></a>
+      <a href="/publicite" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="megaphone" class="w-3.5 h-3.5 text-red-500"></i> <span data-i18n="nav-ads">Publicité</span></a>
+      <a href="/meteo" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="sun-medium" class="w-3.5 h-3.5 text-yellow-500"></i> <span data-i18n="nav-weather">Météo</span></a>
+      <a href="/priere" class="flex items-center gap-1.5 hover:text-sky-600 whitespace-nowrap"><i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i> <span data-i18n="nav-prayer">Prière</span></a>
+    </nav>
   </header>
 
-  <!-- 4. إحصائيات الثقة -->
-  <section class="bg-white border-b border-slate-100 py-6">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-      <div>
-        <div class="text-2xl sm:text-3xl font-extrabold text-blue-700">77K+</div>
-        <div class="text-xs sm:text-sm text-slate-500" data-i18n="stat-fb">متابع على فيسبوك</div>
+  <!-- 2. Hero Slider Banner -->
+  <section class="relative bg-slate-900 text-white min-h-[360px] flex items-end p-6 md:p-12 overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80');"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+
+    <div class="relative max-w-6xl mx-auto w-full space-y-3">
+      <div class="flex items-center gap-2 text-sky-400 text-xs font-bold uppercase tracking-wider">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Ksar Sghir • Région Tanger-Tétouan
       </div>
-      <div>
-        <div class="text-2xl sm:text-3xl font-extrabold text-blue-700">100%</div>
-        <div class="text-xs sm:text-sm text-slate-500" data-i18n="stat-views">صور وتغطيات حصرية</div>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight" data-i18n="hero-h1">Ksar Sghir</h1>
+      <p class="text-lg md:text-xl font-bold text-sky-300" data-i18n="hero-sub">Porte du Détroit de Gibraltar</p>
+      <p class="text-xs md:text-sm text-slate-200 max-w-xl leading-relaxed" data-i18n="hero-desc">
+        Découvrez les plus belles destinations du nord du Maroc — plages, ports, histoire et nature vierge.
+      </p>
+
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a href="/tourisme" class="bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs md:text-sm px-5 py-2.5 rounded-xl shadow-lg transition flex items-center gap-1.5">
+          <i data-lucide="compass" class="w-4 h-4"></i> <span data-i18n="btn-explore">Explorer la région</span>
+        </a>
+        <a href="/galerie" class="bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-xs md:text-sm px-5 py-2.5 rounded-xl border border-slate-700 backdrop-blur transition flex items-center gap-1.5">
+          <i data-lucide="camera" class="w-4 h-4"></i> <span data-i18n="btn-photos">Galerie photos</span>
+        </a>
       </div>
-      <div>
-        <div class="text-2xl sm:text-3xl font-extrabold text-blue-700">5+</div>
-        <div class="text-xs sm:text-sm text-slate-500" data-i18n="stat-beaches">شواطئ فيروزية</div>
-      </div>
-      <div>
-        <div class="text-2xl sm:text-3xl font-extrabold text-blue-700">24/7</div>
-        <div class="text-xs sm:text-sm text-slate-500" data-i18n="stat-support">إرشاد سياحي ومعلومات</div>
+
+      <!-- Slider dots -->
+      <div class="flex justify-center gap-1.5 pt-4">
+        <span class="w-6 h-1.5 rounded-full bg-white"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
       </div>
     </div>
   </section>
 
-  <!-- 5. قسم الوجهات والشواطئ الرئيسية -->
-  <main class="max-w-7xl mx-auto px-4 py-12 flex-1 w-full space-y-8">
-    <div class="flex justify-between items-end">
-      <div>
-        <h2 class="text-2xl font-bold text-slate-900" data-i18n="dest-title">أبرز الوجهات والشواطئ</h2>
-        <p class="text-sm text-slate-500 mt-1" data-i18n="dest-sub">اختر وجهتك القادمة واستمتع بأفضل الأنشطة والإقامة</p>
+  <!-- 3. Weather & Prayer Interactive Bars -->
+  <!-- Weather Bar -->
+  <div class="bg-sky-50 border-y border-sky-100 py-2.5 px-4 text-xs font-semibold text-slate-700">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-4 flex-wrap">
+        <span class="flex items-center gap-1 text-red-500 font-bold"><i data-lucide="thermometer" class="w-4 h-4"></i> 23°C <span class="text-slate-500 font-normal">القصر الصغير</span></span>
+        <span class="flex items-center gap-1 text-sky-600"><i data-lucide="wind" class="w-4 h-4"></i> 9 كم/س <span class="text-slate-500 font-normal">الرياح</span></span>
+        <span class="flex items-center gap-1 text-blue-500"><i data-lucide="droplet" class="w-4 h-4"></i> 77% <span class="text-slate-500 font-normal">الرطوبة</span></span>
+        <span class="bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded-md flex items-center gap-1"><i data-lucide="waves" class="w-3.5 h-3.5"></i> البحر هادئ</span>
       </div>
-      <a href="/tourisme" class="text-blue-600 text-sm font-bold flex items-center gap-1 hover:underline">
-        <span data-i18n="view-all">عرض الكل</span>
-        <i data-lucide="chevron-left" class="w-4 h-4"></i>
-      </a>
+      <a href="/meteo" class="text-sky-600 hover:underline flex items-center gap-1 font-bold text-[11px]">Météo complète →</a>
+    </div>
+  </div>
+
+  <!-- Prayer Times Bar -->
+  <div class="bg-amber-50/70 border-b border-amber-100/80 py-2 px-4 text-[11px] text-slate-700">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3 md:gap-6 font-medium">
+        <span>الفجر: <b class="text-slate-900 font-bold">05:12</b></span>
+        <span>الظهر: <b class="text-slate-900 font-bold">13:25</b></span>
+        <span>العصر: <b class="text-slate-900 font-bold">17:06</b></span>
+        <span>المغرب: <b class="text-slate-900 font-bold">20:04</b></span>
+        <span>العشاء: <b class="text-slate-900 font-bold">21:24</b></span>
+      </div>
+      <div class="text-slate-500">
+        Prochaine prière: <span class="text-amber-700 font-black">23:07:20</span> • <a href="/priere" class="text-sky-600 hover:underline">Détails</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Main Attractions: Principaux sites touristiques -->
+  <main class="max-w-6xl mx-auto px-4 py-10 w-full space-y-8">
+    
+    <div class="text-center space-y-1">
+      <div class="inline-flex items-center gap-2 text-xl md:text-2xl font-black text-sky-700">
+        <span>🗺️</span> <span data-i18n="tour-title">Principaux sites touristiques</span>
+      </div>
+      <p class="text-xs md:text-sm text-slate-500" data-i18n="tour-sub">Découvrez les plus belles destinations de Ksar Sghir et ses environs</p>
+      <div class="pt-1">
+        <a href="/tourisme" class="text-xs font-bold text-sky-600 hover:underline" data-i18n="tour-link">Voir le guide complet →</a>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <!-- بطاقة شاطئ الدالية (التركيز الأساسي) -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition flex flex-col">
-        <div class="relative h-48 bg-slate-200">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Plage Dalia" class="w-full h-full object-cover" />
-          <span class="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
-            اللواء الأزرق
-          </span>
+    <!-- 6 Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1: Plage de Ksar Sghir -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="Plage de Ksar Sghir" class="w-full h-full object-cover" />
+          <span class="absolute top-2.5 right-2.5 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Plage</span>
         </div>
-        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+        <div class="p-4 space-y-3">
           <div>
-            <h3 class="text-lg font-bold text-slate-900" data-i18n="card-dalia-title">شاطئ الدالية (Plage Dalia)</h3>
-            <p class="text-sm text-slate-600 mt-1" data-i18n="card-dalia-desc">
-              مياه كريستالية هادئة ورمال بيضاء ناعمة، أفضل مكان للسباحة العائلية، رحلات القوارب، وكراء الشقق.
-            </p>
+            <h3 class="font-bold text-slate-900 text-sm">Plage de Ksar Sghir</h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Plage calme sur le détroit de Gibraltar</p>
           </div>
-          <a href="/plages/dalia" class="w-full text-center bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2">
-            <span data-i18n="card-dalia-btn">تفاصيل الشاطئ والإقامة</span>
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          </a>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🎟️ Gratuit</span>
+            <span class="badge-pill">🏊 Baignade</span>
+          </div>
         </div>
       </div>
 
-      <!-- بطاقة بليونش -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition flex flex-col">
-        <div class="relative h-48 bg-slate-200">
-          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Belyounech" class="w-full h-full object-cover" />
-          <span class="absolute top-3 right-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
-            عشاق الغوص
-          </span>
+      <!-- Card 2: Belyounech -->
+      <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden hover:shadow-md transition">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80" alt="Belyounech" class="w-full h-full object-cover" />
+          <span class="absolute top-2.5 right-2.5 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Village</span>
         </div>
-        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+        <div class="p-4 space-y-3">
           <div>
-            <h3 class="text-lg font-bold text-slate-900" data-i18n="card-bel-title">قرية وشاطئ بليونش</h3>
-            <p class="text-sm text-slate-600 mt-1" data-i18n="card-bel-desc">
-              الجنة العذراء تحت جبل موسى، أفضل وجهة لتجارب الغوص واكتشاف الأعماق ومطاعم السمك الطازج.
-            </p>
+            <h3 class="font-bold text-slate-900 text-sm">Belyounech</h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Village côtier sauvage sous le mont Moussa</p>
           </div>
-          <a href="/plages/belyounech" class="w-full text-center bg-slate-100 hover:bg-slate-800 hover:text-white text-slate-800 font-semibold py-2.5 rounded-xl transition text-sm">
-            <span data-i18n="card-bel-btn">استكشف بليونش</span>
-          </a>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🎟️ Gratuit</span>
+            <span class="badge-pill">🤿 Plongée</span>
+          </div>
         </div>
       </div>
 
-      <!-- بطاقة قصبة القصر الصغير التاريخية -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition flex flex-col">
-        <div class="relative h-48 bg-slate-200">
-          <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80" alt="Ksar Sghir Historique" class="w-full h-full object-cover" />
-          <span class="absolute top-3 right-3 bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
-            تراث مريني
-          </span>
+      <!-- Card 3: Port de pêche traditionnel -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=500&q=80" alt="Port de pêche traditionnel" class="w-full h-full object-cover" />
+          <span class="absolute top-2.5 right-2.5 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Port</span>
         </div>
-        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+        <div class="p-4 space-y-3">
           <div>
-            <h3 class="text-lg font-bold text-slate-900" data-i18n="card-hist-title">الموقع الأثري بالقصر الصغير</h3>
-            <p class="text-sm text-slate-600 mt-1" data-i18n="card-hist-desc">
-              قلعة دائرية تاريخية نادرة تعود للعهد المريني، تروي تاريخ الحضارات على مضيق جبل طارق.
-            </p>
+            <h3 class="font-bold text-slate-900 text-sm">Port de pêche traditionnel</h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Barques colorées et poissons frais du détroit</p>
           </div>
-          <a href="/tourisme" class="w-full text-center bg-slate-100 hover:bg-slate-800 hover:text-white text-slate-800 font-semibold py-2.5 rounded-xl transition text-sm">
-            <span data-i18n="card-hist-btn">اكتشف التاريخ</span>
-          </a>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🎟️ Gratuit</span>
+            <span class="badge-pill">📸 Photo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Tanger Med -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=500&q=80" alt="Tanger Med" class="w-full h-full object-cover" />
+          <span class="absolute top-2.5 right-2.5 bg-sky-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Port International</span>
+        </div>
+        <div class="p-4 space-y-3">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Tanger Med</h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Le plus grand port d'Afrique — à quelques miles</p>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🚢 Navires</span>
+            <span class="badge-pill">👁️ Vue</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Plage Dalia -->
+      <a href="/plages/dalia" class="block bg-white rounded-2xl shadow-sm border border-sky-100 overflow-hidden hover:shadow-lg transition group">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="Plage Dalia" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+          <span class="absolute top-2.5 right-2.5 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Plage</span>
+        </div>
+        <div class="p-4 space-y-3">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm group-hover:text-sky-600 transition flex items-center justify-between">
+              <span>Plage Dalia</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-sky-500"></i>
+            </h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Eaux cristallines avec vue sur Gibraltar et l'Espagne</p>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🎟️ Gratuit</span>
+            <span class="badge-pill">🏄 Sports</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 6: Ksar Sghir historique -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition">
+        <div class="relative h-44 bg-slate-100">
+          <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=500&q=80" alt="Ksar Sghir historique" class="w-full h-full object-cover" />
+          <span class="absolute top-2.5 right-2.5 bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">Histoire</span>
+        </div>
+        <div class="p-4 space-y-3">
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Ksar Sghir historique</h3>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">Citadelle mérinide circulaire — patrimoine sur le détroit</p>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <span class="badge-pill">🎟️ Gratuit</span>
+            <span class="badge-pill">🏛️ Ruines</span>
+          </div>
         </div>
       </div>
 
     </div>
   </main>
 
-  <!-- 6. زر واتساب العائم -->
-  <a href="https://wa.me/212600000000" target="_blank" class="fixed bottom-6 left-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition transform hover:scale-110 flex items-center justify-center">
-    <i data-lucide="message-circle" class="w-7 h-7"></i>
-  </a>
-
-  <!-- 7. التذييل (Footer) -->
-  <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 text-sm">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="space-y-3">
-        <h4 class="text-white font-bold text-base">Ksar Sghir - القصر الصغير</h4>
-        <p class="text-xs leading-relaxed text-slate-400">
-          البوابة الرقمية الأولى لمدينة القصر الصغير وشواطئ المضيق. صور احترافية، دليل سياحي، ومعلومات دقيقة للمصطافين والزوار.
-        </p>
+  <!-- 5. Counter Statistics Grid -->
+  <section class="bg-white border-y border-slate-100 py-8 px-4">
+    <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <div class="text-3xl font-black text-sky-500">77K</div>
+        <div class="text-xs font-medium text-slate-500 mt-1" data-i18n="stat-fb">abonnés Facebook</div>
       </div>
       <div>
-        <h4 class="text-white font-bold mb-3">روابط سريعة</h4>
-        <ul class="space-y-2 text-xs">
-          <li><a href="/plages/dalia" class="hover:text-white transition">شاطئ الدالية</a></li>
-          <li><a href="/tourisme" class="hover:text-white transition">دليل الشواطئ</a></li>
-          <li><a href="/meteo" class="hover:text-white transition">حالة الطقس والبحر</a></li>
-          <li><a href="/priere" class="hover:text-white transition">مواقيت الصلاة</a></li>
-        </ul>
+        <div class="text-3xl font-black text-sky-500">141+</div>
+        <div class="text-xs font-medium text-slate-500 mt-1" data-i18n="stat-photos">photos professionnelles</div>
       </div>
       <div>
-        <h4 class="text-white font-bold mb-3">تابعنا على المنصات</h4>
-        <p class="text-xs mb-3 text-slate-400">انضم لأكثر من 77 ألف متابع وتعرف على كل جديد في المنطقة.</p>
-        <div class="flex gap-3">
-          <a href="#" class="bg-slate-800 hover:bg-blue-600 text-white p-2 rounded-lg transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-          <a href="#" class="bg-slate-800 hover:bg-pink-600 text-white p-2 rounded-lg transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-          <a href="#" class="bg-slate-800 hover:bg-red-600 text-white p-2 rounded-lg transition"><i data-lucide="youtube" class="w-4 h-4"></i></a>
-        </div>
+        <div class="text-3xl font-black text-sky-500">8</div>
+        <div class="text-xs font-medium text-slate-500 mt-1" data-i18n="stat-sites">sites web</div>
+      </div>
+      <div>
+        <div class="text-3xl font-black text-sky-500">9</div>
+        <div class="text-xs font-medium text-slate-500 mt-1" data-i18n="stat-dest">destinations</div>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
-      &copy; 2026 Ksarsghir.com - جميع الحقوق محفوظة.
+  </section>
+
+  <!-- 6. Galerie Photos Section -->
+  <section class="max-w-6xl mx-auto px-4 py-12 w-full space-y-6">
+    <div class="text-center space-y-1">
+      <div class="inline-flex items-center gap-2 text-xl md:text-2xl font-black text-slate-900">
+        <span>📸</span> <span data-i18n="gal-title">Galerie Photos</span>
+      </div>
+      <p class="text-xs text-slate-500">Clichés professionnels par Bilal El Hichou — Ksar Sghir Lens</p>
+      <div class="pt-1">
+        <a href="/galerie" class="text-xs font-bold text-sky-600 hover:underline" data-i18n="gal-link">Voir toutes les photos →</a>
+      </div>
+    </div>
+
+    <!-- 3 Photos Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="h-64 rounded-2xl overflow-hidden shadow-sm bg-slate-200">
+        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80" alt="Tanger Med Lens" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+      </div>
+      <div class="h-64 rounded-2xl overflow-hidden shadow-sm bg-slate-200">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Coucher de soleil" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+      </div>
+      <div class="h-64 rounded-2xl overflow-hidden shadow-sm bg-slate-200">
+        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80" alt="Plage Ksar Sghir City" class="w-full h-full object-cover hover:scale-105 transition duration-500" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Nos Services Grid (4 Items) -->
+  <section class="max-w-6xl mx-auto px-4 pb-12 w-full space-y-6">
+    <div class="text-center">
+      <div class="inline-flex items-center gap-2 text-xl md:text-2xl font-black text-sky-700">
+        <span>🛠️</span> <span data-i18n="srv-title">Nos services</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <a href="/meteo" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center space-y-2 hover:shadow-md transition">
+        <div class="text-2xl">🌤️</div>
+        <h4 class="font-bold text-sm text-slate-800" data-i18n="srv-1-t">Météo & Mer</h4>
+        <p class="text-[11px] text-slate-500 leading-tight" data-i18n="srv-1-d">Bulletin météo 7 jours + état de la mer 24h</p>
+      </a>
+
+      <a href="/priere" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center space-y-2 hover:shadow-md transition">
+        <div class="text-2xl">🕌</div>
+        <h4 class="font-bold text-sm text-slate-800" data-i18n="srv-2-t">Horaires de prière</h4>
+        <p class="text-[11px] text-slate-500 leading-tight" data-i18n="srv-2-d">Horaires quotidiens + direction de la Qibla</p>
+      </a>
+
+      <a href="/boutique" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center space-y-2 hover:shadow-md transition">
+        <div class="text-2xl">🖼️</div>
+        <h4 class="font-bold text-sm text-slate-800" data-i18n="srv-3-t">Boutique photos</h4>
+        <p class="text-[11px] text-slate-500 leading-tight" data-i18n="srv-3-d">Achetez des photos professionnelles de Ksar Sghir</p>
+      </a>
+
+      <a href="/publicite" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center space-y-2 hover:shadow-md transition">
+        <div class="text-2xl">📢</div>
+        <h4 class="font-bold text-sm text-slate-800" data-i18n="srv-4-t">Annoncez avec nous</h4>
+        <p class="text-[11px] text-slate-500 leading-tight" data-i18n="srv-4-d">Atteignez 77K abonnés dans la région</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- 8. Footer Section -->
+  <footer class="bg-white border-t border-slate-100 pt-10 pb-6 text-slate-600 text-xs mt-auto">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Col 1: Brand & Socials -->
+      <div class="space-y-3">
+        <h4 class="font-black text-base text-sky-600" data-i18n="ft-about-title">القصر الصغير</h4>
+        <p class="text-[11px] text-slate-500 leading-relaxed" data-i18n="ft-about-desc">
+          Votre portail numérique pour découvrir le nord du Maroc — tourisme, photos, météo et infos locales.
+        </p>
+        <div class="flex flex-wrap gap-2 pt-1 text-[10px]">
+          <span class="bg-slate-100 px-2 py-1 rounded text-slate-600">📘 ksarsghircity 21K</span>
+          <span class="bg-slate-100 px-2 py-1 rounded text-slate-600">📷 Ksar Sghir Lens 56K</span>
+          <a href="https://wa.me/212600000000" target="_blank" class="bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-bold">💬 WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- Col 2: Tourisme -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="map" class="w-3.5 h-3.5 text-sky-500"></i> Tourisme</h4>
+        <ul class="space-y-1.5 text-slate-500 text-[11px]">
+          <li><a href="/tourisme" class="hover:text-sky-600">Plage Ksar Sghir</a></li>
+          <li><a href="/plages/belyounech" class="hover:text-sky-600">Belyounech</a></li>
+          <li><a href="/tourisme" class="hover:text-sky-600">Port de pêche</a></li>
+          <li><a href="/tourisme" class="hover:text-sky-600">Tanger Med</a></li>
+          <li><a href="/plages/dalia" class="hover:text-sky-600 font-bold text-sky-600">Plage Dalia</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Sites -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="link" class="w-3.5 h-3.5 text-sky-500"></i> Sites</h4>
+        <ul class="space-y-1.5 text-slate-500 text-[11px]">
+          <li><a href="/galerie" class="hover:text-sky-600">Galerie photos</a></li>
+          <li><a href="/blog" class="hover:text-sky-600">Blog</a></li>
+          <li><a href="/boutique" class="hover:text-sky-600">Boutique</a></li>
+          <li><a href="/meteo" class="hover:text-sky-600">Météo & Mer</a></li>
+          <li><a href="/priere" class="hover:text-sky-600">Horaires prière</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Infos -->
+      <div class="space-y-2">
+        <h4 class="font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5 text-sky-500"></i> Infos</h4>
+        <ul class="space-y-1.5 text-slate-500 text-[11px]">
+          <li><a href="/a-propos" class="hover:text-sky-600">À propos</a></li>
+          <li><a href="/publicite" class="hover:text-sky-600">Publicité</a></li>
+          <li><a href="/confidentialite" class="hover:text-sky-600">Confidentialité</a></li>
+          <li><a href="/accord-photos" class="hover:text-sky-600">Accord photos</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="max-w-6xl mx-auto px-4 pt-4 border-t border-slate-100 flex flex-wrap justify-between items-center text-[10px] text-slate-400 gap-2">
+      <div>© 2026 <span class="text-sky-600 font-bold">Ksar Sghir</span> - Bilal El Hichou — All rights reserved</div>
+      <div class="flex gap-4">
+        <a href="/confidentialite" class="hover:underline">Confidentialité</a>
+        <a href="/a-propos" class="hover:underline">À propos</a>
+        <a href="/contact" class="hover:underline">Contact</a>
+      </div>
     </div>
   </footer>
 
-  <!-- 8. كود JavaScript لتبديل اللغات والأيقونات -->
+  <!-- Translation & Scripts -->
   <script>
-    const translations = {
-      ar: {
-        dir: 'rtl',
-        'sea-status': 'رياح شرقية هادئة (البحر ملائم للسباحة بالدالية)',
-        'next-prayer': 'الصلاة القادمة: الظهر 13:25',
-        'nav-home': 'الرئيسية',
-        'nav-dalia': 'شاطئ الدالية',
-        'nav-beaches': 'الشواطئ والسياحة',
-        'nav-meteo': 'الطقس والبحر',
-        'nav-prayer': 'مواقيت الصلاة',
-        'nav-gallery': 'معرض الصور',
-        'cta-whatsapp': 'تواصل معنا',
-        'hero-tag': 'بوابة مضيق جبل طارق',
-        'hero-title': 'اكتشف سحر القصر الصغير وأروع شواطئ الشمال',
-        'hero-desc': 'دليلك الكامل للإقامة، كراء الشقق، مطاعم السمك، وأنشطة السباحة والغوص في شواطئ الدالية، بليونش، وواد أليان.',
-        'btn-dalia': 'دليل شاطئ الدالية',
-        'btn-all-beaches': 'استكشف جميع الوجهات',
-        'stat-fb': 'متابع على فيسبوك',
-        'stat-views': 'صور وتغطيات حصرية',
-        'stat-beaches': 'شواطئ فيروزية',
-        'stat-support': 'إرشاد سياحي ومعلومات',
-        'dest-title': 'أبرز الوجهات والشواطئ',
-        'dest-sub': 'اختر وجهتك القادمة واستمتع بأفضل الأنشطة والإقامة',
-        'view-all': 'عرض الكل',
-        'card-dalia-title': 'شاطئ الدالية (Plage Dalia)',
-        'card-dalia-desc': 'مياه كريستالية هادئة ورمال بيضاء ناعمة، أفضل مكان للسباحة العائلية، رحلات القوارب، وكراء الشقق.',
-        'card-dalia-btn': 'تفاصيل الشاطئ والإقامة',
-        'card-bel-title': 'قرية وشاطئ بليونش',
-        'card-bel-desc': 'الجنة العذراء تحت جبل موسى، أفضل وجهة لتجارب الغوص واكتشاف الأعماق ومطاعم السمك الطازج.',
-        'card-bel-btn': 'استكشف بليونش',
-        'card-hist-title': 'الموقع الأثري بالقصر الصغير',
-        'card-hist-desc': 'قلعة دائرية تاريخية نادرة تعود للعهد المريني، تروي تاريخ الحضارات على مضيق جبل طارق.',
-        'card-hist-btn': 'اكتشف التاريخ'
-      },
+    const i18n = {
       fr: {
         dir: 'ltr',
-        'sea-status': 'Vent d’Est calme (Baignade idéale à Dalia)',
-        'next-prayer': 'Prochaine prière: Dohr 13:25',
-        'nav-home': 'Accueil',
-        'nav-dalia': 'Plage Dalia',
-        'nav-beaches': 'Plages & Tourisme',
-        'nav-meteo': 'Météo & Mer',
-        'nav-prayer': 'Horaires Prière',
-        'nav-gallery': 'Galerie',
-        'cta-whatsapp': 'Contactez-nous',
-        'hero-tag': 'Porte du Détroit de Gibraltar',
-        'hero-title': 'Découvrez Ksar Sghir et ses superbes plages',
-        'hero-desc': 'Votre guide complet pour les locations de vacances, restaurants, plongée et activités à Plage Dalia, Belyounech et Oued Aliane.',
-        'btn-dalia': 'Guide Plage Dalia',
-        'btn-all-beaches': 'Toutes les destinations',
-        'stat-fb': 'Abonnés Facebook',
-        'stat-views': 'Photos exclusives',
-        'stat-beaches': 'Plages turquoise',
-        'stat-support': 'Guide & Infos 24/7',
-        'dest-title': 'Principales Destinations',
-        'dest-sub': 'Choisissez votre prochaine destination côtière',
-        'view-all': 'Voir tout',
-        'card-dalia-title': 'Plage Dalia',
-        'card-dalia-desc': 'Eaux cristallines et sable blanc fin, baignade familiale et sorties en bateau Zodiac.',
-        'card-dalia-btn': 'Détails & Hébergements',
-        'card-bel-title': 'Village de Belyounech',
-        'card-bel-desc': 'Paradis sauvage au pied du Jebel Moussa, plongée sous-marine et poissons frais.',
-        'card-bel-btn': 'Découvrir Belyounech',
-        'card-hist-title': 'Site Historique de Ksar Sghir',
-        'card-hist-desc': 'Citadelle mérinide circulaire unique témoignant de l’histoire du Détroit.',
-        'card-hist-btn': 'Explorer l’histoire'
+        'nav-home': 'Accueil', 'nav-tour': 'Tourisme', 'nav-gal': 'Galerie', 'nav-blog': 'Blog', 'nav-shop': 'Boutique', 'nav-ads': 'Publicité', 'nav-weather': 'Météo', 'nav-prayer': 'Prière',
+        'hero-h1': 'Ksar Sghir', 'hero-sub': 'Porte du Détroit de Gibraltar', 'hero-desc': 'Découvrez les plus belles destinations du nord du Maroc — plages, ports, histoire et nature vierge.',
+        'btn-explore': 'Explorer la région', 'btn-photos': 'Galerie photos',
+        'tour-title': 'Principaux sites touristiques', 'tour-sub': 'Découvrez les plus belles destinations de Ksar Sghir et ses environs', 'tour-link': 'Voir le guide complet →',
+        'stat-fb': 'abonnés Facebook', 'stat-photos': 'photos professionnelles', 'stat-sites': 'sites web', 'stat-dest': 'destinations',
+        'gal-title': 'Galerie Photos', 'gal-link': 'Voir toutes les photos →',
+        'srv-title': 'Nos services',
+        'srv-1-t': 'Météo & Mer', 'srv-1-d': 'Bulletin météo 7 jours + état de la mer 24h',
+        'srv-2-t': 'Horaires de prière', 'srv-2-d': 'Horaires quotidiens + direction de la Qibla',
+        'srv-3-t': 'Boutique photos', 'srv-3-d': 'Achetez des photos professionnelles de Ksar Sghir',
+        'srv-4-t': 'Annoncez avec nous', 'srv-4-d': 'Atteignez 77K abonnés dans la région',
+        'ft-about-title': 'Ksar Sghir', 'ft-about-desc': 'Votre portail numérique pour découvrir le nord du Maroc — tourisme, photos, météo et infos locales.'
+      },
+      ar: {
+        dir: 'rtl',
+        'nav-home': 'الرئيسية', 'nav-tour': 'السياحة', 'nav-gal': 'معرض الصور', 'nav-blog': 'المدونة', 'nav-shop': 'المتجر', 'nav-ads': 'إعلانات', 'nav-weather': 'الطقس', 'nav-prayer': 'الصلاة',
+        'hero-h1': 'القصر الصغير', 'hero-sub': 'بوابة مضيق جبل طارق', 'hero-desc': 'اكتشف أجمل وجهات شمال المغرب — شواطئ، موانئ، تاريخ وطبيعة عذراء.',
+        'btn-explore': 'استكشف المنطقة', 'btn-photos': 'معرض الصور',
+        'tour-title': 'أبرز المواقع السياحية', 'tour-sub': 'اكتشف أجمل وجهات القصر الصغير ونواحيه', 'tour-link': 'مشاهدة الدليل الكامل ←',
+        'stat-fb': 'متابع على فيسبوك', 'stat-photos': 'صورة احترافية', 'stat-sites': 'مواقع ويب', 'stat-dest': 'وجهات سياحية',
+        'gal-title': 'معرض الصور', 'gal-link': 'مشاهدة كل الصور ←',
+        'srv-title': 'خدماتنا',
+        'srv-1-t': 'الطقس والبحر', 'srv-1-d': 'نشرة الطقس لـ 7 أيام + حالة البحر على مدار 24 ساعة',
+        'srv-2-t': 'مواقيت الصلاة', 'srv-2-d': 'المواقيت اليومية + تحديد اتجاه القبلة',
+        'srv-3-t': 'متجر الصور', 'srv-3-d': 'شراء صور احترافية لمدينة القصر الصغير',
+        'srv-4-t': 'أعلن معنا', 'srv-4-d': 'صل إلى أكثر من 77 ألف متابع في المنطقة',
+        'ft-about-title': 'القصر الصغير', 'ft-about-desc': 'بوابتكم الرقمية لاكتشاف شمال المغرب — سياحة، صور، طقس ومعلومات محلية.'
       },
       en: {
         dir: 'ltr',
-        'sea-status': 'Calm East wind (Great for swimming at Dalia)',
-        'next-prayer': 'Next Prayer: Dhuhr 13:25',
-        'nav-home': 'Home',
-        'nav-dalia': 'Dalia Beach',
-        'nav-beaches': 'Beaches & Tour',
-        'nav-meteo': 'Weather & Sea',
-        'nav-prayer': 'Prayer Times',
-        'nav-gallery': 'Gallery',
-        'cta-whatsapp': 'Contact Us',
-        'hero-tag': 'Gateway to Gibraltar Strait',
-        'hero-title': 'Discover Ksar Sghir & Its Crystal Beaches',
-        'hero-desc': 'Your premier guide for holiday rentals, seafood restaurants, boat trips, and diving in Dalia Beach and Belyounech.',
-        'btn-dalia': 'Dalia Beach Guide',
-        'btn-all-beaches': 'Explore All Places',
-        'stat-fb': 'Facebook Followers',
-        'stat-views': 'Exclusive Photos',
-        'stat-beaches': 'Turquoise Beaches',
-        'stat-support': '24/7 Local Guide',
-        'dest-title': 'Top Destinations',
-        'dest-sub': 'Find the best spots for swimming and relaxation',
-        'view-all': 'View all',
-        'card-dalia-title': 'Dalia Beach',
-        'card-dalia-desc': 'Pristine turquoise waters and fine white sand, ideal for families and boat tours.',
-        'card-dalia-btn': 'Beach & Rental Info',
-        'card-bel-title': 'Belyounech Village',
-        'card-bel-desc': 'Under Mount Musa, famous for scuba diving, hiking, and fresh Mediterranean fish.',
-        'card-bel-btn': 'Explore Belyounech',
-        'card-hist-title': 'Historical Ksar Sghir Fortress',
-        'card-hist-desc': 'Unique circular medieval citadel overlooking the Strait of Gibraltar.',
-        'card-hist-btn': 'Explore History'
+        'nav-home': 'Home', 'nav-tour': 'Tourism', 'nav-gal': 'Gallery', 'nav-blog': 'Blog', 'nav-shop': 'Shop', 'nav-ads': 'Ads', 'nav-weather': 'Weather', 'nav-prayer': 'Prayer',
+        'hero-h1': 'Ksar Sghir', 'hero-sub': 'Gateway to Gibraltar Strait', 'hero-desc': 'Discover the finest destinations in Northern Morocco — beaches, ports, history and nature.',
+        'btn-explore': 'Explore Region', 'btn-photos': 'Photo Gallery',
+        'tour-title': 'Main Tourist Attractions', 'tour-sub': 'Explore top places in Ksar Sghir and surrounding areas', 'tour-link': 'View full guide →',
+        'stat-fb': 'Facebook Followers', 'stat-photos': 'Pro Photos', 'stat-sites': 'Websites', 'stat-dest': 'Destinations',
+        'gal-title': 'Photo Gallery', 'gal-link': 'View all photos →',
+        'srv-title': 'Our Services',
+        'srv-1-t': 'Weather & Sea', 'srv-1-d': '7-day forecast + 24h sea conditions',
+        'srv-2-t': 'Prayer Times', 'srv-2-d': 'Daily times + Qibla compass',
+        'srv-3-t': 'Photo Shop', 'srv-3-d': 'Buy professional photos of Ksar Sghir',
+        'srv-4-t': 'Advertise With Us', 'srv-4-d': 'Reach 77K followers across the region',
+        'ft-about-title': 'Ksar Sghir', 'ft-about-desc': 'Your premier portal to northern Morocco — tourism, photography, weather and local guide.'
       }
     };
 
     function setLanguage(lang) {
-      const data = translations[lang];
+      const data = i18n[lang];
       if (!data) return;
 
       document.documentElement.lang = lang;
@@ -370,30 +466,27 @@
 
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (data[key]) {
-          el.textContent = data[key];
-        }
+        if (data[key]) el.textContent = data[key];
       });
 
-      // تعديل حالة أزرار اللغات
       ['ar', 'fr', 'en'].forEach(l => {
         const btn = document.getElementById(`btn-${l}`);
         if (l === lang) {
-          btn.className = 'px-2 py-0.5 rounded font-bold bg-blue-600 text-white';
+          btn.className = 'px-2.5 py-1 rounded-full bg-sky-500 text-white shadow-sm transition';
         } else {
-          btn.className = 'px-2 py-0.5 rounded text-slate-300 hover:text-white';
+          btn.className = 'px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-900 transition';
         }
       });
 
-      localStorage.setItem('pref_lang', lang);
+      localStorage.setItem('site_lang', lang);
     }
 
-    // استعادة اللغة المحفوظة تلقائياً
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      const savedLang = localStorage.getItem('pref_lang') || 'ar';
-      setLanguage(savedLang);
+      const current = localStorage.getItem('site_lang') || 'fr';
+      setLanguage(current);
     });
   </script>
 </body>
 </html>
+
