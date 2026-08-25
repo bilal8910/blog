@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم وإدارة المواضيع | Ksar Sghir CMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Sidebar -->
+  <aside class="w-full md:w-64 bg-slate-900 text-white p-5 flex flex-col justify-between shrink-0">
+    <div class="space-y-6">
+      <div class="flex items-center gap-2 text-sky-400 font-bold text-lg border-b border-slate-800 pb-4">
+        <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+        <span>Ksar Sghir Admin</span>
+      </div>
+      <nav class="space-y-2 text-sm">
+        <button class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-sky-600 font-semibold text-white">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> موضوع جديد
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 transition">
+          <i data-lucide="file-text" class="w-4 h-4"></i> المقالات المنشورة
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 transition">
+          <i data-lucide="palmtree" class="w-4 h-4"></i> دليل الشواطئ
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 transition">
+          <i data-lucide="cloud-sun" class="w-4 h-4"></i> تحديث الطقس
+        </button>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-slate-800 text-xs text-slate-500">
+      موصول بمستودع GitHub • Vercel
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 p-6 md:p-8 overflow-y-auto max-w-6xl mx-auto w-full space-y-6">
+    
+    <!-- Top Bar -->
+    <div class="flex flex-wrap justify-between items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div>
+        <h1 class="text-xl font-bold text-slate-900">محرر المقالات والوجهات</h1>
+        <p class="text-xs text-slate-500">أضف مقالاً جديداً أو دليلاً سياحياً لصفحات الموقع</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="generateCode()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+          <i data-lucide="code" class="w-4 h-4"></i> توليد الكود (Export)
+        </button>
+      </div>
+    </div>
+
+    <!-- Form & Preview Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Editor Section -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <h2 class="font-bold text-sm text-slate-900 border-b pb-2 flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-4 h-4 text-sky-600"></i> بيانات المحتوى
+        </h2>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">عنوان المقال / الوجهة</label>
+          <input type="text" id="post-title" oninput="updatePreview()" placeholder="مثال: أفضل الأنشطة الصيفية في شاطئ الدالية" class="w-full text-sm border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">القسم / التصنيف</label>
+            <select id="post-category" onchange="updatePreview()" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500 bg-white">
+              <option value="شواطئ وسياحة">شواطئ وسياحة</option>
+              <option value="كراء وإقامة">كراء وإقامة</option>
+              <option value="مطاعم وخدمات">مطاعم وخدمات</option>
+              <option value="تاريخ وتراث">تاريخ وتراث</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">الوسم (Badge)</label>
+            <input type="text" id="post-badge" oninput="updatePreview()" placeholder="مثال: اللواء الأزرق" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">رابط الصورة البارزة (Image URL)</label>
+          <input type="url" id="post-image" oninput="updatePreview()" placeholder="https://..." class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">ملخص قصير (الوصف لمحركات البحث)</label>
+          <textarea id="post-excerpt" oninput="updatePreview()" rows="2" placeholder="وصف موجز للمقال يظهر في البطاقة ونتائج Google..." class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">المحتوى الكامل (يدعم نصوص وفقرات)</label>
+          <textarea id="post-content" rows="4" placeholder="اكتب تفاصيل الموضوع هنا..." class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:outline-none focus:border-sky-500"></textarea>
+        </div>
+      </div>
+
+      <!-- Live Preview Section -->
+      <div class="space-y-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h2 class="font-bold text-sm text-slate-900 border-b pb-2 flex items-center gap-2">
+            <i data-lucide="eye" class="w-4 h-4 text-emerald-600"></i> معاينة البطاقة كما ستظهر للزوار
+          </h2>
+
+          <!-- Preview Card -->
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-md overflow-hidden max-w-sm mx-auto">
+            <div class="relative h-44 bg-slate-100">
+              <img id="prev-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="Preview" class="w-full h-full object-cover" />
+              <span id="prev-badge" class="absolute top-2.5 right-2.5 bg-sky-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded shadow">شواطئ</span>
+            </div>
+            <div class="p-4 space-y-3">
+              <div>
+                <span id="prev-cat" class="text-[10px] text-sky-600 font-bold uppercase tracking-wider">شواطئ وسياحة</span>
+                <h3 id="prev-title" class="font-bold text-slate-900 text-sm mt-0.5">عنوان الموضوع يظهر هنا</h3>
+                <p id="prev-desc" class="text-xs text-slate-500 mt-1 line-clamp-2">هذا النص يمثل ملخص المقال الذي كتبته في خانة الوصف...</p>
+              </div>
+              <div class="flex gap-2 pt-1">
+                <span class="text-[11px] px-2.5 py-0.5 rounded-full border border-slate-200 bg-slate-50 text-slate-600">قراءة المزيد ←</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Code Box -->
+        <div class="bg-slate-900 text-slate-200 p-4 rounded-2xl space-y-2 text-xs">
+          <div class="flex justify-between items-center text-slate-400">
+            <span>الكود الناتج (JSON / HTML)</span>
+            <button onclick="copyOutput()" class="text-sky-400 hover:text-sky-300 font-bold">نسخ الكود</button>
+          </div>
+          <pre id="output-code" class="bg-slate-950 p-3 rounded-xl overflow-x-auto text-[11px] text-emerald-400 font-mono">اضغط على "توليد الكود" بالأعلى لاستخراج البيانات...</pre>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function updatePreview() {
+      const title = document.getElementById('post-title').value || 'عنوان الموضوع يظهر هنا';
+      const cat = document.getElementById('post-category').value;
+      const badge = document.getElementById('post-badge').value || 'جديد';
+      const img = document.getElementById('post-image').value || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80';
+      const desc = document.getElementById('post-excerpt').value || 'هذا النص يمثل ملخص المقال...';
+
+      document.getElementById('prev-title').textContent = title;
+      document.getElementById('prev-cat').textContent = cat;
+      document.getElementById('prev-badge').textContent = badge;
+      document.getElementById('prev-img').src = img;
+      document.getElementById('prev-desc').textContent = desc;
+    }
+
+    function generateCode() {
+      const postData = {
+        title: document.getElementById('post-title').value,
+        category: document.getElementById('post-category').value,
+        badge: document.getElementById('post-badge').value,
+        image: document.getElementById('post-image').value,
+        excerpt: document.getElementById('post-excerpt').value,
+        content: document.getElementById('post-content').value,
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      document.getElementById('output-code').textContent = JSON.stringify(postData, null, 2);
+    }
+
+    function copyOutput() {
+      const code = document.getElementById('output-code').textContent;
+      navigator.clipboard.writeText(code);
+      alert('تم نسخ الكود بنجاح!');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
